@@ -14,4 +14,4 @@ class WelcomeScreen extends Component {
     }
 }
 
-export default WelcomeScreen;
+export { WelcomeScreen };
