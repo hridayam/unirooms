@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import firebase from 'firebase';
 
 import { 
     AuthScreen, 
