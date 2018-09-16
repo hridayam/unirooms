@@ -1,2 +1,2 @@
-# Roomiez
-195 senior project
+# UniRooms
+ENGR195 senior project
