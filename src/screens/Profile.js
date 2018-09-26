@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-class ProfileScreen extends Component {
+class Profile extends Component {
     render() {
-        return(
+        return (
             <View>
                 <Text>ProfileScreen</Text>
                 <Text>ProfileScreen</Text>
                 <Text>ProfileScreen</Text>
                 <Text>ProfileScreen</Text>
             </View>
-        )
+        );
     }
 }
 
-export { ProfileScreen };
+export { Profile };

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-class AllMessagesScreen extends Component {
+class AllMessages extends Component {
     render() {
-        return(
+        return (
             <View>
                 <Text>AllMessagesScreen</Text>
                 <Text>AllMessagesScreen</Text>
                 <Text>AllMessagesScreen</Text>
                 <Text>AllMessagesScreen</Text>
             </View>
-        )
+        );
     }
 }
 
-export { AllMessagesScreen };
+export { AllMessages };
