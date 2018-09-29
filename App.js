@@ -4,15 +4,16 @@ import { createBottomTabNavigator, createStackNavigator } from 'react-navigation
 import firebase from 'firebase';
 
 import {
-    AllMessages, 
-    Authentication,
+    AllMessages,
+    LoginScreen,
+    RegisterScreen,
     Chat,
     CreateListing,
     ListingDetail,
     Profile,
     ViewListings,
-    Welcome 
-    
+    Welcome
+
 } from './src/screens';
 
 export default class App extends React.Component {
@@ -31,7 +32,8 @@ export default class App extends React.Component {
   render() {
     const MainNavigator = createBottomTabNavigator({
       welcome: Welcome,
-      auth: Authentication,
+      login: LoginScreen,
+      register: RegisterScreen,
       main: {
         screen: createBottomTabNavigator({
           home: ViewListings,
@@ -40,7 +42,7 @@ export default class App extends React.Component {
               messages: AllMessages,
               chat: Chat
             }),
-            navigationOptions: ({navigation}) => ({
+            navigationOptions: ({navigation }) =>  {
               title: 'Review Jobs',
               /*tabBarIcon: ({ tintColor }) => {
                 return <Icon name="favorite" size={30} color={tintColor} />;
