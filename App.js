@@ -1,44 +1,44 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import firebase from 'firebase';
 
-import { 
-    AuthScreen, 
-    WelcomeScreen, 
-    AllMessagesScreen, 
-    ChatScreen, 
-    CreateListingScreen, 
-    ForgotPasswordScreen,
-    HomeScreen,
-    ListingDetailScreen,
-    ProfileScreen
-} from './screens';
+import {
+    AllMessages, 
+    Authentication,
+    Chat,
+    CreateListing,
+    ListingDetail,
+    Profile,
+    ViewListings,
+    Welcome 
+    
+} from './src/screens';
 
 export default class App extends React.Component {
   componentWillMount() {
-    var config = {
-        apiKey: "AIzaSyA6fPurbpOopU918zzG4YEiuXrIjWita2U",
-        authDomain: "uniroom-project.firebaseapp.com",
-        databaseURL: "https://uniroom-project.firebaseio.com",
-        projectId: "uniroom-project",
-        storageBucket: "uniroom-project.appspot.com",
-        messagingSenderId: "942380097329"
+    const config = {
+        apiKey: 'AIzaSyA6fPurbpOopU918zzG4YEiuXrIjWita2U',
+        authDomain: 'uniroom-project.firebaseapp.com',
+        databaseURL: 'https://uniroom-project.firebaseio.com',
+        projectId: 'uniroom-project',
+        storageBucket: 'uniroom-project.appspot.com',
+        messagingSenderId: '942380097329'
     };
     firebase.initializeApp(config);
   }
 
   render() {
     const MainNavigator = createBottomTabNavigator({
-      welcome: WelcomeScreen ,
-      auth: AuthScreen,
+      welcome: Welcome,
+      auth: Authentication,
       main: {
         screen: createBottomTabNavigator({
-          home: HomeScreen,
+          home: ViewListings,
           messages: {
             screen: createStackNavigator({
-              messages: AllMessagesScreen,
-              chat: ChatScreen
+              messages: AllMessages,
+              chat: Chat
             }),
             navigationOptions: ({navigation}) => ({
               title: 'Review Jobs',
@@ -47,7 +47,7 @@ export default class App extends React.Component {
               }*/
             })
           },
-          profile: ProfileScreen
+          profile: Profile
         }, {
           tabBarOptions: {
             labelStyle: { fontSize: 12 }

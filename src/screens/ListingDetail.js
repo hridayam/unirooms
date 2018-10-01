@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-class ListingDetailScreen extends Component {
+class ListingDetail extends Component {
     render() {
-        return(
+        return (
             <View>
                 <Text>ListingDetailScreen</Text>
                 <Text>ListingDetailScreen</Text>
                 <Text>ListingDetailScreen</Text>
                 <Text>ListingDetailScreen</Text>
             </View>
-        )
+        );
     }
 }
 
-export { ListingDetailScreen };
+export { ListingDetail };

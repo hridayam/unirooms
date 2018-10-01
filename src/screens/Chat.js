@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-class ChatScreen extends Component {
+class Chat extends Component {
     render() {
-        return(
+        return (
             <View>
                 <Text>ChatScreen</Text>
                 <Text>ChatScreen</Text>
                 <Text>ChatScreen</Text>
                 <Text>ChatScreen</Text>
             </View>
-        )
+        );
     }
 }
 
-export { ChatScreen };
+export { Chat };
