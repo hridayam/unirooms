@@ -6,8 +6,8 @@ class Welcome extends Component {
     return(
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image  style={{width:40, height: 70}}
-                source={require('./logo.png')}/>
+        {/* {<Image  style={{width:40, height: 70}}
+                source={require('./logo.png')}/>} */}
               <Text style={styles.logoText}>Welcome to my app.</Text>
         </View>
            <TouchableOpacity style={styles.button}>
@@ -17,7 +17,7 @@ class Welcome extends Component {
              <Text style={styles.buttonText}>Sign Up</Text>
            </TouchableOpacity>
     </View>
-      )
+      );
   }
   }
 
