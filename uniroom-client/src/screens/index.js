@@ -1,5 +1,6 @@
 export * from './AllMessages';
-export * from './Authentication';
+export * from './LoginScreen';
+export * from './RegisterScreen';
 export * from './Chat';
 export * from './CreateListing';
 export * from './ListingDetail';
