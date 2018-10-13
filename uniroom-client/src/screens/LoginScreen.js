@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -9,8 +10,18 @@ import {
   Image
 } from 'react-native';
 
+import { loginUser } from '../actions';
 
 class LoginScreen extends Component {
+    state = {
+        email: '',
+        password: ''
+    };
+
+    onLogin() {
+        this.props.loginUser(this.state);
+    }
+
 	render() {
 		return (
             <View style={styles.container}>
@@ -29,6 +40,8 @@ class LoginScreen extends Component {
                     placeholderTextColor="#ffffff"
                     selectionColor="#fff"
                     keyboardType="email-address"
+                    value={this.state.email}
+                    onChangeText={(email) => this.setState({ email })}
                     onSubmitEditing={() => this.password.focus()}
                 />
                 <TextInput 
@@ -37,15 +50,20 @@ class LoginScreen extends Component {
                     placeholder="Password"
                     secureTextEntry
                     placeholderTextColor="#ffffff"
+                    value={this.state.password}
+                    onChangeText={(password) => this.setState({ password })}
                     ref={(input) => { this.password = input; }}
                 />
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity 
+                    style={styles.button}
+                    onPress={this.onLogin.bind(this)}
+                >
                     <Text style={styles.buttonText}>Log In</Text>
                 </TouchableOpacity>
                 <View style={styles.signupTextCont}>
                     <Text style={styles.signupText}>Already have an account?</Text>
-                    <TouchableOpacity onPress={this.goBack}>
+                    <TouchableOpacity onPress={this.onLogin}>
                         <Text style={styles.signupButton}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
@@ -115,4 +133,6 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     }
 });
-export { LoginScreen };
+
+const Login = connect(null, { loginUser })(LoginScreen);
+export { Login };

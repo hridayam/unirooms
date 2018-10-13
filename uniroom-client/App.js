@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from './src/store';
 import {
     AllMessages, 
-    LoginScreen,
+    Login,
     RegisterScreen,
     Chat,
     CreateListing,
@@ -44,7 +44,7 @@ export default class App extends React.Component {
     render() {
         const MainNavigator = createBottomTabNavigator({
             welcome: Welcome,
-            auth: LoginScreen,
+            auth: Login,
             main: {
                 screen: createBottomTabNavigator({
                     home: ViewListings,
