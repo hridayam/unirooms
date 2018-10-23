@@ -10,7 +10,8 @@ module.exports = function(req, res) {
     const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@sjsu.edu?/;
 
     const { firstName, lastName, email, password, 
-        confirmPassword, username } = req.body;
+        confirmPassword, username 
+    } = req.body;
 
     const code = Math.floor((Math.random() * 8999 + 1000))
 
