@@ -26,14 +26,13 @@ class LoginScreen extends Component {
 		return (
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
-                        {/* {<Image 
-                            style={{ width: 40, height: 70 }}
-                            source={require('./logo.png')}
-                        />} */}
-                        <Text style={styles.logoText}>Please enter your details to Log In.</Text>
+                         <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../resources/logo.svg_.png')}
+                        />
+                        <Text style={styles.logoText}>UniRooms</Text>
                 </View>
-
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Email"
@@ -44,7 +43,7 @@ class LoginScreen extends Component {
                     onChangeText={(email) => this.setState({ email })}
                     onSubmitEditing={() => this.password.focus()}
                 />
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Password"
@@ -55,14 +54,14 @@ class LoginScreen extends Component {
                     ref={(input) => { this.password = input; }}
                 />
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.button}
                     onPress={this.onLogin.bind(this)}
                 >
                     <Text style={styles.buttonText}>Log In</Text>
                 </TouchableOpacity>
                 <View style={styles.signupTextCont}>
-                    <Text style={styles.signupText}>Already have an account?</Text>
+                    <Text style={styles.signupText}>Dont have an account?</Text>
                     <TouchableOpacity onPress={this.onLogin}>
                         <Text style={styles.signupButton}>Sign Up</Text>
                     </TouchableOpacity>
