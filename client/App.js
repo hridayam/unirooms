@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import { store, persistor } from './src/store';
 import {
-    AllMessages, 
+    AllMessages,
     Login,
     RegisterScreen,
     Chat,
@@ -15,8 +15,8 @@ import {
     ListingDetail,
     Profile,
     ViewListings,
-    Welcome 
-    
+    Welcome
+
 } from './src/screens';
 //import { store, persistor } from './store';
 

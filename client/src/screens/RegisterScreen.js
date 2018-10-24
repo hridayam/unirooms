@@ -8,8 +8,6 @@ import {
     TextInput,
     Image,
     ScrollView } from 'react-native';
-//import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
-//import firebase from 'firebase';
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -50,7 +48,7 @@ class RegisterScreen extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.logoText}>Please enter your details to Sign Up.</Text>
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="First Name"
@@ -59,7 +57,7 @@ class RegisterScreen extends Component {
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
                 />
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Last Name"
@@ -68,16 +66,7 @@ class RegisterScreen extends Component {
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
                 />
-                <TextInput 
-                    style={styles.inputBox}
-                    underlineColorAndroid='rgba(0,0,0,0)'
-                    placeholder="Username"
-                    placeholderTextColor="#ffffff"
-                    selectionColor="#fff"
-                    keyboardType="email-address"
-                    onSubmitEditing={() => this.password.focus()}
-                />
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Email"
@@ -86,7 +75,7 @@ class RegisterScreen extends Component {
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
                 />
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Password"
@@ -94,10 +83,10 @@ class RegisterScreen extends Component {
                     placeholderTextColor="#ffffff"
                     ref={(input) => { this.password = input; }}
                 />
-                <TextInput 
+                <TextInput
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
-                    placeholder="Password"
+                    placeholder="Confirm Password"
                     secureTextEntry
                     placeholderTextColor="#ffffff"
                     ref={(input) => { this.password = input; }}
@@ -126,6 +115,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#455a64',
         flex: 1,
+        paddingTop: 50,
         alignItems: 'center',
         justifyContent: 'center'
     },
