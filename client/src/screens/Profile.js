@@ -10,7 +10,6 @@ import {
   Dimensions
 } from 'react-native';
 import { Container, Header, Content, Form, Item, Picker, DatePicker } from 'native-base';
-import Swiper from 'react-native-swiper';
 
 const {height, width} = Dimensions.get('window')
 
