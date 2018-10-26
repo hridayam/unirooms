@@ -6,161 +6,182 @@ import {
   StatusBar,
   Image,
   TextInput,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
-import { Container, Header, Content, Form, Item, Picker, DatePicker } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label, Picker, Icon } from 'native-base';
 
-export default class EditProfile extends Component {
+class EditProfile extends Component {
+
     constructor(props) {
-    super(props);
-    this.state = {
-      selected2: undefined,
-      chosenDate: new Date()
-    };
-    this.setDate = this.setDate.bind(this);
-  }
-  setDate(newDate) {
-    this.setState({ chosenDate: newDate });
-  }
-  onValueChange2(value: string) {
-    this.setState({
-      selected2: value
-    });
-  }
+        super(props);
+        this.state = {
+          selected2: undefined
+        };
+      }
+      onValueChange2(value: string) {
+        this.setState({
+          selected2: value
+        });
+      }
 
-  render() {
-    return (
-        <ScrollView>
-          <Container style={{backgroundColor: '#455a64', justifyContent: 'center'}}>
-            <Content>
-                <View style={{flexDirection: 'row'}}>
-                <Carousel
-                  ref={(c) => { this._carousel = c; }}
-                  data={this.state.entries}
-                  renderItem={this._renderItem}
-                  sliderWidth={sliderWidth}
-                  itemWidth={itemWidth}
-                />
-               </View>
-              <Form>
-                <Item picker>
-                    <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-                          <Picker
-                            mode="dropdown"
-                            style={{ width: undefined }, styles.button}
-                            placeholder="Select your Gender"
-                            placeholderStyle={{ color: "#fff" }}
-                            placeholderIconColor="#fff"
-                            selectedValue={this.state.selected2}
-                            onValueChange={this.onValueChange2.bind(this)}
-                          >
-                            <Picker.Item label="Select your gender:" value="key0" />
-                            <Picker.Item label="Female" value="key1" />
-                            <Picker.Item label="Male" value="key2" />
-                          </Picker>
-                          <Picker
-                            mode="dropdown"
-                            style={{ width: undefined }, styles.button}
-                            placeholder="Ethnicity"
-                            placeholderStyle={{ color: "#bfc6ea" }}
-                            placeholderIconColor="#007aff"
-                            selectedValue={this.state.selected2}
-                            onValueChange={this.onValueChange2.bind(this)}
-                          >
-                            <Picker.Item label="Select your ethnicity" value="key0" />
-                            <Picker.Item label="Native American" value="key0" />
-                            <Picker.Item label="Asian" value="key1" />
-                          </Picker>
-                          <Picker
-                            mode="dropdown"
-                            style={{ width: undefined }, styles.button}
-                            placeholder="Drinking & Smoking"
-                            placeholderStyle={{ color: "#bfc6ea" }}
-                            placeholderIconColor="#007aff"
-                            selectedValue={this.state.selected2}
-                            onValueChange={this.onValueChange2.bind(this)}
-                          >
-                            <Picker.Item label="Casual Preferences" value="key0" />
-                            <Picker.Item label="Drinking and Smoking" value="key0" />
-                            <Picker.Item label="Drinking only" value="key1" />
-                            <Picker.Item label="Smoking only" value="key2" />
-                          </Picker>
-
-                          <TextInput
-                              style={styles.inputBox}
-                              underlineColorAndroid='rgba(0,0,0,0)'
-                              placeholder="Nationality"
-                              placeholderTextColor="#ffffff"
-                              selectionColor="#fff"
-                              keyboardType="email-address"
-                          />
-
-                          <TextInput
-                              style={styles.inputBox}
-                              underlineColorAndroid='rgba(0,0,0,0)'
-                              placeholder="School"
-                              placeholderTextColor="#ffffff"
-                              selectionColor="#fff"
-                              keyboardType="email-address"
-                          />
-
-                          <TextInput
-                              style={styles.inputBox}
-                              underlineColorAndroid='rgba(0,0,0,0)'
-                              placeholder="Major"
-                              placeholderTextColor="#ffffff"
-                              selectionColor="#fff"
-                              keyboardType="email-address"
-                          />
-
-                          <DatePicker
-                                defaultDate={new Date(2018, 4, 4)}
-                                minimumDate={new Date(2018, 1, 1)}
-                                maximumDate={new Date(2018, 12, 31)}
-                                locale={"en"}
-                                timeZoneOffsetInMinutes={undefined}
-                                modalTransparent={false}
-                                animationType={"fade"}
-                                androidMode={"default"}
-                                placeHolderText="Select your birthdate"
-                                textStyle={{ color: "green" }}
-                                placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                onDateChange={this.setDate}
-                                />
-                        <Text>
-                          Date: {this.state.chosenDate.toString().substr(4, 12)}
-                        </Text>
-                    </View>
+    render(){
+        return(
+              <Container>
+               <Content>
+                 <Form>
+                   <Item stackedLabel>
+                     <Label>First Name</Label>
+                     <Input />
+                   </Item>
+                   <Item stackedLabel>
+                     <Label>Last Name</Label>
+                     <Input />
+                   </Item>
+                   <Item stackedLabel>
+                     <Label>Username</Label>
+                     <Input />
+                   </Item>
+                   <Item stackedLabel>
+                     <Label>Email</Label>
+                     <Input />
+                   </Item>
+                   </Form>
+                   <View>
+                   <Item picker>
+                      <Picker
+                        mode="dropdown"
+                        iosIcon={<Icon name="ios-arrow-down-outline" />}
+                        style={{ width: undefined }}
+                        placeholder="Select your Gender"
+                        placeholderStyle={{ color: "#bfc6ea" }}
+                        placeholderIconColor="#007aff"
+                        selectedValue={this.state.selected2}
+                        onValueChange={this.onValueChange2.bind(this)}
+                      >
+                        <Picker.Item label="Male" value="key0" />
+                        <Picker.Item label="Female" value="key1" />
+                      </Picker>
+                  </Item>
+                  </View>
+                  <View>
+                  <Item picker>
+                      <Picker
+                        mode="dropdown"
+                        iosIcon={<Icon name="ios-arrow-down-outline" />}
+                        style={{ width: undefined }}
+                        placeholder="Diet Preference: "
+                        placeholderStyle={{ color: "#bfc6ea" }}
+                        placeholderIconColor="#007aff"
+                        selectedValue={this.state.selected2}
+                        onValueChange={this.onValueChange2.bind(this)}
+                      >
+                        <Picker.Item label="Vegetarian" value="key0" />
+                        <Picker.Item label="Non Vegetarian" value="key1" />
+                        <Picker.Item label="Vegan" value="key2" />
+                        <Picker.Item label="Others" value="key3" />
+                      </Picker>
                 </Item>
-              </Form>
-            </Content>
-          </Container>
-      </ScrollView>
-    );
-  }
+                </View>
+                <View>
+                <Item picker>
+                  <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="ios-arrow-down-outline" />}
+                    style={{ width: undefined }}
+                    placeholder="Smoking Prerferance: "
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={this.state.selected2}
+                    onValueChange={this.onValueChange2.bind(this)}
+                  >
+                    <Picker.Item label="Yes" value="key0" />
+                    <Picker.Item label="No" value="key1" />
+                  </Picker>
+                </Item>
+                </View>
+                <View>
+                <Item picker>
+                  <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="ios-arrow-down-outline" />}
+                    style={{ width: undefined }}
+                    placeholder="Alcohol Prerferance: "
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={this.state.selected2}
+                    onValueChange={this.onValueChange2.bind(this)}
+                  >
+                    <Picker.Item label="Social" value="key0" />
+                    <Picker.Item label="Never" value="key1" />
+                    <Picker.Item label="Frequently" value="key2" />
+                  </Picker>
+                </Item>
+                </View>
+                <View>
+                <Item picker>
+                  <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="ios-arrow-down-outline" />}
+                    style={{ width: undefined }}
+                    placeholder="420 friendly: "
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={this.state.selected2}
+                    onValueChange={this.onValueChange2.bind(this)}
+                  >
+                    <Picker.Item label="Yes" value="key0" />
+                    <Picker.Item label="No" value="key1" />
+              </Picker>
+                </Item>
+                </View>
+                <View>
+                <Item picker>
+                  <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="ios-arrow-down-outline" />}
+                    style={{ width: undefined }}
+                    placeholder="Pets"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={this.state.selected2}
+                    onValueChange={this.onValueChange2.bind(this)}
+                  >
+                    <Picker.Item label="Dog" value="key0" />
+                    <Picker.Item label="Cat" value="key1" />
+                    <Picker.Item label="None, but open to it" value="key2" />
+                    <Picker.Item label="No pets allowed" value="key3" />
+                    <Picker.Item label="Other pets" value="key4" />
+                  </Picker>
+                </Item>
+                </View>
+                <View>
+                    <Item picker>
+                      <Picker
+                        mode="dropdown"
+                        iosIcon={<Icon name="ios-arrow-down-outline" />}
+                        style={{ width: undefined }}
+                        placeholder="Religion"
+                        placeholderStyle={{ color: "#bfc6ea" }}
+                        placeholderIconColor="#007aff"
+                        selectedValue={this.state.selected2}
+                        onValueChange={this.onValueChange2.bind(this)}
+                      >
+                        <Picker.Item label="Atheist" value="key0" />
+                        <Picker.Item label="Buddhist" value="key1" />
+                        <Picker.Item label="Christian" value="key2" />
+                        <Picker.Item label="Hindu" value="key3" />
+                        <Picker.Item label="Jewish" value="key4" />
+                        <Picker.Item label="Muslim" value="key5" />
+                        <Picker.Item label="Spiritual" value="key6" />
+                        <Picker.Item label="Others" value="key7" />
+                      </Picker>
+                    </Item>
+                    </View>
+               </Content>
+             </Container>
+        );
+    }
 }
 
-const styles = StyleSheet.create({
-    textStyle: {
-        fontSize: 18,
-        color: 'rgba(255, 255, 255, 0.7)',
-        paddingTop: 20
-    },
-    button: {
-        width: 300,
-        backgroundColor: 'rgba(255, 255,255,0.2)',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
-    },
-    inputBox: {
-        width: 300,
-        backgroundColor: 'rgba(255, 255,255,0.2)',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10
-    }
-});
 export { EditProfile };

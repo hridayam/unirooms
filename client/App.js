@@ -9,13 +9,14 @@ import { store, persistor } from './src/store';
 import {
     AllMessages,
     Login,
-    RegisterScreen,
+    Register,
     Chat,
     CreateListing,
     ListingDetail,
     Profile,
     ViewListings,
-    Welcome
+    Welcome,
+    EditProfile
 
 } from './src/screens';
 //import { store, persistor } from './store';
@@ -43,7 +44,7 @@ export default class App extends React.Component {
 
     render() {
         const MainNavigator = createBottomTabNavigator({
-            welcome: Welcome,
+            welcome: Register,
             auth: Login,
             main: {
                 screen: createBottomTabNavigator({
@@ -60,7 +61,7 @@ export default class App extends React.Component {
                         }*/
                         })
                     },
-                    profile: Profile
+                    profile: EditProfile
                 }, {
                     tabBarOptions: {
                         labelStyle: { fontSize: 12 }
