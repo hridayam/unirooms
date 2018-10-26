@@ -7,17 +7,17 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import { store, persistor } from './src/store';
 import {
-    AllMessages, 
+    AllMessages,
     Login,
-    RegisterScreen,
+    Register,
     Chat,
     CreateListing,
     ListingDetail,
     Profile,
     ViewListings,
     Welcome,
-    Verification
-    
+    Verification,
+    EditProfile
 } from './src/screens';
 //import { store, persistor } from './store';
 
@@ -61,7 +61,7 @@ export default class App extends React.Component {
                         }*/
                         })
                     },
-                    profile: Profile
+                    profile: EditProfile
                 }, {
                     tabBarOptions: {
                         labelStyle: { fontSize: 12 }

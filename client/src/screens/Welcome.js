@@ -6,16 +6,18 @@ class Welcome extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
-                    {/* {<Image  style={{width:40, height: 70}}
-                            source={require('./logo.png')}/>} */}
-                    <Text style={styles.logoText}>Welcome to my app.</Text>
+                    <Image
+                       style={{ width: 100, height: 100 }}
+                       source={require('../resources/logo.svg_.png')}
+                   />
+                    <Text style={styles.logoText}>UniRooms</Text>                
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>Log In</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>Sign Up</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Log In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
             </View>
         );
     }

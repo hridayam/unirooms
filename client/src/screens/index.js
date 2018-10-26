@@ -1,6 +1,6 @@
 export * from './AllMessages';
-export * from './LoginScreen';
-export * from './RegisterScreen';
+export * from './Login';
+export * from './Register';
 export * from './Chat';
 export * from './CreateListing';
 export * from './ListingDetail';
@@ -8,3 +8,4 @@ export * from './Profile';
 export * from './Welcome';
 export * from './ViewListings';
 export * from './Verification';
+export * from './EditProfile';
