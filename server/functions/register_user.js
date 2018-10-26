@@ -76,7 +76,7 @@ function sendEmail(email, code, res) {
     };
 
     sgMail.send(msg).then(() =>
-         res.json({message: "success"})
+        res.json({message: "success"})
     ).catch((err) => {
         res.status(err.code).send({error: err})
         console.log(err)

@@ -11,18 +11,17 @@ import {
 //import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
 //import firebase from 'firebase';
 
-class RegisterScreen extends Component {
-    constructor(props) {
-        super(props);
+import { registerUser } from '../actions';
 
-        this.state = {
-            first: '',
-            last: '',
-            email: '',
-            pass1: '',
-            pass2: '',
-        };
-    }
+class RegisterScreen extends Component {
+    state = {
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    };
 
     _handlePress() {
         console.log(this.state.first);
@@ -46,6 +45,12 @@ class RegisterScreen extends Component {
         return true;
     }
 
+    //todo: upon success, navigate to login
+    signUp() {
+        console.log(this.state);
+        registerUser(this.state);
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -55,6 +60,8 @@ class RegisterScreen extends Component {
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="First Name"
                     placeholderTextColor="#ffffff"
+                    value={this.state.firstName}
+                    onChangeText={firstName => { this.setState({ firstName }); }}
                     selectionColor="#fff"
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
@@ -64,6 +71,8 @@ class RegisterScreen extends Component {
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Last Name"
                     placeholderTextColor="#ffffff"
+                    value={this.state.lastName}
+                    onChangeText={lastName => { this.setState({ lastName }); }}
                     selectionColor="#fff"
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
@@ -73,15 +82,20 @@ class RegisterScreen extends Component {
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Username"
                     placeholderTextColor="#ffffff"
+                    value={this.state.username}
+                    onChangeText={username => { this.setState({ username }); }}
                     selectionColor="#fff"
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
                 />
+                
                 <TextInput 
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Email"
                     placeholderTextColor="#ffffff"
+                    value={this.state.email}
+                    onChangeText={email => { this.setState({ email }); }}
                     selectionColor="#fff"
                     keyboardType="email-address"
                     onSubmitEditing={() => this.password.focus()}
@@ -90,6 +104,8 @@ class RegisterScreen extends Component {
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     placeholder="Password"
+                    value={this.state.password}
+                    onChangeText={password => { this.setState({ password }); }}
                     secureTextEntry
                     placeholderTextColor="#ffffff"
                     ref={(input) => { this.password = input; }}
@@ -97,13 +113,18 @@ class RegisterScreen extends Component {
                 <TextInput 
                     style={styles.inputBox}
                     underlineColorAndroid='rgba(0,0,0,0)'
-                    placeholder="Password"
+                    placeholder="Confirm Password"
+                    value={this.state.confirmPassword}
+                    onChangeText={confirmPassword => { this.setState({ confirmPassword }); }}
                     secureTextEntry
                     placeholderTextColor="#ffffff"
                     ref={(input) => { this.password = input; }}
                 />
-                <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Register/Sign Up</Text>
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={this.signUp.bind(this)}
+                >
+                    <Text style={styles.buttonText}>Register/Sign Up</Text>
                 </TouchableOpacity>
 
                 <View style={styles.signupTextCont}>

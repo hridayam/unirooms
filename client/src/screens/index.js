@@ -7,3 +7,4 @@ export * from './ListingDetail';
 export * from './Profile';
 export * from './Welcome';
 export * from './ViewListings';
+export * from './Verification';
