@@ -16,8 +16,8 @@ import {
     Profile,
     ViewListings,
     Welcome,
+    Verification,
     EditProfile
-
 } from './src/screens';
 //import { store, persistor } from './store';
 
@@ -44,8 +44,8 @@ export default class App extends React.Component {
 
     render() {
         const MainNavigator = createBottomTabNavigator({
-            welcome: Register,
-            auth: Login,
+            welcome: Welcome,
+            auth: Verification,
             main: {
                 screen: createBottomTabNavigator({
                     home: ViewListings,
