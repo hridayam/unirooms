@@ -13,7 +13,7 @@ import { Container, Header, Content, Form, Item, Picker, DatePicker } from 'nati
 
 const {height, width} = Dimensions.get('window')
 
-export default class Profile extends Component {
+class Profile extends Component {
 
 
     render()
