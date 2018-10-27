@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { URL } from './types'; 
 
-export const loginUser = (credentials) => async dispatch => {
+export const loginUser = async (credentials) => {
     const { email, password } = credentials;
     try {
         const user = await firebase.auth().signInWithEmailAndPassword(email, password);

@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
+import { icon } from '../common/images';
+
 class Welcome extends Component {
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
-                    <Image
-                       style={{ width: 100, height: 100 }}
-                       source={require('../resources/logo.svg_.png')}
-                   />
-                    <Text style={styles.logoText}>UniRooms</Text>                
+                        <Image
+                            style={{ 
+                                width: 300, 
+                                height: 250,
+                                resizeMode: 'contain' 
+                            }}
+                            source={icon} 
+                        />
                     <TouchableOpacity style={styles.button}>
                         <Text style={styles.buttonText}>Log In</Text>
                     </TouchableOpacity>

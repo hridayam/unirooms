@@ -44,8 +44,8 @@ export default class App extends React.Component {
 
     render() {
         const MainNavigator = createBottomTabNavigator({
-            welcome: Welcome,
-            auth: Profile,
+            welcome: Register,
+            auth: Login,
             main: {
                 screen: createBottomTabNavigator({
                     home: ViewListings,
