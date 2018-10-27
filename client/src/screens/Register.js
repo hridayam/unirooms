@@ -4,24 +4,24 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   TouchableOpacity,
-  TextInput,
+  KeyboardAvoidingView,
   Image,
-  KeyboardAvoidingView
+  Dimensions
 } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
+import { Content, Form, Item, Input, Label } from 'native-base';
 
 class Register extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            first: '',
-            last: '',
+            firstName: '',
+            lastName: '',
             email: '',
-            pass1: '',
-            pass2: '',
+            username: '',
+            password: '',
+            confirmPassword: '',
         };
     }
 
@@ -48,6 +48,8 @@ class Register extends Component {
     }
 
     render() {
+        const image = require('../../assets/icon_blank.png');
+
         return (
             <KeyboardAvoidingView
                 style={{ backgroundColor: '#455a64', flex: 1, justifyContent: 'center' }}
@@ -55,35 +57,38 @@ class Register extends Component {
             >
                 <Content>
                     <View style={styles.logoContainer}>
-                             <Image
-                                style={{ width: 100, height: 100 }}
-                                source={require('../resources/logo.svg_.png')}
-                            />
-                            <Text style={styles.logoText}>UniRooms</Text>
+                        <Image
+                            style={{ 
+                                width: 200, 
+                                height: 150,
+                                resizeMode: 'contain' 
+                            }}
+                            source={image} 
+                        />
                     </View>
-                    <Form  style={{alignItems: 'center'}}>
+                    <Form style={{ alignItems: 'center' }}>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff'}}>First Name</Label>
+                          <Label style={{ color: '#ffffff' }}>First Name</Label>
                           <Input />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff'}}>Last Name</Label>
+                          <Label style={{ color: '#ffffff' }}>Last Name</Label>
                           <Input />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff'}}>Username</Label>
+                          <Label style={{ color: '#ffffff' }}>Username</Label>
                           <Input />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff'}}>Email</Label>
+                          <Label style={{ color: '#ffffff' }}>Email</Label>
                           <Input />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff'}}>Password</Label>
+                          <Label style={{ color: '#ffffff' }}>Password</Label>
                           <Input />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff'}}>Confirm Password</Label>
+                          <Label style={{ color: '#ffffff' }}>Confirm Password</Label>
                           <Input />
                         </Item>
                   </Form>
