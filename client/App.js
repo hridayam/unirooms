@@ -1,28 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import firebase from 'firebase';
+import Expo from 'expo';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react'
-
+import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store';
-import {
-    AllMessages,
-    Login,
-    Register,
-    Chat,
-    CreateListing,
-    ListingDetail,
-    Profile,
-    ViewListings,
-    Welcome,
-    Verification,
-    EditProfile
-} from './src/screens';
-//import { store, persistor } from './store';
+import Router from './src/Router';
 
 export default class App extends React.Component {
     componentWillMount() {
+        Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
         const config = {
             apiKey: 'AIzaSyA6fPurbpOopU918zzG4YEiuXrIjWita2U',
             authDomain: 'uniroom-project.firebaseapp.com',
@@ -32,6 +20,10 @@ export default class App extends React.Component {
             messagingSenderId: '942380097329'
         };
         firebase.initializeApp(config);
+
+        const firestore = firebase.firestore();
+        const settings = {/* your settings... */ timestampsInSnapshots: true };
+        firestore.settings(settings);
     }
 
     renderLoading() {
@@ -43,42 +35,11 @@ export default class App extends React.Component {
     }
 
     render() {
-        const MainNavigator = createBottomTabNavigator({
-            welcome: Register,
-            auth: Login,
-            main: {
-                screen: createBottomTabNavigator({
-                    home: ViewListings,
-                    messages: {
-                        screen: createStackNavigator({
-                        messages: AllMessages,
-                        chat: Chat
-                        }),
-                        navigationOptions: ({navigation}) => ({
-                        title: 'Review Jobs',
-                        /*tabBarIcon: ({ tintColor }) => {
-                            return <Icon name="favorite" size={30} color={tintColor} />;
-                        }*/
-                        })
-                    },
-                    profile: EditProfile
-                }, {
-                    tabBarOptions: {
-                        labelStyle: { fontSize: 12 }
-                    }
-                })
-            }
-        }, {
-            navigationOptions: {
-                tabBarVisible: true
-            }
-        });
-
         return (
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <View style={styles.container}>
-                        <MainNavigator />
+                        <Router />
                     </View>
                 </PersistGate>
             </Provider>
