@@ -13,7 +13,7 @@ import { Container, Header, Content, Form, Item, Picker, DatePicker } from 'nati
 
 const {height, width} = Dimensions.get('window')
 
-class Profile extends Component {
+class UserProfile extends Component {
 
 
     render()
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
         }
 });
 
-export { Profile };
+export { UserProfile };
