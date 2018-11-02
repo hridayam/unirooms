@@ -15,7 +15,7 @@ module.exports = function(req, res) {
 
 function verifyUser(email, code, uid, res) {
     //console.log("verifyUser");
-    admin.firestore().collection('users').doc(email).get()
+    admin.firestore().collection('users').doc(uid).get()
     .then(ref => {
         user = ref.data();
         //console.log("verifyUser then");

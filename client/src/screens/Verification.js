@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { KeyboardAvoidingView, TextInput, Animated, Keyboard,
-    TouchableWithoutFeedback, View, Text, StyleSheet } from 'react-native';
+    TouchableWithoutFeedback, View, Text, StyleSheet 
+} from 'react-native';
+import { connect } from 'react-redux';
+
+import { verifyUser } from '../actions';
 
 const empty_character = ' ';
 
@@ -167,6 +171,14 @@ class Verification extends Component {
         if (typeof this.props.onPinEntered === 'function') {
             this.props.onPinEntered(this.state.pin);
         }
+
+        if (this.state.pin.length === this.props.maxChars) {
+            verifyUser(parseInt(this.state.pin), (verified) => {
+                if (verified) {
+                    this.props.navigation.navigate('MainNavigator');
+                }
+            });
+        }
     }
 
     render_cell(id, value, is_active) {
@@ -205,7 +217,7 @@ class Verification extends Component {
         let root_style = [this.props.style || {}, styles.root];
 
         return (
-            <View style={root_style}>
+            <KeyboardAvoidingView style={root_style} behavior="padding" enabled>
                 <TextInput
                            style={styles.actual_input}
                            ref={(input) => { this.input = input; }}
@@ -225,7 +237,7 @@ class Verification extends Component {
                 <View style={styles.cells_wrapper}>
                     {inputs}
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -277,5 +289,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     }
 });
+
+//const Verification = connect(null, { verifyUser })(comp);
 
 export { Verification };

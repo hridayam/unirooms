@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,9 @@ import {
   Dimensions
 } from 'react-native';
 import { Content, Form, Item, Input, Label } from 'native-base';
+
+import { registerUser } from '../actions/index';
+import { icon } from '../common/images';
 
 class Register extends Component {
     constructor(props) {
@@ -47,8 +50,13 @@ class Register extends Component {
         return true;
     }
 
+    onSubmit() {
+        registerUser(this.state, () => {
+            this.props.navigation.navigate('Verification');
+        });
+    }
+
     render() {
-        const image = require('../../assets/icon_blank.png');
 
         return (
             <KeyboardAvoidingView
@@ -63,47 +71,71 @@ class Register extends Component {
                                 height: 150,
                                 resizeMode: 'contain' 
                             }}
-                            source={image} 
+                            source={icon} 
                         />
                     </View>
                     <Form style={{ alignItems: 'center' }}>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff' }}>First Name</Label>
-                          <Input />
+                            <Label style={{ color: '#ffffff' }}>First Name</Label>
+                            <Input 
+                                onChangeText={(firstName) => { this.setState({ firstName }); }}
+                                value={this.state.firstName}
+                            />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff' }}>Last Name</Label>
-                          <Input />
+                            <Label style={{ color: '#ffffff' }}>Last Name</Label>
+                            <Input 
+                                onChangeText={(lastName) => { this.setState({ lastName }); }}
+                                value={this.state.lastName}
+                            />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff' }}>Username</Label>
-                          <Input />
+                            <Label style={{ color: '#ffffff' }}>Username</Label>
+                            <Input 
+                                onChangeText={(username) => { this.setState({ username }); }}
+                                value={this.state.username}
+                            />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff' }}>Email</Label>
-                          <Input />
+                            <Label style={{ color: '#ffffff' }}>Email</Label>
+                            <Input 
+                                textContentType='emailAddress'
+                                onChangeText={(email) => { this.setState({ email }); }}
+                                value={this.state.email}
+                            />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff' }}>Password</Label>
-                          <Input />
+                            <Label style={{ color: '#ffffff' }}>Password</Label>
+                            <Input 
+                                textContentType='password'
+                                onChangeText={(password) => { this.setState({ password }); }}
+                                value={this.state.password}
+                            />
                         </Item>
                         <Item floatingLabel>
-                          <Label style={{ color: '#ffffff' }}>Confirm Password</Label>
-                          <Input />
+                            <Label style={{ color: '#ffffff' }}>Confirm Password</Label>
+                            <Input 
+                                textContentType='password'
+                                onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
+                                value={this.state.confirmPassword}
+                            />
                         </Item>
                   </Form>
                   <View>
-                      <TouchableOpacity
-                          style={styles.button}
-                      >
-                          <Text style={styles.buttonText}>Sign Up</Text>
-                      </TouchableOpacity>
-                      <View style={styles.signupTextCont}>
-                          <Text style={styles.signupText}>Already have an account?</Text>
-                          <TouchableOpacity>
-                              <Text style={styles.signupButton}>Log In</Text>
-                          </TouchableOpacity>
-                      </View>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={this.onSubmit.bind(this)}
+                        >
+                            <Text style={styles.buttonText}>Sign Up</Text>
+                        </TouchableOpacity>
+                        <View style={styles.signupTextCont}>
+                            <Text style={styles.signupText}>Already have an account?</Text>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate('Login')}
+                            >
+                                <Text style={styles.signupButton}>Log In</Text>
+                            </TouchableOpacity>
+                        </View>
                   </View>
               </Content>
           </KeyboardAvoidingView>
