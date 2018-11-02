@@ -11,14 +11,16 @@ import { Container, Content, Form, Item, Input, Label } from 'native-base';
 import { icon } from '../common/images';
 import { loginUser } from '../actions';
 
-class Login extends Component {
+class comp extends Component {
     state = {
         email: '',
         password: ''
     }
 
     onSubmit() {
-        loginUser(this.state);
+        this.props.loginUser(this.state, (verified) => {
+            this.props.navigation.navigate(verified ? 'MainNavigator' : 'Verification');
+        });
     }
 
     render() {
@@ -66,7 +68,9 @@ class Login extends Component {
                         <View style={styles.signupTextCont}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.signupText}>Dont have an account?</Text>
-                                <TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => this.props.navigation.navigate('Register')}
+                                >
                                     <Text style={styles.signupButton}>Sign Up</Text>
                                 </TouchableOpacity>
                             </View>
@@ -152,5 +156,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     }
 });
+
+const Login = connect(null, { loginUser })(comp);
 
 export { Login };

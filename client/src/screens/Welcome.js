@@ -16,10 +16,17 @@ class Welcome extends Component {
                             }}
                             source={icon} 
                         />
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => this.props.navigation.navigate('Login')}
+                    >
                         <Text style={styles.buttonText}>Log In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    
+                    <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => this.props.navigation.navigate('Register')}
+                    >
                         <Text style={styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

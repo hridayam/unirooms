@@ -51,7 +51,9 @@ class Register extends Component {
     }
 
     onSubmit() {
-        this.registerUser(this.state);
+        registerUser(this.state, () => {
+            this.props.navigation.navigate('Verification');
+        });
     }
 
     render() {
@@ -128,7 +130,9 @@ class Register extends Component {
                         </TouchableOpacity>
                         <View style={styles.signupTextCont}>
                             <Text style={styles.signupText}>Already have an account?</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate('Login')}
+                            >
                                 <Text style={styles.signupButton}>Log In</Text>
                             </TouchableOpacity>
                         </View>

@@ -1,45 +1,70 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import Expo from 'expo';
-import * as firebase from 'firebase';
+import Expo, { Font } from 'expo';
 import 'firebase/firestore';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+
 import { store, persistor } from './src/store';
 import Router from './src/Router';
+import app from './firebase-setup';
 
-export default class App extends React.Component {
-    componentWillMount() {
-        Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
-        const config = {
-            apiKey: 'AIzaSyA6fPurbpOopU918zzG4YEiuXrIjWita2U',
-            authDomain: 'uniroom-project.firebaseapp.com',
-            databaseURL: 'https://uniroom-project.firebaseio.com',
-            projectId: 'uniroom-project',
-            storageBucket: 'uniroom-project.appspot.com',
-            messagingSenderId: '942380097329'
+class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+            loggedIn: null,
+            verified: false
         };
-        firebase.initializeApp(config);
+    }
 
-        const firestore = firebase.firestore();
-        const settings = {/* your settings... */ timestampsInSnapshots: true };
-        firestore.settings(settings);
+    async componentWillMount() {
+        Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+
+        app.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ loggedIn: true });
+                if (user.emailVerified) {
+                    this.setState({ verified: true });
+                }
+            } else {
+                this.setState({ loggedIn: false, verified: false });
+            }
+        });
+
+        await Font.loadAsync({
+            Roboto: require('native-base/Fonts/Roboto.ttf'),
+            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
+        });
+        this.setState({ loading: false });
     }
 
     renderLoading() {
         return (
-            <View>
+            <View style={styles.container}>
                 <ActivityIndicator size='large' />
             </View>
         );
     }
 
     render() {
+        if (this.state.loggedIn === null) {
+            return this.renderLoading();
+        }
         return (
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <View style={styles.container}>
-                        <Router />
+                        { 
+                            this.state.loading ? 
+                            <ActivityIndicator size='large' /> : 
+                            <Router 
+                                loggedIn={this.state.loggedIn} 
+                                verified={this.state.verified}
+                            /> 
+                        }
                     </View>
                 </PersistGate>
             </Provider>
@@ -54,3 +79,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 });
+
+export default App;

@@ -1,5 +1,5 @@
-import React from 'react';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import React, { Component } from 'react';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
 import { 
 	EditProfile,
@@ -14,7 +14,7 @@ import {
 	UserProfile,
 	Verification,
 	Welcome
-	} from './screens';
+} from './screens';
 
 const ListingStack = createStackNavigator({
 	Explore: ListingsView,
@@ -22,7 +22,17 @@ const ListingStack = createStackNavigator({
 	Details: ListingDetails,
 }, { headerMode: 'none', mode: 'modal' });
 
-export default createBottomTabNavigator({
+const AuthStack = createStackNavigator({
+	Welcome, 
+	auth: createSwitchNavigator({
+		Login, Register
+	})
+}, {
+	headerMode: 'none',
+	mode: 'modal'
+});
+
+const MainNavigator = createBottomTabNavigator({
 	Favorites: {
 		screen: UserFavorites,
 		navigationOptions: {
@@ -83,3 +93,33 @@ export default createBottomTabNavigator({
 	}
 });
 
+class Router extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLoggedIn: false,
+			isVerified: false
+		};
+	}
+	
+	componentWillReceiveProps(nextProps) {
+		this.setState({ isLoggedIn: nextProps.loggedIn, isVerified: nextProps.verified });
+	}
+
+	render() {
+		const Nav = createSwitchNavigator({
+			AuthStack,
+			Verification,
+			MainNavigator
+		}, {
+			initialRouteName: !this.state.isLoggedIn ? 'AuthStack' : 
+				this.state.isVerified ? 'MainNavigator' : 'Verification',
+		});
+
+		return (
+			<Nav />
+		);
+	}
+}
+
+export default Router;

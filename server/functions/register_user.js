@@ -9,9 +9,11 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 module.exports = function(req, res) {
     const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@sjsu.edu?/;
 
-    const { firstName, lastName, email, password, 
+    let { firstName, lastName, email, password, 
         confirmPassword, username 
     } = req.body;
+
+    email = email.trim();
 
     const code = Math.floor((Math.random() * 8999 + 1000))
 
@@ -52,17 +54,24 @@ module.exports = function(req, res) {
     }
     
     admin.auth().createUser({ password, email })
-        .then(user => {
-            return admin.firestore().collection('users').doc(`${user.email}`).set(newUser)
-                        .then(() => {
-                            return sendEmail(newUser.email, code, res); 
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            return res.status(422).send({error: err})
-                        });
-        })
-        .catch(err => res.status(422).send({error: err}) );
+    .then(user => {
+        return createUserDatabase(user, newUser, res);
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(422).send({error: err}) 
+    });
+}
+
+function createUserDatabase(user, newUser, res) {
+    admin.firestore().collection('users').doc(`${user.uid}`).set(newUser)
+    .then(() => {
+        return sendEmail(newUser.email, code, res); 
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(422).send({error: err})
+    });
 }
 
 // Send email function
@@ -78,7 +87,7 @@ function sendEmail(email, code, res) {
     sgMail.send(msg).then(() =>
         res.json({message: "success"})
     ).catch((err) => {
-        res.status(err.code).send({error: err})
+        res.status(422).send({error: err})
         console.log(err)
     });
 }

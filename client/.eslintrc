@@ -2,6 +2,8 @@
 	"extends": "rallycoding",
 	"rules": {
 		"arrow-body-style": 0,
-	    'max-len': 0,
+		"max-len": 0,
+		"import/newline-after-import": 0,
+		"global-require": 0
 	 }
 }
