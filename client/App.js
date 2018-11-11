@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import Expo, { Font } from 'expo';
 import 'firebase/firestore';
@@ -57,13 +58,13 @@ class App extends Component {
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <View style={styles.container}>
-                        { 
-                            this.state.loading ? 
-                            <ActivityIndicator size='large' /> : 
-                            <Router 
-                                loggedIn={this.state.loggedIn} 
+                        {
+                            this.state.loading ?
+                            <ActivityIndicator size='large' /> :
+                            <Router
+                                loggedIn={this.state.loggedIn}
                                 verified={this.state.verified}
-                            /> 
+                            />
                         }
                     </View>
                 </PersistGate>
