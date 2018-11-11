@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import Expo, { Font } from 'expo';
-import 'firebase/firestore';
+
+import { StyleSheet, View, ActivityIndicator, Platform, StatusBar } from 'react-native';
+import { Font, ScreenOrientation } from 'expo';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from './src/store';
 import Router from './src/Router';
-import app from './firebase-setup';
+import { app } from './firebase-setup';
 
 class App extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     async componentWillMount() {
-        Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+        ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
 
         app.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -29,6 +29,7 @@ class App extends Component {
                 if (user.emailVerified) {
                     this.setState({ verified: true });
                 }
+                //app.auth().signOut();
             } else {
                 this.setState({ loggedIn: false, verified: false });
             }
@@ -57,13 +58,13 @@ class App extends Component {
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <View style={styles.container}>
-                        { 
-                            this.state.loading ? 
-                            <ActivityIndicator size='large' /> : 
-                            <Router 
-                                loggedIn={this.state.loggedIn} 
+                        {
+                            this.state.loading ?
+                            <ActivityIndicator size='large' /> :
+                            <Router
+                                loggedIn={this.state.loggedIn}
                                 verified={this.state.verified}
-                            /> 
+                            />
                         }
                     </View>
                 </PersistGate>
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
+        paddingTop: StatusBar.currentHeight
     },
 });
 

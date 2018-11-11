@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator,
+	createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
-import { 
+import {
 	EditProfile,
 	ListingDetails,
 	ListingForm,
 	ListingsView,
 	Login,
 	Messages,
+	FriendsList,
 	Register,
-	UserFavorites, 
+	UserFavorites,
 	UserListings,
 	UserProfile,
 	Verification,
-	Welcome
+	Welcome,
+	Matcher
 } from './screens';
 
 const ListingStack = createStackNavigator({
@@ -22,14 +25,27 @@ const ListingStack = createStackNavigator({
 	Details: ListingDetails,
 }, { headerMode: 'none', mode: 'modal' });
 
+const ExploreTopNav = createMaterialTopTabNavigator({
+	Listings: {
+		screen: ListingStack,
+		headerMode: 'none'
+	},
+	Matcher
+}, { swipeEnabled: false });
+
 const AuthStack = createStackNavigator({
-	Welcome, 
+	Welcome,
 	auth: createSwitchNavigator({
 		Login, Register
 	})
 }, {
 	headerMode: 'none',
 	mode: 'modal'
+});
+
+const MessageStack = createStackNavigator({
+	// FriendsList,
+	Messages
 });
 
 const MainNavigator = createBottomTabNavigator({
@@ -52,7 +68,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	Explore: {
-		screen: ListingStack,
+		screen: ExploreTopNav,
 		navigationOptions: {
 			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => (
@@ -61,7 +77,7 @@ const MainNavigator = createBottomTabNavigator({
 		},
 	},
 	Messages: {
-		screen: Messages,
+		screen: MessageStack,
 		navigationOptions: {
 			tabBarLabel: 'Messages',
 			tabBarIcon: ({ tintColor }) => (
@@ -101,7 +117,7 @@ class Router extends Component {
 			isVerified: false
 		};
 	}
-	
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({ isLoggedIn: nextProps.loggedIn, isVerified: nextProps.verified });
 	}
@@ -112,7 +128,7 @@ class Router extends Component {
 			Verification,
 			MainNavigator
 		}, {
-			initialRouteName: !this.state.isLoggedIn ? 'AuthStack' : 
+			initialRouteName: !this.state.isLoggedIn ? 'AuthStack' :
 				this.state.isVerified ? 'MainNavigator' : 'Verification',
 		});
 
