@@ -5,6 +5,7 @@ export * from './ListingsView';
 export * from './Login';
 export * from './Messages';
 export * from './Register';
+export * from './FriendsList';
 export * from './UserFavorites';
 export * from './UserListings';
 export * from './UserProfile';
