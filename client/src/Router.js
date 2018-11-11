@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator, 
+import { createBottomTabNavigator, createStackNavigator,
 	createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
-import { 
+import {
 	EditProfile,
 	ListingDetails,
 	ListingForm,
 	ListingsView,
 	Login,
 	Messages,
+	FriendsList,
 	Register,
-	UserFavorites, 
+	UserFavorites,
 	UserListings,
 	UserProfile,
 	Verification,
@@ -33,7 +34,7 @@ const ExploreTopNav = createMaterialTopTabNavigator({
 }, { swipeEnabled: false });
 
 const AuthStack = createStackNavigator({
-	Welcome, 
+	Welcome,
 	auth: createSwitchNavigator({
 		Login, Register
 	})
@@ -71,9 +72,18 @@ const MainNavigator = createBottomTabNavigator({
 		},
 	},
 	Messages: {
-		screen: Messages,
+		screen: FriendsList,
 		navigationOptions: {
 			tabBarLabel: 'Messages',
+			tabBarIcon: ({ tintColor }) => (
+				<Icon name="ios-chatbubbles" type="Ionicons" style={{ color: tintColor }} size={30} />
+			)
+		}
+	},
+	FriendsList: {
+		screen: FriendsList,
+		navigationOptions: {
+			tabBarLabel: 'FriendsList',
 			tabBarIcon: ({ tintColor }) => (
 				<Icon name="ios-chatbubbles" type="Ionicons" style={{ color: tintColor }} size={30} />
 			)
@@ -111,7 +121,7 @@ class Router extends Component {
 			isVerified: false
 		};
 	}
-	
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({ isLoggedIn: nextProps.loggedIn, isVerified: nextProps.verified });
 	}
@@ -122,7 +132,7 @@ class Router extends Component {
 			Verification,
 			MainNavigator
 		}, {
-			initialRouteName: !this.state.isLoggedIn ? 'AuthStack' : 
+			initialRouteName: !this.state.isLoggedIn ? 'AuthStack' :
 				this.state.isVerified ? 'MainNavigator' : 'Verification',
 		});
 

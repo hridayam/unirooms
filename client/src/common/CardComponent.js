@@ -4,13 +4,13 @@ import { Card, CardItem, Thumbnail, Body, Left } from 'native-base';
 
 class CardComponent extends Component {
     render() {
-        const { 
-            posterName, 
-            postDate, 
+        const {
+            posterName,
+            postDate,
             posterImageSource,
-            imageSource, 
-            title, 
-            description 
+            imageSource,
+            title,
+            description
         } = this.props;
 
         return (
@@ -26,9 +26,9 @@ class CardComponent extends Component {
                 </CardItem>
 
                 <CardItem cardBody>
-                    <Image 
+                    <Image
                         source={{ uri: imageSource }}
-                        style={{ height: 200, width: null, flex: 1 }} 
+                        style={{ height: 200, width: null, flex: 1 }}
                     />
                 </CardItem>
 
