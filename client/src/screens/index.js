@@ -10,3 +10,4 @@ export * from './UserListings';
 export * from './UserProfile';
 export * from './Verification';
 export * from './Welcome';
+export * from './Matcher';

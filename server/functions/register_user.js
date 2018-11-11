@@ -55,7 +55,7 @@ module.exports = function(req, res) {
     
     admin.auth().createUser({ password, email })
     .then(user => {
-        return createUserDatabase(user, newUser, res);
+        return createUserDatabase(user, newUser, code,res);
     })
     .catch(err => {
         console.log(err);
@@ -63,7 +63,7 @@ module.exports = function(req, res) {
     });
 }
 
-function createUserDatabase(user, newUser, res) {
+function createUserDatabase(user, newUser, code, res) {
     admin.firestore().collection('users').doc(`${user.uid}`).set(newUser)
     .then(() => {
         return sendEmail(newUser.email, code, res); 

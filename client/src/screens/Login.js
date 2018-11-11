@@ -18,9 +18,7 @@ class comp extends Component {
     }
 
     onSubmit() {
-        this.props.loginUser(this.state, (verified) => {
-            this.props.navigation.navigate(verified ? 'MainNavigator' : 'Verification');
-        });
+        this.props.loginUser(this.state);
     }
 
     render() {

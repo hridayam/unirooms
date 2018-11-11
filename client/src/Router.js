@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, 
+	createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
 import { 
 	EditProfile,
@@ -13,7 +14,8 @@ import {
 	UserListings,
 	UserProfile,
 	Verification,
-	Welcome
+	Welcome,
+	Matcher
 } from './screens';
 
 const ListingStack = createStackNavigator({
@@ -21,6 +23,14 @@ const ListingStack = createStackNavigator({
 	Form: ListingForm,
 	Details: ListingDetails,
 }, { headerMode: 'none', mode: 'modal' });
+
+const ExploreTopNav = createMaterialTopTabNavigator({
+	Listings: {
+		screen: ListingStack,
+		headerMode: 'none'
+	},
+	Matcher
+}, { swipeEnabled: false });
 
 const AuthStack = createStackNavigator({
 	Welcome, 
@@ -52,7 +62,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	Explore: {
-		screen: ListingStack,
+		screen: ExploreTopNav,
 		navigationOptions: {
 			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => (

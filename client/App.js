@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import Expo, { Font } from 'expo';
-import 'firebase/firestore';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from './src/store';
 import Router from './src/Router';
-import app from './firebase-setup';
+import { app } from './firebase-setup';
 
 class App extends Component {
     constructor(props) {
@@ -29,6 +28,7 @@ class App extends Component {
                 if (user.emailVerified) {
                     this.setState({ verified: true });
                 }
+                //app.auth().signOut();
             } else {
                 this.setState({ loggedIn: false, verified: false });
             }
