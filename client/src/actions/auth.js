@@ -1,11 +1,9 @@
-import firebase from 'firebase';
-import 'firebase/firestore';
 import axios from 'axios';
 
 import { URL, LOGIN_USER } from './types';
-import app from '../../firebase-setup'; 
+import { app, db } from '../../firebase-setup'; 
 
-const db = firebase.firestore(app);
+//const db = firebase.firestore(app);
 const usersCollection = db.collection('users');
 
 export const loginUser = (credentials, cb) => async dispatch => {
@@ -18,14 +16,14 @@ const tryLogin = async (credentials, dispatch, cb) => {
     password = password.trim();
 
     try {
-        let user = await firebase.auth().signInWithEmailAndPassword(email, password);
+        let user = await app.auth().signInWithEmailAndPassword(email, password);
         user = user.user;
         
         if (user.emailVerified) {
             getUserData(user.uid, dispatch);
         }
         
-        cb(user.emailVerified);
+        //cb(user.emailVerified);
     } catch (err) {
         console.log(err);
     }
@@ -56,7 +54,7 @@ export const registerUser = (data, cb) => async dispatch => {
 
 export const verifyUser = async (code, cb) => {
     try {
-        const user = firebase.auth().currentUser;
+        const user = app.auth().currentUser;
         const data = {
             code,
             email: user.email

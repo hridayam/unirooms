@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,7 @@ import { Content, Form, Item, Input, Label } from 'native-base';
 import { registerUser } from '../actions/index';
 import { icon } from '../common/images';
 
-class Register extends Component {
+class comp extends Component {
     constructor(props) {
         super(props);
 
@@ -51,13 +51,10 @@ class Register extends Component {
     }
 
     onSubmit() {
-        registerUser(this.state, () => {
-            this.props.navigation.navigate('Verification');
-        });
+        this.props.registerUser(this.state);
     }
 
     render() {
-
         return (
             <KeyboardAvoidingView
                 style={{ backgroundColor: '#455a64', flex: 1, justifyContent: 'center' }}
@@ -205,5 +202,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     }
 });
+
+const Register = connect(null, { registerUser })(comp);
 
 export { Register };
