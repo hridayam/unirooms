@@ -43,6 +43,11 @@ const AuthStack = createStackNavigator({
 	mode: 'modal'
 });
 
+const MessageStack = createStackNavigator({
+	// FriendsList,
+	Messages
+});
+
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {
 		screen: UserFavorites,
@@ -72,18 +77,9 @@ const MainNavigator = createBottomTabNavigator({
 		},
 	},
 	Messages: {
-		screen: FriendsList,
+		screen: MessageStack,
 		navigationOptions: {
 			tabBarLabel: 'Messages',
-			tabBarIcon: ({ tintColor }) => (
-				<Icon name="ios-chatbubbles" type="Ionicons" style={{ color: tintColor }} size={30} />
-			)
-		}
-	},
-	FriendsList: {
-		screen: FriendsList,
-		navigationOptions: {
-			tabBarLabel: 'FriendsList',
 			tabBarIcon: ({ tintColor }) => (
 				<Icon name="ios-chatbubbles" type="Ionicons" style={{ color: tintColor }} size={30} />
 			)

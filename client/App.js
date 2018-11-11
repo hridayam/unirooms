@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import Expo, { Font } from 'expo';
+import { StyleSheet, View, ActivityIndicator, Platform, StatusBar } from 'react-native';
+import { Font, ScreenOrientation } from 'expo';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     async componentWillMount() {
-        Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+        ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
 
         app.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
+        paddingTop: StatusBar.currentHeight
     },
 });
 
