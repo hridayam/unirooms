@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, View, ActivityIndicator, Platform, StatusBar } from 'react-native';
-import { Font, ScreenOrientation } from 'expo';
+import { StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
+import { Font, ScreenOrientation, Constants } from 'expo';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from './src/store';
 import Router from './src/Router';
 import { app } from './firebase-setup';
+import StatusBar from './src/common/StatusBar';
 
 class App extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class App extends Component {
     }
 
     async componentWillMount() {
-        ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
+        //ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
 
         app.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -57,6 +58,7 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
+                    <StatusBar backgroundColor="blue" barStyle="light-content" />
                     <View style={styles.container}>
                         {
                             this.state.loading ?
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        paddingTop: StatusBar.currentHeight
+        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
     },
 });
 
