@@ -28,7 +28,6 @@ const ListingStack = createStackNavigator({
 const ExploreTopNav = createMaterialTopTabNavigator({
 	Listings: {
 		screen: ListingStack,
-		headerMode: 'none'
 	},
 	Matcher
 }, { swipeEnabled: false });
