@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SideSwipe from 'react-native-sideswipe';
 import { StyleSheet, Dimensions } from 'react-native';
 
-import CarouselImage from './CarouselImage';
+import { CarouselImage } from './';
 
 const { width } = Dimensions.get('window');
 
@@ -30,9 +30,9 @@ class Carousel extends Component {
                 data={images}
                 shouldCapture={() => this.props.shouldCapture}
                 style={[styles.fill, { width }, this.props.styles]}
-                contentContainerStyle={{ paddingTop: 50 }}
                 itemWidth={CarouselImage.WIDTH}
-                threshold={CarouselImage.WIDTH}
+                threshold={CarouselImage.WIDTH / 2}
+                useVelocityForIndex={false}
                 contentOffset={offset}
                 extractKey={item => item.key}
                 onIndexChange={index => this.setState({ currentIndex: index })}
@@ -50,12 +50,6 @@ class Carousel extends Component {
 }
 
 const styles = StyleSheet.create({
-    slide: {
-        backgroundColor: '#9DD6EB',
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'center'
-    },
     fill: {
         top: 0,
         left: 0,
@@ -65,4 +59,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Carousel;
+export { Carousel };
