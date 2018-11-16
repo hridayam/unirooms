@@ -3,15 +3,10 @@ import {
   Animated,
   Dimensions,
   StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Platform,
 } from 'react-native';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 const width = screenWidth;
-const height = screenHeight;
 
 class CarouselImage extends Component {
     static WIDTH = width;
@@ -48,21 +43,15 @@ class CarouselImage extends Component {
 
 const styles = StyleSheet.create({
     container: {
-      width,
-      justifyContent: 'center',
-      alignItems: 'center',
-      overflow: 'visible',
+        width,
+        justifyContent: 'center',
+        overflow: 'visible'
     },
-    image: Platform.select({
-        ios: {
-          width,
-          height: width - ((height / width) * 10),
-        },
-        android: {
-          width,
-          height: width - ((height / width) * 10),
-        },
-    })
+    image: {
+        width,
+        //height: width - ((height / width) * 10),
+        height: width * (3 / 4)
+    },
 });
 
-export default CarouselImage;
+export { CarouselImage };

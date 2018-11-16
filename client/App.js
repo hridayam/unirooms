@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-
 import { StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
-import { Font, ScreenOrientation, Constants } from 'expo';
+import { Font, Permissions } from 'expo';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from './src/store';
 import Router from './src/Router';
 import { app } from './firebase-setup';
-import StatusBar from './src/common/StatusBar';
+//import StatusBar from './src/common/StatusBar';
 
 class App extends Component {
     constructor(props) {
@@ -29,6 +28,7 @@ class App extends Component {
                 this.setState({ loggedIn: true });
                 if (user.emailVerified) {
                     this.setState({ verified: true });
+                    Permissions.askAsync(Permissions.CAMERA_ROLL);
                 }
                 //app.auth().signOut();
             } else {
@@ -43,10 +43,10 @@ class App extends Component {
         this.setState({ loading: false });
     }
 
-    renderLoading() {
+    renderLoading = () => {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size='large' />
+                <ActivityIndicator size={Platform.OS === 'ios' ? 'large' : 100} />
             </View>
         );
     }
@@ -58,11 +58,13 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <StatusBar backgroundColor="blue" barStyle="light-content" />
+                    {
+                        //<StatusBar backgroundColor="blue" barStyle="light-content" />
+                    }
                     <View style={styles.container}>
                         {
                             this.state.loading ?
-                            <ActivityIndicator size='large' /> :
+                            this.renderLoading() :
                             <Router
                                 loggedIn={this.state.loggedIn}
                                 verified={this.state.verified}
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
     },
 });
 

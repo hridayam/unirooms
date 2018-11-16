@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Title, Icon, Button } from 'native-base';
-import CardComponent from '../common/CardComponent';
+
+import { CardComponent } from '../common';
 
 class ListingsView extends Component {
     render() {

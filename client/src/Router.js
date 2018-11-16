@@ -42,6 +42,14 @@ const AuthStack = createStackNavigator({
 	mode: 'modal'
 });
 
+const ProfileStack = createStackNavigator({
+	UserProfile,
+	EditProfile
+}, {
+	headerMode: 'none',
+	mode: 'modal'
+});
+
 const MessageStack = createStackNavigator({
 	// FriendsList,
 	Messages
@@ -85,7 +93,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	Profile: {
-		screen: UserProfile,
+		screen: ProfileStack,
 		navigationOptions: {
 			tabBarLabel: 'Profile',
 			tabBarIcon: ({ tintColor }) => (

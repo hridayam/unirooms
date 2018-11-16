@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
-import { DeckSwiper, Card, Icon, Left, 
+import { DeckSwiper, Card, Left, 
     CardItem, Body, Thumbnail
 } from 'native-base';
 
