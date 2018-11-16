@@ -12,6 +12,7 @@ import {
 import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
 
 class Login extends Component {
+    
   render() {
     return (
             <Container style={{ backgroundColor: '#455a64', flex: 1, alignItems: 'center', justifyContent: 'center' }}>

@@ -17,7 +17,9 @@ import {
     ViewListings,
     Welcome,
     Verification,
-    EditProfile
+    EditProfile,
+    Carasoul,
+    EditCarasoul
 } from './src/screens';
 //import { store, persistor } from './store';
 
@@ -53,7 +55,7 @@ export default class App extends React.Component {
                         screen: createStackNavigator({
                         messages: AllMessages,
                         chat: Chat
-                        }),
+                    }),
                         navigationOptions: ({navigation}) => ({
                         title: 'Review Jobs',
                         /*tabBarIcon: ({ tintColor }) => {

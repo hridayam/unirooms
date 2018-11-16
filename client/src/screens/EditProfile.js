@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   StatusBar,
   Image,
@@ -9,179 +8,81 @@ import {
   ScrollView,
   Dimensions
 } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Label, Picker, Icon } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label, Accordion, Picker, Icon, H1, H2, H3, Text, Card, CardItem, Body, Button } from 'native-base';
+
 
 class EditProfile extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          selected2: undefined
-        };
-      }
-      onValueChange2(value: string) {
-        this.setState({
-          selected2: value
-        });
-      }
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//          selected2: undefined,
+//         };
+//       }
+//       onValueChange2(value: string) {
+//         this.setState({
+// //          selected2: value
+//         });
+//       }
 
-    render(){
-        return(
-              <Container>
-               <Content>
-                 <Form>
-                   <Item stackedLabel>
-                     <Label>First Name</Label>
-                     <Input />
-                   </Item>
-                   <Item stackedLabel>
-                     <Label>Last Name</Label>
-                     <Input />
-                   </Item>
-                   <Item stackedLabel>
-                     <Label>Username</Label>
-                     <Input />
-                   </Item>
-                   <Item stackedLabel>
-                     <Label>Email</Label>
-                     <Input />
-                   </Item>
-                   </Form>
-                   <View>
-                   <Item picker>
-                      <Picker
-                        mode="dropdown"
-                        iosIcon={<Icon name="ios-arrow-down-outline" />}
-                        style={{ width: undefined }}
-                        placeholder="Select your Gender"
-                        placeholderStyle={{ color: "#bfc6ea" }}
-                        placeholderIconColor="#007aff"
-                        selectedValue={this.state.selected2}
-                        onValueChange={this.onValueChange2.bind(this)}
-                      >
-                        <Picker.Item label="Male" value="key0" />
-                        <Picker.Item label="Female" value="key1" />
-                      </Picker>
-                  </Item>
-                  </View>
-                  <View>
-                  <Item picker>
-                      <Picker
-                        mode="dropdown"
-                        iosIcon={<Icon name="ios-arrow-down-outline" />}
-                        style={{ width: undefined }}
-                        placeholder="Diet Preference: "
-                        placeholderStyle={{ color: "#bfc6ea" }}
-                        placeholderIconColor="#007aff"
-                        selectedValue={this.state.selected2}
-                        onValueChange={this.onValueChange2.bind(this)}
-                      >
-                        <Picker.Item label="Vegetarian" value="key0" />
-                        <Picker.Item label="Non Vegetarian" value="key1" />
-                        <Picker.Item label="Vegan" value="key2" />
-                        <Picker.Item label="Others" value="key3" />
-                      </Picker>
-                </Item>
-                </View>
-                <View>
-                <Item picker>
-                  <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="ios-arrow-down-outline" />}
-                    style={{ width: undefined }}
-                    placeholder="Smoking Prerferance: "
-                    placeholderStyle={{ color: "#bfc6ea" }}
-                    placeholderIconColor="#007aff"
-                    selectedValue={this.state.selected2}
-                    onValueChange={this.onValueChange2.bind(this)}
-                  >
-                    <Picker.Item label="Yes" value="key0" />
-                    <Picker.Item label="No" value="key1" />
-                  </Picker>
-                </Item>
-                </View>
-                <View>
-                <Item picker>
-                  <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="ios-arrow-down-outline" />}
-                    style={{ width: undefined }}
-                    placeholder="Alcohol Prerferance: "
-                    placeholderStyle={{ color: "#bfc6ea" }}
-                    placeholderIconColor="#007aff"
-                    selectedValue={this.state.selected2}
-                    onValueChange={this.onValueChange2.bind(this)}
-                  >
-                    <Picker.Item label="Social" value="key0" />
-                    <Picker.Item label="Never" value="key1" />
-                    <Picker.Item label="Frequently" value="key2" />
-                  </Picker>
-                </Item>
-                </View>
-                <View>
-                <Item picker>
-                  <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="ios-arrow-down-outline" />}
-                    style={{ width: undefined }}
-                    placeholder="420 friendly: "
-                    placeholderStyle={{ color: "#bfc6ea" }}
-                    placeholderIconColor="#007aff"
-                    selectedValue={this.state.selected2}
-                    onValueChange={this.onValueChange2.bind(this)}
-                  >
-                    <Picker.Item label="Yes" value="key0" />
-                    <Picker.Item label="No" value="key1" />
-              </Picker>
-                </Item>
-                </View>
-                <View>
-                <Item picker>
-                  <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="ios-arrow-down-outline" />}
-                    style={{ width: undefined }}
-                    placeholder="Pets"
-                    placeholderStyle={{ color: "#bfc6ea" }}
-                    placeholderIconColor="#007aff"
-                    selectedValue={this.state.selected2}
-                    onValueChange={this.onValueChange2.bind(this)}
-                  >
-                    <Picker.Item label="Dog" value="key0" />
-                    <Picker.Item label="Cat" value="key1" />
-                    <Picker.Item label="None, but open to it" value="key2" />
-                    <Picker.Item label="No pets allowed" value="key3" />
-                    <Picker.Item label="Other pets" value="key4" />
-                  </Picker>
-                </Item>
-                </View>
-                <View>
-                    <Item picker>
-                      <Picker
-                        mode="dropdown"
-                        iosIcon={<Icon name="ios-arrow-down-outline" />}
-                        style={{ width: undefined }}
-                        placeholder="Religion"
-                        placeholderStyle={{ color: "#bfc6ea" }}
-                        placeholderIconColor="#007aff"
-                        selectedValue={this.state.selected2}
-                        onValueChange={this.onValueChange2.bind(this)}
-                      >
-                        <Picker.Item label="Atheist" value="key0" />
-                        <Picker.Item label="Buddhist" value="key1" />
-                        <Picker.Item label="Christian" value="key2" />
-                        <Picker.Item label="Hindu" value="key3" />
-                        <Picker.Item label="Jewish" value="key4" />
-                        <Picker.Item label="Muslim" value="key5" />
-                        <Picker.Item label="Spiritual" value="key6" />
-                        <Picker.Item label="Others" value="key7" />
-                      </Picker>
-                    </Item>
-                    </View>
-               </Content>
-             </Container>
+// constructor(props) {
+// super(props);
+// this.state = { text: '', height: 0 };
+// }
+
+    render() {
+        return (
+              <Container style={{ marginTop: 20, backgroundColor: '#ffb101' }}>
+                   <Content>
+                     <Form>
+                           <Item stackedLabel last>
+                             <Label style={{ color: '#ffffff' }}>First Name</Label>
+                             <Input />
+                           </Item>
+                           <Item stackedLabel last>
+                             <Label style={{ color: '#ffffff' }}>Last Name</Label>
+                             <Input />
+                           </Item>
+                           <Item stackedLabel last>
+                             <Label style={{ color: '#ffffff' }}>Username</Label>
+                             <Input />
+                           </Item>
+                           <Item stackedLabel last>
+                             <Label style={{ color: '#ffffff' }}>Email</Label>
+                             <Input />
+                           </Item>
+                       </Form>
+
+                       <Card>
+                         <CardItem header style={{backgroundColor: '#ffb101'}}>
+                           <Text>About me</Text>
+                         </CardItem>
+                         <CardItem style={{backgroundColor: '#ffb101'}}>
+                           <Body>
+                           <Text>
+                           <TextInput
+                                   {...this.props}
+                                   multiline
+                                   style={styles.textBox}
+                           />
+                           </Text>
+                           </Body>
+                        </CardItem>
+                      </Card>
+                      
+                   </Content>
+                 </Container>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    textBox: {
+        height: 100,
+        width: 50,
+        marginTop: 5,
+        backgroundColor: '#ffffff'
+    }
+})
 
 export { EditProfile };

@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-
+import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 class Chat extends Component {
-    render() {
-        return (
-            <View>
-                <Text>ChatScreen</Text>
-                <Text>ChatScreen</Text>
-                <Text>ChatScreen</Text>
-                <Text>ChatScreen</Text>
-            </View>
-        );
-    }
+  render() {
+    return (
+      <Container>
+        <Header />
+        <Content>
+          <List>
+            <ListItem avatar>
+              <Left>
+                <Thumbnail source={{ uri: 'Image URL' }} />
+              </Left>
+              <Body>
+                <Text>Kumar Pratik</Text>
+                <Text note>Doing what you like will always keep you happy . .</Text>
+              </Body>
+              <Right>
+                <Text note>3:43 pm</Text>
+              </Right>
+            </ListItem>
+          </List>
+        </Content>
+      </Container>
+    );
+  }
 }
 
 export { Chat };
