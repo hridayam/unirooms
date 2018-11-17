@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { ImagePicker, Permissions } from 'expo';
+import PropTypes from 'prop-types';
 
 let { width } = Dimensions.get('window');
 const margin = 10;
@@ -17,18 +18,22 @@ class ImageSelector extends Component {
         uri: null
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ uri: nextProps.uri });
+    }
+
     onImageSelectorPress = async () => {
         if (Platform.OS === 'ios') {
             const status = await this.requestPerms();
             if (status === 'granted') {
-                this.openImageSlector();
+                this.openImageSelector();
             }
         } else {
-            this.openImageSlector();
+            this.openImageSelector();
         }
     }
 
-    openImageSlector = async () => {
+    openImageSelector = async () => {
         const { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: 'Images',
             allowsEditing: true,
@@ -38,7 +43,8 @@ class ImageSelector extends Component {
         if (cancelled) { 
             return;
         }
-        this.setState({ uri });
+        //this.setState({ uri });
+        this.props.setImage(uri);
     }
 
     removeImage = () => {
@@ -48,7 +54,12 @@ class ImageSelector extends Component {
                 'Are you sure you want to remove this Image?',
                 [
                     { text: 'Cancel', style: 'cancel' },
-                    { text: 'OK', onPress: () => this.setState({ uri: null }) },
+                    { text: 'OK', 
+                        onPress: () => {
+                            this.setState({ uri: null });
+                            this.props.onRemove(this.props.id);
+                        }
+                    },
                 ],
                 { cancelable: false }
             )
@@ -71,9 +82,9 @@ class ImageSelector extends Component {
                 {
                     this.state.uri === null ? 
                     <Avatar
-                        icon={{ name: 'add', size: width * (3 / 4), color: '#000' }}
+                        icon={{ name: 'add-circle-outline', size: width / 3, color: '#fff' }}
                         rounded
-                        overlayContainerStyle={{ backgroundColor: '#F0F0F0', borderRadius: contentWidth / 2 }}
+                        overlayContainerStyle={{ backgroundColor: '#e2e2e2', borderRadius: contentWidth / 2 }}
                         onPress={this.onImageSelectorPress}
                         containerStyle={styles.AvatarContainerStyle}
                     /> :
@@ -104,13 +115,12 @@ class ImageSelector extends Component {
     }
 }
 
-/* <Button
-    containerViewStyle={styles.buttonContainerViewStyle}
-    backgroundColor="#F0F0F0"
-    buttonStyle={styles.buttonStyle}
-    icon={{ name: 'add', size: width / 5, color: '#000' }}
-    onPress={this.onImageSelectorPress}
-/> */
+ImageSelector.propTypes = {
+    uri: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    setImage: PropTypes.func.isRequired
+};
 
 const styles = StyleSheet.create({
     containerStyle: {
