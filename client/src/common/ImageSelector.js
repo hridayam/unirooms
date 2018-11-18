@@ -6,12 +6,15 @@ import { Avatar } from 'react-native-elements';
 import { ImagePicker, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 
+import { scale, verticalScale, moderateScale } from './Scaling';
+
 let { width } = Dimensions.get('window');
-const margin = 10;
+const margin = moderateScale(10);
 width /= 3;
 width -= (margin * 2);
 const padding = 5;
 const contentWidth = width - (2 * padding);
+const crossComponentSize = contentWidth * (3 / 10);
 
 class ImageSelector extends Component {
     state = {
@@ -78,38 +81,50 @@ class ImageSelector extends Component {
     render() {
         const { uri } = this.state;
         return (
-            <View style={styles.containerStyle}>
+            <View style={[styles.containerStyle, this.props.square ? styles.square : {}]}>
                 {
                     this.state.uri === null ? 
                     <Avatar
                         icon={{ name: 'add-circle-outline', size: width / 3, color: '#fff' }}
                         rounded
-                        overlayContainerStyle={{ backgroundColor: '#e2e2e2', borderRadius: contentWidth / 2 }}
+                        overlayContainerStyle={[
+                            { backgroundColor: '#EEEEEE', borderRadius: contentWidth / 2 },
+                            this.props.square ? styles.square : {}
+                        ]}
                         onPress={this.onImageSelectorPress}
                         containerStyle={styles.AvatarContainerStyle}
                     /> :
                     <Avatar 
                         source={{ uri }}
-                        overlayContainerStyle={{ borderRadius: contentWidth / 2 }}
+                        overlayContainerStyle={[
+                            { borderRadius: contentWidth / 2 },
+                            this.props.square ? styles.square : {}
+                        ]}
                         onPress={this.removeImage}
-                        avatarStyle={{ borderRadius: contentWidth / 2, height: contentWidth, width: contentWidth }}
+                        avatarStyle={[
+                            { borderRadius: contentWidth / 2, height: contentWidth, width: contentWidth },
+                            this.props.square ? styles.square : {}
+                        ]}
                         containerStyle={styles.AvatarContainerStyle}
                     />
                 }
                 {
                     this.state.uri ?
                     <Avatar
-                        icon={{ name: 'x', type: 'feather', color: '#000' }}
-                        rounded small
-                        overlayContainerStyle={{ backgroundColor: '#fff' }}
+                        icon={{ name: 'times', size: crossComponentSize - moderateScale(5), type: 'font-awesome', color: '#fff' }}
+                        overlayContainerStyle={{ 
+                            backgroundColor: 'red', 
+                            borderRadius: crossComponentSize / 2 
+                        }}
                         onPress={this.removeImage}
-                        containerStyle={{ top: 0, right: 0, position: 'absolute' }}
+                        containerStyle={[
+                            styles.crossSignContainerStyle,
+                            this.props.square ? styles.crossSignContainerSquaredStyle : {}
+                        ]}
                     />
                     :
                     <View />
                 }
-                    
-                
             </View>
         );
     }
@@ -149,6 +164,20 @@ const styles = StyleSheet.create({
         height: contentWidth,
         width: contentWidth,
         borderRadius: contentWidth / 2
+    },
+    crossSignContainerStyle: {
+        top: 0, 
+        right: 0, 
+        position: 'absolute',
+        height: crossComponentSize,
+        width: crossComponentSize
+    }, 
+    crossSignContainerSquaredStyle: {
+        top: -crossComponentSize / 4,
+        right: -crossComponentSize / 4,
+    },
+    square: {
+        borderRadius: width / 15
     }
 });
 

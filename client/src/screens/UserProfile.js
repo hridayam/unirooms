@@ -3,7 +3,7 @@ import {
     StyleSheet, View, Text, Alert
 } from 'react-native';
 import {
-    Container, Content, Row, Grid
+    Container, Content, Row, Grid, Button as NbButton, Icon as NbIcon
 } from 'native-base';
 import { Badge, Button, Divider, Icon } from 'react-native-elements';
 
@@ -68,19 +68,29 @@ class UserProfile extends Component {
                     <Content style={[styles.body]}>
                         <View style={{ flexDirection: 'row' }}>
                             <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
-                            <Icon 
-                                name='exit-to-app'
-                                size={32}
-                                style={{ flex: 1 }}
+
+                            <NbButton 
+                                transparent dark
                                 onPress={() => this.displayAlert()}
-                            />
-                            <Icon 
-                                name='account-edit'
-                                type="material-community"
-                                size={32}
-                                style={{ flex: 1 }}
+                                style={{ flex: 0 }}
+                            >
+                                <NbIcon 
+                                    type='MaterialCommunityIcons'
+                                    name='exit-to-app' 
+                                    style={{ fontSize: 32, marginLeft: 0, marginRight: 0 }} 
+                                />
+                            </NbButton>
+                            <NbButton 
+                                transparent dark
                                 onPress={() => this.props.navigation.navigate('EditProfile')}
-                            />
+                                style={{ flex: 0 }}
+                            >
+                                <NbIcon 
+                                    type='MaterialCommunityIcons' 
+                                    name='account-edit' 
+                                    style={{ fontSize: 32, marginLeft: 0, marginRight: 0 }} 
+                                />
+                            </NbButton>
                         </View>
 
                         <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
@@ -119,6 +129,22 @@ class UserProfile extends Component {
         );
     }
 }
+
+/* 
+<Icon 
+    name='exit-to-app'
+    size={32}
+    style={{ flex: 1 }}
+    onPress={() => this.displayAlert()}
+/>
+<Icon 
+    name='account-edit'
+    type='material-community'
+    size={32}
+    style={{ flex: 1 }}
+    onPress={() => this.props.navigation.navigate('EditProfile')}
+/> 
+*/
 
 // <Container style={styles.container}>
 //     <Container styles={styles.carouselContainer}>

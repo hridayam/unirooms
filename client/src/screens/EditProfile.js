@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {
-    Text,
-    View,
-    Dimensions
+    Text, View,
+    StyleSheet
 } from 'react-native';
 import { Header } from 'react-native-elements';
+import { Content, Textarea } from 'native-base'; 
 
-import { ImageSelector } from '../common';
-
-const { width } = Dimensions.get('window');
+import { ImageSelector, scale, verticalScale, moderateScale } from '../common';
 
 class EditProfile extends Component {
     constructor(props) {
@@ -56,16 +54,46 @@ class EditProfile extends Component {
 
     render() {
         return (
-            <View>
+            <Content style={styles.container}>
                 <Header
                     backgroundColor="#fff"
                     leftComponent={<Text style={{ fontWeight: '400', fontSize: 25 }}>Edit Profile</Text>}
                     rightComponent={{ icon: 'x', type: 'feather', size: 25 }}
                 />
                 {this.renderImageSelectors()}
-            </View>
+
+                <Text style={styles.headingStyle}>About me</Text>
+                <Textarea 
+                    rowSpan={5} 
+                    placeholderTextColor='#BDBDBD' 
+                    bordered placeholder="A little about you..." 
+                    style={styles.textAreaStyle}
+                />
+            </Content>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#FAFAFA'
+    },
+    headingStyle: {
+        color: '#BDBDBD',
+        marginLeft: moderateScale(20),
+        marginTop: moderateScale(30),
+        fontSize: moderateScale(15),
+        fontWeight: '400'
+    },
+    textAreaStyle: {
+        color: '#212121',
+        backgroundColor: '#FFFFFF',
+        paddingLeft: moderateScale(20),
+        paddingTop: moderateScale(10),
+        paddingRight: moderateScale(20),
+        fontSize: moderateScale(15),
+        fontWeight: '400'
+    }
+});
 
 export { EditProfile };
