@@ -18,7 +18,7 @@ const images = [
 ];
 
 //TODO: fix caoursel to display image more
-class UserProfile extends Component {
+class UserProfileDetails extends Component {
     constructor(props) {
         super(props);
         this.user = this.props.navigation.state.params;
@@ -235,4 +235,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export { UserProfile };
+export { UserProfileDetails };

@@ -3,27 +3,29 @@ import { createBottomTabNavigator, createStackNavigator,
 	createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
 import {
-	EditProfile,
 	ListingDetails,
 	ListingForm,
-	ListingsView,
+	ListingsCardList,
 	Login,
 	Messages,
 	FriendsList,
 	Register,
 	UserFavorites,
 	UserListings,
-	UserProfile,
+	UserProfileCreateForm1,
+	UserProfileCreateForm2,
+	UserProfileDetails,
+	UserProfileEditForm,
 	Verification,
 	Welcome,
 	Matcher
 } from './screens';
 
 const ListingStack = createStackNavigator({
-	Explore: ListingsView,
+	Explore: ListingsCardList,
 	Form: ListingForm,
 	Details: ListingDetails,
-}, { headerMode: 'none', mode: 'modal' });
+}, { headerMode: 'none' });
 
 const ExploreTopNav = createMaterialTopTabNavigator({
 	Listings: {
@@ -43,12 +45,11 @@ const AuthStack = createStackNavigator({
 });
 
 const ProfileStack = createStackNavigator({
-	UserProfile,
-	EditProfile
-}, {
-	headerMode: 'none',
-	mode: 'modal'
-});
+	CreateForm1: UserProfileCreateForm1,
+	CreateForm2: UserProfileCreateForm2,
+	Profile: UserProfileDetails,
+	EditForm: UserProfileEditForm,
+}, { headerMode: 'none' });
 
 const MessageStack = createStackNavigator({
 	// FriendsList,

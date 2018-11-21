@@ -8,7 +8,7 @@ import { Content, Textarea } from 'native-base';
 
 import { ImageSelector, scale, verticalScale, moderateScale } from '../common';
 
-class EditProfile extends Component {
+class UserProfileEditForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export { EditProfile };
+export { UserProfileEditForm };
