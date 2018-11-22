@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SideSwipe from 'react-native-sideswipe';
 import { StyleSheet, Dimensions } from 'react-native';
 
-import { CarouselImage } from './';
+import { CarouselImage } from './CarouselImage';
 
 const { width } = Dimensions.get('window');
 

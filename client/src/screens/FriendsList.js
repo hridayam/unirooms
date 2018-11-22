@@ -1,127 +1,103 @@
-import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
-import { List, ListItem, SearchBar } from "native-base";
+import React, { Component } from 'react';
+import { 
+    View, FlatList, ActivityIndicator, 
+    ScrollView, StyleSheet, Platform
+} from 'react-native';
+import { 
+    List, ListItem, SearchBar, 
+    Left, Thumbnail, Body, Right, Text 
+} from 'native-base';
+import { connect } from 'react-redux';
+import moment from 'moment';
 
-class FriendsList extends Component {
-  constructor(props) {
-    super(props);
+import { getAllMessages } from '../actions';
 
-    this.state = {
-      loading: false,
-      data: [],
-      page: 1,
-      seed: 1,
-      refreshing: false
-    };
-  }
+class comp extends Component {
+    constructor(props) {
+        super(props);
 
-  componentDidMount() {
-    this.makeRemoteRequest();
-  }
+        this.getMessages();
+        this.state = {
+            loading: true,
+            data: [],
+            page: 1,
+            seed: 1,
+            refreshing: false
+        };
+    }
 
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
+    getMessages = () => {
+        this.props.getAllMessages(() => {
+            this.setState({ loading: false });
         });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
+    }
 
-  handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
+    render() {
+        const items = this.props.messages;
 
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "86%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "14%"
-        }}
-      />
-    );
-  };
-
-  renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme round />;
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
-
-  render() {
-    return (
-      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <ListItem
-              roundAvatar
-              title={`${item.name.first} ${item.name.last}`}
-              subtitle={item.email}
-              avatar={{ uri: item.picture.thumbnail }}
-              containerStyle={{ borderBottomWidth: 0 }}
-            />
-          )}
-          keyExtractor={item => item.email}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          onRefresh={this.handleRefresh}
-          refreshing={this.state.refreshing}
-          onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={50}
-        />
-      </List>
-    );
-  }
+        return (
+            this.state.loading ? 
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size={Platform.OS === 'ios' ? 'large' : 100} />
+            </View> :
+            <ScrollView style={styles.containerStyle}>
+                <List 
+                    dataArray={items}
+                    renderRow={(item) => {
+                        const date = item.thread[item.thread.length - 1].created;
+                        return (
+                            <ListItem 
+                                avatar
+                                onPress={() => {
+                                    const { navigate } = this.props.navigation;
+                                    navigate('Messages', {
+                                        title: `${item.user.firstName} ${item.user.lastName}`,
+                                        item
+                                    });
+                                }}
+                            >
+                                <Left>
+                                    <Thumbnail 
+                                        source={{ 
+                                            uri: 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png' 
+                                        }} 
+                                    />
+                                </Left>
+                                <Body>
+                                    <Text>{item.user.firstName} {item.user.lastName}</Text>
+                                    <Text note>{item.thread[item.thread.length - 1].content}</Text>
+                                </Body>
+                                <Right>
+                                    <Text note>
+                                        {moment(date).format('LTS')}
+                                    </Text>
+                                </Right>
+                            </ListItem>
+                        );   
+                    }}
+                />
+            </ScrollView>
+        );
+    }
 }
+
+const styles = StyleSheet.create({
+    containerStyle: {
+        backgroundColor: '#fff'
+    },
+    loadingContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+    }
+});
+
+const mapStateToProps = (state) => {
+    return {
+        messages: state.messages
+    };
+};
+
+const FriendsList = connect(mapStateToProps, { getAllMessages })(comp);
 
 export { FriendsList };

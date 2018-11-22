@@ -3,12 +3,14 @@ import {
     StyleSheet, View, Text, Alert
 } from 'react-native';
 import {
-    Container, Content, Row, Grid, Button as NbButton, Icon as NbIcon
+    Content, Row, Grid, Button as NbButton, Icon as NbIcon
 } from 'native-base';
-import { Badge, Button, Divider, Icon } from 'react-native-elements';
+import { Badge, Button, Divider } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import { Carousel } from '../common';
 import { app } from '../../firebase-setup';
+import { logoutUser } from '../actions';
 
 const images = [
     { key: '0', src: 'http://www.bistiproofpage.com/wp-content/uploads/2018/04/cute-profile-pics-for-whatsapp-images.png' },
@@ -18,7 +20,7 @@ const images = [
 ];
 
 //TODO: fix caoursel to display image more
-class UserProfile extends Component {
+class comp extends Component {
     constructor(props) {
         super(props);
         this.user = this.props.navigation.state.params;
@@ -37,7 +39,7 @@ class UserProfile extends Component {
                 'Are you sure you want to Log out?',
                 [
                     { text: 'Cancel', style: 'cancel' },
-                    { text: 'OK', onPress: () => app.auth().signOut() },
+                    { text: 'OK', onPress: () => this.props.logoutUser() },
                 ],
                 { cancelable: false }
             )
@@ -234,5 +236,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
 });
+
+const UserProfile = connect(null, { logoutUser })(comp);
 
 export { UserProfile };
