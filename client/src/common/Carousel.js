@@ -7,6 +7,7 @@ import { CarouselImage } from './';
 const { width } = Dimensions.get('window');
 
 class Carousel extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -16,9 +17,9 @@ class Carousel extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ 
+        this.setState({
             images: nextProps.images,
-            currentIndex: 0 
+            currentIndex: 0
         });
     }
 
@@ -42,7 +43,7 @@ class Carousel extends Component {
                         index={itemIndex}
                         currentIndex={currentIndex}
                         animatedValue={animatedValue}
-                    />    
+                    />
                 )}
             />
         );
