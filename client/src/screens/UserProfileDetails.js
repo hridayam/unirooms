@@ -237,6 +237,6 @@ const styles = StyleSheet.create({
     },
 });
 
-const UserProfile = connect(null, { logoutUser })(comp);
+const UserProfileDetails = connect(null, { logoutUser })(comp);
 
-export { UserProfile };
+export { UserProfileDetails };

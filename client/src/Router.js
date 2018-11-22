@@ -9,17 +9,29 @@ import { Platform } from 'react-native';
 
 import TabBarComponent from './components/TabBarComponent';
 import {
-	EditProfile, ListingDetails, ListingForm,
-	ListingsView, Login, Messages, FriendsList,
-	Register, UserFavorites, UserListings, UserProfile,
-	Verification, Welcome, Matcher
+	ListingDetails,
+	ListingForm,
+	ListingsCardList,
+	Login,
+	Messages,
+	FriendsList,
+	Register,
+	UserFavorites,
+	UserListings,
+	UserProfileCreateForm1,
+	UserProfileCreateForm2,
+	UserProfileDetails,
+	UserProfileEditForm,
+	Verification,
+	Welcome,
+	Matcher
 } from './screens';
 
 const ListingStack = createStackNavigator({
-	Explore: ListingsView,
+	Explore: ListingsCardList,
 	Form: ListingForm,
 	Details: ListingDetails,
-}, { headerMode: 'none', mode: 'modal' });
+}, { headerMode: 'none' });
 
 const ExploreTopNav = createMaterialTopTabNavigator({
 	Listings: {
@@ -39,12 +51,11 @@ const AuthStack = createStackNavigator({
 });
 
 const ProfileStack = createStackNavigator({
-	UserProfile,
-	EditProfile
-}, {
-	headerMode: 'none',
-	mode: 'modal'
-});
+	CreateForm1: UserProfileCreateForm1,
+	CreateForm2: UserProfileCreateForm2,
+	Profile: UserProfileDetails,
+	EditForm: UserProfileEditForm,
+}, { headerMode: 'none' });
 
 const MessageStack = createStackNavigator({
 	FriendsList,
