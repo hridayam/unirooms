@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { URL, LOGIN_USER } from './types';
+import { URL, LOGIN_USER, LOGOUT_USER } from './types';
 import { app, db } from '../../firebase-setup'; 
 
 //const db = firebase.firestore(app);
@@ -34,7 +34,10 @@ export const getUserData = async (uid, dispatch) => {
         const user = await usersCollection.doc(uid).get();
         dispatch({
             type: LOGIN_USER,
-            payload: user.data()
+            payload: {
+                id: uid,
+                ...user.data()
+            }
         });
     } catch (err) {
         console.log(err);
@@ -65,4 +68,11 @@ export const verifyUser = async (code, cb) => {
     } catch (err) {
         console.log(err);
     }
+};
+
+export const logoutUser = () => async dispatch => {
+    app.auth().signOut();
+    dispatch({
+        type: LOGOUT_USER
+    });
 };
