@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistery, StyleSheet, Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import { Content, Row, Grid, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
 import { Carousel } from '../common';
+import { Badge, Button, Divider, Icon } from 'react-native-elements';
 import Slick from 'react-native-slick';
 
 
@@ -29,17 +30,29 @@ export default class Matcher extends Component {
             renderItem={item =>
               <Card style={{ elevation: 3}}>
                 <CardItem cardBody>
-                  <Slick style={styles.wrapper, {height: 500}} showsButtons={true} autoplayDirection={false} autoplay={false} loadMinimal={true}>
-                        <View style={styles.slide1}>
-                            <Image style={{ height: 300, flex: 1 }} source='http://www.bistiproofpage.com/wp-content/uploads/2018/04/cute-profile-pics-for-whatsapp-images.png' />
+                  <Slick style={styles.wrapper, {height: 250}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
+                        <View style={styles.slide}>
+                            <Image style={{height: 250, width: 350}} source={require('../resources/d.png')} />
                         </View>
-                        <View style={styles.slide2}>
-                          <Text style={styles.text}>Beautiful</Text>
-                        </View>
-                        <View style={styles.slide3}>
-                          <Text style={styles.text}>And simple</Text>
+                        <View style={styles.slide}>
+                          <Image style={{height: 250, width: 350}} source={require('../resources/p.jpg')} />
                         </View>
                   </Slick>
+                </CardItem>
+                <CardItem style={{ backgroundColor: '#00FFFF' }}>
+                    <Content style={{height: 250}}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
+                        </View>
+
+                        <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
+
+                        <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
+                        <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
+                        <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
+
+                        <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
+                    </Content>
                 </CardItem>
               </Card>
             }
@@ -53,23 +66,11 @@ export default class Matcher extends Component {
 var styles = StyleSheet.create({
   wrapper: {
   },
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB',
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5',
-  },
-  slide3: {
-    flex: 1,
+  slide: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#92BBD9',
+    height: 250
   },
   text: {
     color: '#fff',
