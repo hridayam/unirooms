@@ -17,4 +17,4 @@ firestore.settings(settings);
 
 const db = firestore;
 
-export { app, db };
+export { app, db, firebase };
