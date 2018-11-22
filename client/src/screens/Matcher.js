@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, ScrollView } from 'react-native';
-import { Container, Content, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
-import { Divider } from 'react-native-elements';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import {
+    Container, Content, Row, Grid, Button as NbButton, Icon as NbIcon
+} from 'native-base';
+import { Badge, Button, Divider, Icon } from 'react-native-elements';
 import { Carousel } from '../common';
-import { Rslick } from '../common';
-
-// const cards = [
-//   {
-//     text: 'Card One',
-//     name: 'One',
-//     image: require('../resources/one.jpg'),
-//     imageT: require('../resources/one.jpg'),
-//     imageR: require('../resources/one.jpg'),
-//   }
-// ];
+import Slick from 'react-native-slick';
 
 const images = [
     { key: '0', src: 'http://www.bistiproofpage.com/wp-content/uploads/2018/04/cute-profile-pics-for-whatsapp-images.png' },
@@ -34,12 +31,86 @@ when you swipe right
 export default class Matcher extends Component {
   render() {
     return (
-        <Rslick />
+        <Slick style={styles.wrapper} showsButtons={true} loop={false}>
+          <View style={styles.slide1}>
+            <Carousel images={images} shouldCapture />
+            <Content style={[styles.body]}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
+                </View>
+
+                <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
+
+                <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
+                <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
+                <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
+
+                <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
+            </Content>
+          </View>
+          <View style={styles.slide2}>
+              <Carousel images={images} shouldCapture />
+              <Content style={[styles.body]}>
+                  <View style={{ flexDirection: 'row' }}>
+                      <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
+                  </View>
+
+                  <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
+
+                  <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
+                  <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
+                  <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
+
+                  <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
+              </Content>
+          </View>
+          <View style={styles.slide3}>
+              <Carousel images={images} shouldCapture />
+              <Content style={[styles.body]}>
+                  <View style={{ flexDirection: 'row' }}>
+                      <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
+                  </View>
+
+                  <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
+
+                  <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
+                  <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
+                  <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
+
+                  <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
+              </Content>
+          </View>
+        </Slick>
       );
   }
 }
 
 const styles = StyleSheet.create({
+    wrapper: {
+    },
+    slide1: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#9DD6EB',
+    },
+    slide2: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#9DD6EB',
+    },
+    slide3: {
+   flex: 1,
+   justifyContent: 'center',
+   alignItems: 'center',
+   backgroundColor: '#92BBD9',
+ },
+    text: {
+      color: '#fff',
+      fontSize: 30,
+      fontWeight: 'bold',
+  },
     body: {
         paddingLeft: 10,
         paddingRight: 10
