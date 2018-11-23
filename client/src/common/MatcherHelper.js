@@ -9,7 +9,7 @@ import {
     Container, Content, Row, Grid, Button as NbButton, Icon as NbIcon
 } from 'native-base';
 import { Badge, Button, Divider, Icon } from 'react-native-elements';
-import { Carousel } from '../common';
+import { Carousel } from './Carousel';
 
 const images = [
     { key: '0', src: 'http://www.bistiproofpage.com/wp-content/uploads/2018/04/cute-profile-pics-for-whatsapp-images.png' },
