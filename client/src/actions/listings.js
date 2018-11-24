@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-import { GET_MESSAGES, UPDATE_MESSAGES } from './types';
+import { GET_LISTINGS } from './types';
 import { app, db, firebase } from '../../firebase-setup'; 
 
 const listingsRef = db.collection('listings');
+const usersRef = db.collection('users');
 
 export const createReservation = (data, cb) => async dispatch => {
     try {
@@ -46,3 +47,85 @@ const uploadImage = async (image, i, ref) => {
         console.log(err);
     }
 };
+
+let first = null; 
+let lastVisible = null;
+const pageSize = 2;
+
+export const getReservations = (cb) => async dispatch => {
+    const listings = [];
+    first = listingsRef.orderBy('date', 'desc').limit(pageSize);
+    if (lastVisible) {
+        first = first.startAfter(lastVisible);
+    }
+    
+    try {
+        const documentSnapshots = await first.get();
+        lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+        documentSnapshots.docs.forEach(async (doc, i) => {
+            let data = doc.data();
+            data.date = data.date.toDate();
+            try {
+                const user = await usersRef.doc(data.userId).get();
+                data = {
+                    ...data,
+                    user: {
+                        ...user.data(),
+                        id: data.userId
+                    },
+                    id: doc.id
+                };
+                delete data.userId;
+                listings.push(data);
+                console.log(i);
+                //console.log('last', lastVisible.data(), 'end');
+                if (doc.id === lastVisible.id) {
+                    dispatch({
+                        type: GET_LISTINGS,
+                        payload: listings
+                    });
+                    cb();
+                }
+            } catch (err) {
+                console.log(err); 
+                cb(err);
+            }
+        });
+    } catch (err) {
+        console.log(err); 
+        cb(err); 
+    }
+};
+
+// getPaged = async ({ size, start }) => {
+//     let ref = this.collection.orderBy('timestamp', 'desc').limit(size);
+//     try {
+//       if (start) {
+//         ref = ref.startAfter(start);
+//       }
+
+//       const querySnapshot = await ref.get();
+//       const data = [];
+//       querySnapshot.forEach(function(doc) {
+//         if (doc.exists) {
+//           const post = doc.data() || {};
+
+//           // Reduce the name
+//           const user = post.user || {};
+
+//           const name = user.deviceName;
+//           const reduced = {
+//             key: doc.id,
+//             name: (name || 'Secret Duck').trim(),
+//             ...post,
+//           };
+//           data.push(reduced);
+//         }
+//       });
+
+//       const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+//       return { data, cursor: lastVisible };
+//     } catch ({ message }) {
+//       alert(message);
+//     }
+// };
