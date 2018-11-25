@@ -3,25 +3,35 @@ import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, 
 import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
 import { ImagePicker, Permissions } from 'expo';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
 import 'firebase/firestore';
 import Dialog, { DialogTitle, DialogContent, SlideAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import RNPickerSelect from 'react-native-picker-select';
+import { connect } from 'react-redux';
+
 import { ImageSelector } from '../common';
 
-class UserProfileCreateForm1 extends Component {
+class UserProfileCreateForm1Comp extends Component {
 	constructor(props) {
         super(props);
+        const { 
+            images = [], 
+            firstName = '', 
+            lastName = '', age = '', 
+            gender = '', 
+            ethnicity = '', 
+            academicMajor = null
+        } = this.props.user;
         this.state = {
             slideAnimationDialogFailure: false,
-            uri: [],
-            firstName: '',
-            lastName: '',
-            age: '',
-            female: false,
-            male: false,  
-            ethnicity: null,
+            uri: images,
+            blobs: [],
+            firstName,
+            lastName,
+            age,
+            female: gender === 'female' ? true : false,
+            male: gender === 'male' ? true : false,
+            ethnicity,
             ethnicityItems: [
                 {
                     label: 'Asian',
@@ -60,7 +70,7 @@ class UserProfileCreateForm1 extends Component {
                     value: 'Other',
                 },
             ],
-            academicMajor: null,
+            academicMajor,
             academicMajorItems: [
                 {
                     label: 'Aerospace Engineering',
@@ -312,31 +322,29 @@ class UserProfileCreateForm1 extends Component {
     }
 
     onRemove = (key) => {
-        const { uri } = this.state;
+        const { uri, blobs } = this.state;
         console.log(key, uri.length);
         if (key > uri.length) {
             return;
         }
+        blobs.splice(key, 1);
         uri.splice(key, 1);
-        this.setState({ uri });
+        this.setState({ uri, blobs });
     }
 
-    setImage = (uri) => {
+    setImage = (uri, base64) => {
         const newArray = this.state.uri.concat(uri);
-        this.setState({ uri: newArray });
+        const newBlobArray = this.state.blobs.concat(base64);
+        this.setState({ 
+            uri: newArray,
+            blobs: newBlobArray
+        });
     }
 
     goToUserProfileCreate2() {
     	this.props.navigation.navigate('CreateForm2', { 
-    		image1: this.state.image1,
-    		image2: this.state.image2,
-    		image3: this.state.image3,
-    		image4: this.state.image4,
-    		image5: this.state.image5,
-    		image6: this.state.image6,
-    		image7: this.state.image7,
-    		image8: this.state.image8,
-    		image9: this.state.image9,
+            uri: this.state.uri,
+            blobs: this.state.blobs,
     		firstName: this.state.firstName,
     		lastName: this.state.lastName,
     		male: this.state.male,
@@ -369,6 +377,13 @@ class UserProfileCreateForm1 extends Component {
     }
 
     render() {
+        const { firstName, lastName, age, ethnicity, academicMajor } = this.state;
+
+        if (!this.props.user) {
+            return (
+                <Text>Loading</Text>
+            );
+        }
         return (
 			<Container style={{ flex: 1 }}>
 				<Header style={{ height: 75 }}>
@@ -402,7 +417,8 @@ class UserProfileCreateForm1 extends Component {
 	                        			<Text>     </Text>
 	                        			<MaterialCommunityIcons name="account" size={30} />
 							            <Input
-							            	placeholder='First Name'
+                                            placeholder='First Name'
+                                            value={firstName}
 							            	blurOnSubmit
 							            	returnKeyType='done'
 							            	autoCapitalize='words'
@@ -419,7 +435,8 @@ class UserProfileCreateForm1 extends Component {
 	                        			<Text>     </Text>
 	                        			<MaterialCommunityIcons name="account" size={30} />
 							            <Input
-							            	placeholder='Last Name'
+                                            placeholder='Last Name'
+                                            value={lastName}
 							            	blurOnSubmit
 							            	returnKeyType='done'
 							            	autoCapitalize='words'
@@ -464,7 +481,8 @@ class UserProfileCreateForm1 extends Component {
 	                                	<Text>   </Text>
 	                                	<MaterialCommunityIcons name="cake-variant" size={30} />
 		                                <Input 
-		                                	placeholder='Age'
+                                            placeholder='Age'
+                                            value={age}
 			                                keyboardType='numeric'
 			                                blurOnSubmit
 			                                returnKeyType='done'
@@ -485,7 +503,8 @@ class UserProfileCreateForm1 extends Component {
 	                                placeholder={{
 	                                  label: 'Ethnicity',
 	                                  value: null,
-	                                }}
+                                    }}
+                                    value={ethnicity}
 	                                style={{ ...pickerSelectStyles }}
 	                                items={this.state.ethnicityItems}
 	                                onValueChange={(value) => {
@@ -509,7 +528,8 @@ class UserProfileCreateForm1 extends Component {
 	                                placeholder={{
 	                                  label: 'Academic Major',
 	                                  value: null,
-	                                }}
+                                    }}
+                                    value={academicMajor}
 	                                style={{ ...pickerSelectStyles }}
 	                                items={this.state.academicMajorItems}
 	                                onValueChange={(value) => {
@@ -624,5 +644,13 @@ const pickerSelectStyles = StyleSheet.create({
         textAlign: 'center'
     },
 });
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        user: auth
+    };
+};
+
+const UserProfileCreateForm1 = connect(mapStateToProps)(UserProfileCreateForm1Comp);
 
 export { UserProfileCreateForm1 };

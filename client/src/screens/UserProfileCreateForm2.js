@@ -1,56 +1,97 @@
 import React, { Component } from 'react';
-import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, View, TextInput } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label, Textarea } from 'native-base';
-import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import { Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Container, Content, Header, Left, Body, Right, Title, Button, Form, Textarea } from 'native-base';
+import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Dialog, { DialogTitle, DialogContent, SlideAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import RNPickerSelect from 'react-native-picker-select';
-import { ProfileFormCustomButton } from '../common';
+import { connect } from 'react-redux';
 
-class UserProfileCreateForm2 extends Component {
+import { ProfileFormCustomButton } from '../common';
+import { updateUserData } from '../actions';
+
+class UserProfileCreateForm2Comp extends Component {
 	constructor(props) {
         super(props);
+
+        const { 
+            personality, 
+            lifestyle, 
+            description = '',
+            smoking = 'Didn\'t say',
+            drinking = 'Didn\'t say',
+            drugs = 'Didn\'t say'
+        } = this.props.user;
+
+        const data = {};
+
+        personality.forEach(val => {
+            data[val] = true;
+        });
+
+        lifestyle.forEach(val => {
+            data[val] = true;
+        });
+
+        const {
+            bold = false,
+            cautious = false,
+            creative = false,
+            dutiful = false,
+            easygoing = false,
+            excitable = false,
+            lively = false,
+            playful = false,
+            reserved = false,
+            serious = false,
+            skeptical = false,
+            willful = false,
+            artsAndCrafts = false,
+            boardGames = false,
+            cooking = false,
+            dance = false,
+            exercise = false,
+            music = false,
+            photography = false,
+            reading = false,
+            socializing = false,
+            sports = false,
+            videoGames = false,
+            watchingShows = false,
+        } = data;
+
         this.state = {
             slideAnimationDialogSuccess: false,
             slideAnimationDialogFailure: false,
-            uri: this.props.navigation.state.params.uri,
-            firstName: this.props.navigation.state.params.firstName,
-            lastName: this.props.navigation.state.params.lastName,
-            age: this.props.navigation.state.params.age,
-            female: this.props.navigation.state.params.female,
-            male: this.props.navigation.state.params.male,  
-            ethnicity: this.props.navigation.state.params.ethnicity,
-            academicMajor: this.props.navigation.state.params.academicMajor,
-            bold: false,
-            cautious: false,
-            creative: false,
-            dutiful: false,
-            easygoing: false,
-            excitable: false,
-            lively: false,
-            playful: false,
-            reserved: false,
-            serious: false,
-            skeptical: false,
-            willful: false,
-            artsAndCrafts: false,
-            boardGames: false,
-            cooking: false,
-            dance: false,
-            exercise: false,
-            music: false,
-            photography: false,
-            reading: false,
-            socializing: false,
-            sports: false,
-            videoGames: false,
-            watchingShows: false,
-            userDescription: '',
+            uploadingData: false,
+            bold,
+            cautious,
+            creative,
+            dutiful,
+            easygoing,
+            excitable,
+            lively,
+            playful,
+            reserved,
+            serious,
+            skeptical,
+            willful,
+            artsAndCrafts,
+            boardGames,
+            cooking,
+            dance,
+            exercise,
+            music,
+            photography,
+            reading,
+            socializing,
+            sports,
+            videoGames,
+            watchingShows,
+            userDescription: description,
 
 
-            smoking: "Didn't Say",
+            smoking,
             smokingItems: [
                 {
                     label: 'Yes',
@@ -65,7 +106,7 @@ class UserProfileCreateForm2 extends Component {
                     value: 'No',
                 },
             ],
-            drinking: "Didn't Say",
+            drinking,
             drinkingItems: [
                 {
                     label: 'Often',
@@ -80,7 +121,7 @@ class UserProfileCreateForm2 extends Component {
                     value: 'Not at all',
                 },
             ],
-            drugs: "Didn't Say",
+            drugs,
             drugsItems: [
                 {
                     label: 'Often',
@@ -98,8 +139,87 @@ class UserProfileCreateForm2 extends Component {
         };
     }
 
+    completeUserCreation = () => {
+        const {
+            uri, blobs, firstName, lastName, male, female, age, ethnicity, academicMajor
+        } = this.props;
+        const {
+            bold, cautious, creative, dutiful, easygoing, excitable, lively,
+            playful, reserved, serious, skeptical, willful,
+            artsAndCrafts, boardGames, cooking,
+            dance, exercise, music,
+            photography, reading, socializing, sports,
+            videoGames, watchingShows, userDescription,
+            smoking, drinking, drugs
+        } = this.state;
+
+        const personalitiesData = {
+            bold, cautious, creative, dutiful,
+            easygoing, excitable, lively, playful,
+            reserved, serious, skeptical, willful
+        };
+        const lifestyleData = {
+            artsAndCrafts, boardGames, cooking, dance, exercise, 
+            music, photography, reading, socializing, sports, 
+            videoGames, watchingShows
+        };
+        
+        // creating array of personalities
+        const personality = [];
+        Object.keys(personalitiesData).forEach(key => {
+            if (personalitiesData[key]) {
+                personality.push(key);
+            }
+        });
+
+        // creating array of lifestyle
+        const lifestyle = [];
+        Object.keys(lifestyleData).forEach(key => {
+            if (lifestyleData[key]) {
+                lifestyle.push(key);
+            }
+        });
+
+        const data = {
+            info: {
+                firstName,
+                lastName,
+                gender: male ? 'male' : 'female',
+                age, 
+                ethnicity,
+                academicMajor,
+                personality,
+                lifestyle,
+                description: userDescription,
+                smoking,
+                drinking,
+                drugs
+            },
+            images: blobs,
+            id: this.props.user.id
+        };
+
+        this.setState({ uploadingData: true });
+        this.props.updateUserData(data, (err) => {
+            if (err) {
+                this.setState({ slideAnimationDialogFailure: true });
+                return;
+            }
+            this.setState({ slideAnimationDialogSuccess: true, uploadingData: false });
+        });
+    };
+
     render() {
         const { goBack } = this.props.navigation;
+
+        const {
+            bold, cautious, creative, dutiful,
+            easygoing, excitable, lively, playful, 
+            reserved, serious, skeptical, willful, artsAndCrafts,
+            boardGames, cooking, dance, exercise, music, photography, reading,
+            socializing, sports, videoGames, watchingShows,
+            userDescription, smoking, drinking, drugs
+        } = this.state;
         return (
 			<Container style={{ flex: 1 }}>
 				<Header style={{ height: 75 }}>
@@ -128,46 +248,46 @@ class UserProfileCreateForm2 extends Component {
                             </Row>
                             <Row style={{ paddingBottom: 10 }}>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Bold' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ bold: !this.state.bold })} />
+                                    <ProfileFormCustomButton title='Bold' selected={bold} color='#69409E' fontSize={14} onPress={() => this.setState({ bold: !this.state.bold })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Cautious' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ cautious: !this.state.cautious })} />
+                                    <ProfileFormCustomButton title='Cautious' selected={cautious} color='#69409E' fontSize={14} onPress={() => this.setState({ cautious: !this.state.cautious })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Creative' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ creative: !this.state.creative })} />
-                                </Col>
-                            </Row>
-                             <Row style={{ paddingBottom: 10 }}>
-                                <Col size={33}> 
-                                    <ProfileFormCustomButton title='Dutiful' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ dutiful: !this.state.dutiful })} />
-                                </Col>
-                                <Col size={33}> 
-                                    <ProfileFormCustomButton title='Easygoing' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ easygoing: !this.state.easygoing })} />
-                                </Col>
-                                <Col size={33}> 
-                                    <ProfileFormCustomButton title='Excitable' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ excitable: !this.state.excitable })} />
+                                    <ProfileFormCustomButton title='Creative' selected={creative} color='#69409E' fontSize={14} onPress={() => this.setState({ creative: !this.state.creative })} />
                                 </Col>
                             </Row>
                              <Row style={{ paddingBottom: 10 }}>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Lively' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ lively: !this.state.lively })} />
+                                    <ProfileFormCustomButton title='Dutiful' selected={dutiful} color='#69409E' fontSize={14} onPress={() => this.setState({ dutiful: !this.state.dutiful })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Playful' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ playful: !this.state.playful })} />
+                                    <ProfileFormCustomButton title='Easygoing' selected={easygoing} color='#69409E' fontSize={14} onPress={() => this.setState({ easygoing: !this.state.easygoing })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Reserved' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ reserved: !this.state.reserved })} />
+                                    <ProfileFormCustomButton title='Excitable' selected={excitable} color='#69409E' fontSize={14} onPress={() => this.setState({ excitable: !this.state.excitable })} />
+                                </Col>
+                            </Row>
+                             <Row style={{ paddingBottom: 10 }}>
+                                <Col size={33}> 
+                                    <ProfileFormCustomButton title='Lively' selected={lively} color='#69409E' fontSize={14} onPress={() => this.setState({ lively: !this.state.lively })} />
+                                </Col>
+                                <Col size={33}> 
+                                    <ProfileFormCustomButton title='Playful' selected={playful} color='#69409E' fontSize={14} onPress={() => this.setState({ playful: !this.state.playful })} />
+                                </Col>
+                                <Col size={33}> 
+                                    <ProfileFormCustomButton title='Reserved' selected={reserved} color='#69409E' fontSize={14} onPress={() => this.setState({ reserved: !this.state.reserved })} />
                                 </Col>
                             </Row>
                              <Row>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Serious' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ serious: !this.state.serious })} />
+                                    <ProfileFormCustomButton title='Serious' selected={serious} color='#69409E' fontSize={14} onPress={() => this.setState({ serious: !this.state.serious })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Skeptical' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ skeptical: !this.state.skeptical })} />
+                                    <ProfileFormCustomButton title='Skeptical' selected={skeptical} color='#69409E' fontSize={14} onPress={() => this.setState({ skeptical: !this.state.skeptical })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Willful' selected={false} color='#69409E' fontSize={14} onPress={() => this.setState({ willful: !this.state.willful })} />
+                                    <ProfileFormCustomButton title='Willful' selected={willful} color='#69409E' fontSize={14} onPress={() => this.setState({ willful: !this.state.willful })} />
                                 </Col>
                             </Row>
 
@@ -179,46 +299,46 @@ class UserProfileCreateForm2 extends Component {
 
                              <Row style={{ paddingBottom: 10 }}>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Arts and Crafts' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ artsAndCrafts: !this.state.artsAndCrafts })} />
+                                    <ProfileFormCustomButton title='Arts and Crafts' selected={artsAndCrafts} color='#2C806F' fontSize={14} onPress={() => this.setState({ artsAndCrafts: !this.state.artsAndCrafts })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Board Games' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ boardGames: !this.state.boardGames })} />
+                                    <ProfileFormCustomButton title='Board Games' selected={boardGames} color='#2C806F' fontSize={14} onPress={() => this.setState({ boardGames: !this.state.boardGames })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Cooking' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ cooking: !this.state.cooking })} />
-                                </Col>
-                            </Row>
-                             <Row style={{ paddingBottom: 10 }}>
-                                <Col size={33}> 
-                                    <ProfileFormCustomButton title='Dance' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ dance: !this.state.dance })} />
-                                </Col>
-                                <Col size={33}> 
-                                    <ProfileFormCustomButton title='Exercise' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ exercise: !this.state.exercise })} />
-                                </Col>
-                                <Col size={33}> 
-                                    <ProfileFormCustomButton title='Music' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ music: !this.state.music })} />
+                                    <ProfileFormCustomButton title='Cooking' selected={cooking} color='#2C806F' fontSize={14} onPress={() => this.setState({ cooking: !this.state.cooking })} />
                                 </Col>
                             </Row>
                              <Row style={{ paddingBottom: 10 }}>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Photography' selected={false} color='#2C806F' fontSize={11} onPress={() => this.setState({ photography: !this.state.photography })} />
+                                    <ProfileFormCustomButton title='Dance' selected={dance} color='#2C806F' fontSize={14} onPress={() => this.setState({ dance: !this.state.dance })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Reading' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ reading: !this.state.reading })} />
+                                    <ProfileFormCustomButton title='Exercise' selected={exercise} color='#2C806F' fontSize={14} onPress={() => this.setState({ exercise: !this.state.exercise })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Socializing' selected={false} color='#2C806F' fontSize={12} onPress={() => this.setState({ socializing: !this.state.socializing })} />
+                                    <ProfileFormCustomButton title='Music' selected={music} color='#2C806F' fontSize={14} onPress={() => this.setState({ music: !this.state.music })} />
+                                </Col>
+                            </Row>
+                             <Row style={{ paddingBottom: 10 }}>
+                                <Col size={33}> 
+                                    <ProfileFormCustomButton title='Photography' selected={photography} color='#2C806F' fontSize={11} onPress={() => this.setState({ photography: !this.state.photography })} />
+                                </Col>
+                                <Col size={33}> 
+                                    <ProfileFormCustomButton title='Reading' selected={reading} color='#2C806F' fontSize={14} onPress={() => this.setState({ reading: !this.state.reading })} />
+                                </Col>
+                                <Col size={33}> 
+                                    <ProfileFormCustomButton title='Socializing' selected={socializing} color='#2C806F' fontSize={12} onPress={() => this.setState({ socializing: !this.state.socializing })} />
                                 </Col>
                             </Row>
                              <Row style={{ paddingBottom: 15 }}>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Sports' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ sports: !this.state.sports })} />
+                                    <ProfileFormCustomButton title='Sports' selected={sports} color='#2C806F' fontSize={14} onPress={() => this.setState({ sports: !this.state.sports })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Video Games' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ videoGames: !this.state.videoGames })} />
+                                    <ProfileFormCustomButton title='Video Games' selected={videoGames} color='#2C806F' fontSize={14} onPress={() => this.setState({ videoGames: !this.state.videoGames })} />
                                 </Col>
                                 <Col size={33}> 
-                                    <ProfileFormCustomButton title='Watching Shows' selected={false} color='#2C806F' fontSize={14} onPress={() => this.setState({ watchingShows: !this.state.watchingShows })} />
+                                    <ProfileFormCustomButton title='Watching Shows' selected={watchingShows} color='#2C806F' fontSize={14} onPress={() => this.setState({ watchingShows: !this.state.watchingShows })} />
                                 </Col>
                             </Row>
 
@@ -234,6 +354,7 @@ class UserProfileCreateForm2 extends Component {
                                       label: 'Smoking',
                                       value: null,
                                     }}
+                                    value={smoking}
                                     style={{ ...pickerSelectStyles }}
                                     items={this.state.smokingItems}
                                     onValueChange={(value) => {
@@ -258,6 +379,7 @@ class UserProfileCreateForm2 extends Component {
                                       label: 'Drinking',
                                       value: null,
                                     }}
+                                    value={drinking}
                                     style={{ ...pickerSelectStyles }}
                                     items={this.state.drinkingItems}
                                     onValueChange={(value) => {
@@ -282,6 +404,7 @@ class UserProfileCreateForm2 extends Component {
                                       label: 'Drugs',
                                       value: null,
                                     }}
+                                    value={drugs}
                                     style={{ ...pickerSelectStyles }}
                                     items={this.state.drugsItems}
                                     onValueChange={(value) => {
@@ -309,6 +432,7 @@ class UserProfileCreateForm2 extends Component {
                                         returnKeyType='done'
                                         blurOnSubmit
                                         placeholder="A little bit about you..."
+                                        value={userDescription}
                                         onChangeText={(text) => this.setState({ userDescription: text })}
                                     />
                                 </Col>
@@ -362,12 +486,16 @@ class UserProfileCreateForm2 extends Component {
                                     :
                                     <Button 
                                         block
-                                        onPress={() => this.setState({ slideAnimationDialogSuccess: true })}
-                                        //onPress={() => this.addToDatabase()} Have to add all the user data to the current user
+                                        disabled={this.state.uploadingData ? true : false}
+                                        onPress={() => this.completeUserCreation()} Have to add all the user data to the current user
                                     >
-                                        <Text style={{ color: 'white', fontSize: 22 }} >
-                                          Complete
-                                        </Text>
+                                        {
+                                            this.state.uploadingData ? 
+                                            <ActivityIndicator size='large' /> :
+                                            <Text style={{ color: 'white', fontSize: 22 }} >
+                                                Complete
+                                            </Text>
+                                        }
                                     </Button>
                                   }
                                 </Col>
@@ -425,5 +553,28 @@ const pickerSelectStyles = StyleSheet.create({
         textAlign: 'center'
     },
 });
+
+const mapStateToProps = (state, props) => {
+    const { 
+        uri, blobs, firstName,
+        lastName, male, female,
+        age, ethnicity, academicMajor
+    } = props.navigation.state.params;
+
+    return {
+        uri, 
+        blobs, 
+        firstName, 
+        lastName, 
+        male, 
+        female, 
+        age, 
+        ethnicity, 
+        academicMajor,
+        user: state.auth
+    };
+};
+
+const UserProfileCreateForm2 = connect(mapStateToProps, { updateUserData })(UserProfileCreateForm2Comp);
 
 export { UserProfileCreateForm2 };
