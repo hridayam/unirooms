@@ -22,6 +22,7 @@ class UserProfileCreateForm2 extends Component {
             female: this.props.navigation.state.params.female,
             male: this.props.navigation.state.params.male,  
             ethnicity: this.props.navigation.state.params.ethnicity,
+            religion: this.props.navigation.state.params.religion,
             academicMajor: this.props.navigation.state.params.academicMajor,
             bold: false,
             cautious: false,
