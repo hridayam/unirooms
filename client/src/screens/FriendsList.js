@@ -44,7 +44,7 @@ class comp extends Component {
                 <List 
                     dataArray={items}
                     renderRow={(item) => {
-                        const date = item.thread[item.thread.length - 1].created;
+                        const date = item.thread[0].created;
                         return (
                             <ListItem 
                                 avatar
@@ -65,11 +65,11 @@ class comp extends Component {
                                 </Left>
                                 <Body>
                                     <Text>{item.user.firstName} {item.user.lastName}</Text>
-                                    <Text note>{item.thread[item.thread.length - 1].content}</Text>
+                                    <Text note>{item.thread[0].content}</Text>
                                 </Body>
                                 <Right>
                                     <Text note>
-                                        {moment(date).format('LTS')}
+                                        {moment(date).format('HH[:]mm')}
                                     </Text>
                                 </Right>
                             </ListItem>

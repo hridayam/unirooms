@@ -28,9 +28,6 @@ export const getAllMessages = (cb) => async dispatch => {
             if (change.type === 'modified') {
                 addMessages(ouid, temp, dispatch);
             }
-            if (change.type === 'removed') {
-                console.error('change this method to accept removed data');
-            }
         });
         cb();
     }, (err) => {
@@ -95,9 +92,17 @@ const getUID = () => {
 };
 
 export const sendMessage = async (data) => {
-    messagesRef.doc(data.id).update({
-        thread: firebase.firestore.FieldValue.arrayUnion(data.content),
-        users: data.users
-    })
-    .catch(err => console.log(err));
+    try {
+        const messages = await messagesRef.doc(data.id).get();
+        const threadData = messages.data();
+        threadData.thread.unshift(data.content);
+        messagesRef.doc(data.id).set({
+            thread: threadData.thread,
+            users: threadData.users
+        });
+    } catch (err) {
+        console.log(err);
+    }
 };
+
+//add functionality for new chat here

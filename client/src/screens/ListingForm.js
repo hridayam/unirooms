@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, View } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
 import Dialog, { DialogTitle, DialogContent, SlideAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import RNPickerSelect from 'react-native-picker-select';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { connect } from 'react-redux';
+
 import { ImageSelector } from '../common';
+import { createReservation } from '../actions';
+import { firebase, app } from '../../firebase-setup';
 
 YellowBox.ignoreWarnings(['Warning: TouchableWithoutFeedback']);
-class ListingForm extends Component {
+class comp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             slideAnimationDialogSuccess: false,
             slideAnimationDialogFailure: false,
             uri: [],
+            blobs: [],
             listingTitle: '',
             rentingPrice: '',
             streetAddress: '',
@@ -162,48 +165,56 @@ class ListingForm extends Component {
     }
 
     onRemove = (key) => {
-        const { uri } = this.state;
+        const { uri, blobs } = this.state;
         console.log(key, uri.length);
         if (key > uri.length) {
             return;
         }
+        blobs.splice(key, 1);
         uri.splice(key, 1);
-        this.setState({ uri });
+        this.setState({ uri, blobs });
     }
 
-    setImage = (uri) => {
+    setImage = (uri, base64) => {
         const newArray = this.state.uri.concat(uri);
-        this.setState({ uri: newArray });
+        const newBlobArray = this.state.blobs.concat(base64);
+        this.setState({ 
+            uri: newArray,
+            blobs: newBlobArray
+        });
     }
 
     addToDatabase() {
         const today = new Date();
-        const dateText = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+        const { streetAddressLatitude, streetAddressLongitude } = this.state;
+        //const dateText = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+        //console.log(streetAddressLatitude, streetAddressLongitude);
+        const listingData = { 
+            info: {
+                userId: app.auth().currentUser.uid,
+                date: today,
+                listingTitle: this.state.listingTitle,
+                rentingPrice: this.state.rentingPrice,
+                streetAddress: this.state.streetAddress,
+                listingDescription: this.state.listingDescription,
+                housingType: this.state.housingType,
+                squarefeet: this.state.squarefeet,
+                beds: this.state.beds,
+                baths: this.state.baths,
+                laundry: this.state.laundry,
+                parking: this.state.parking,
+                airConditioning: this.state.airConditioning,
+                pets: this.state.pets,
+                location: new firebase.firestore.GeoPoint(streetAddressLatitude, streetAddressLongitude),
+                images: []
+            },
+            images: this.state.blobs,
+        };
 
-        firebase.firestore().collection('listings').add({
-            userId: this.state.userId,
-            date: dateText,
-            uri: this.state.uri,
-            listingTitle: this.state.listingTitle,
-            rentingPrice: this.state.rentingPrice,
-            streetAddress: this.state.streetAddress,
-            listingDescription: this.state.listingDescription,
-            housingType: this.state.housingType,
-            squarefeet: this.state.squarefeet,
-            beds: this.state.beds,
-            baths: this.state.baths,
-            laundry: this.state.laundry,
-            parking: this.state.parking,
-            airConditioning: this.state.airConditioning,
-            pets: this.state.pets
-        }).then((data) => {
+        this.props.createReservation(listingData, (err, data) => {
+            if (err) this.setState({ slideAnimationDialogFailure: true });
             console.log(`added data = ${data}`);
-            this.setState({
-                slideAnimationDialogSuccess: true,
-            });
-        })
-        .catch((error) => {
-            console.log(`error adding listing document = ${error}`);
+            this.setState({ slideAnimationDialogSuccess: true });
         });
     }
 
@@ -649,5 +660,7 @@ const pickerSelectStyles = StyleSheet.create({
         borderBottomWidth: 1
     },
 });
+
+const ListingForm = connect(null, { createReservation })(comp);
 
 export { ListingForm };
