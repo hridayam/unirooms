@@ -262,7 +262,7 @@ class comp extends Component {
 
                 <Content>
                     <Form>
-                        <Grid>
+                        <Grid style={{ width: '100%' }}>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
                                 <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
                                     Housing Images
