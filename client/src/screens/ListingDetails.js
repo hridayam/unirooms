@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, Image, View, Dimensions, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Thumbnail, Card, CardItem } from 'native-base';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Slick from 'react-native-slick';
 import { MapView } from 'expo';
@@ -12,18 +13,32 @@ const { width } = Dimensions.get('window');
 
 const renderPagination = (index, total, context) => {
   return (
-    <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
-      <Text style={{ color: 'grey' }}>
-        <Text style={{ color: 'white', fontSize: 20 }}>
-            {index + 1}
+    <View 
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 10
+        }}
+    >
+        <Text style={{ color: 'black', fontSize: 18, fontWeight: '500' }}>
+            <Text style={{ color: 'white', fontSize: 24, fontWeight: '500' }}>
+                {index + 1}
+            </Text>
+            /{total}
         </Text>
-        /{total}
-      </Text>
     </View>
   );
 };
 
 class ListingDetailsComp extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        isFavorited: false,
+        scaleAnimationDialog: false
+      };
+    }
+
     renderImages = () => {
         const imagesView = [];
         const { images } = this.props.listing;
@@ -63,7 +78,24 @@ class ListingDetailsComp extends Component {
                     <Body style={{ flex: 1, alignItems: 'center' }}>
                         <Title>Details</Title>
                     </Body>
-                    <Right style={{ flex: 1 }} />
+                    <Right style={{ flex: 1 }}>
+                        {
+                            this.state.isFavorited === false ?
+                                 <Button 
+                                    transparent
+                                    onPress={() => this.setState({ scaleAnimationDialog: true, isFavorited: true })}
+                                >
+                                    <FontAwesome name="heart-o" size={30} />
+                                </Button>
+                            :
+                            <Button 
+                                transparent
+                                onPress={() => this.setState({ isFavorited: false })}
+                            >
+                                <FontAwesome name="heart" size={30} style={{ color: '#cc0000' }} />
+                            </Button>
+                        }
+                    </Right>
                 </Header>
 
                 <Content>
@@ -94,7 +126,7 @@ class ListingDetailsComp extends Component {
 
                         <Card transparent>
                             <CardItem>
-                                <Grid>
+                                <Grid style={{ width: '100%' }}>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                                         <Text 
                                             style={{ 
@@ -108,7 +140,7 @@ class ListingDetailsComp extends Component {
                                         </Text>
                                     </Row>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>               
-                                        <Text note style={{ textAlign: 'center', width: '100%' }}>
+                                        <Text note style={{ textAlign: 'center' }}>
                                             {streetAddress}
                                         </Text>
                                     </Row>
@@ -121,7 +153,7 @@ class ListingDetailsComp extends Component {
                             </CardItem>
 
                             <CardItem>
-                                <Body>
+                                <Body style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Text note style={{ textAlign: 'justify' }}>
                                         {listingDescription}
                                     </Text>
@@ -141,78 +173,86 @@ class ListingDetailsComp extends Component {
                             <CardItem>
                                 <Body>
                                     <Body>
-                                        <Grid>
-                                            <Col>
+                                        <Grid style={{ width: '100%' }}>
+                                            <Col size={50}>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialCommunityIcons name="home-modern" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Type</Text>
                                                         <Text style={{ fontSize: 12 }}>{housingType}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <FontAwesome name="bed" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Beds</Text>
                                                         <Text style={{ fontSize: 12 }}>{beds}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialIcons name="local-laundry-service" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Laundry</Text>
                                                         <Text style={{ fontSize: 12 }}>{laundry}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialCommunityIcons name="air-conditioner" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>A/C</Text>
                                                         <Text style={{ fontSize: 12 }}>{airConditioning}</Text>
                                                     </Col>
                                                 </Row>
                                             </Col>
-                                            <Col>
+                                            <Col size={50}>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <Entypo name="ruler" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>SqFt</Text>
                                                         <Text style={{ fontSize: 12 }}>{squarefeet}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <FontAwesome name="bathtub" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Baths</Text>
                                                         <Text style={{ fontSize: 12 }}>{baths}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialCommunityIcons name="parking" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Parking</Text>
                                                         <Text style={{ fontSize: 12 }}>{parking}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialIcons name="pets" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Pets</Text>
                                                         <Text style={{ fontSize: 12 }}>{pets}</Text>
                                                     </Col>
@@ -257,6 +297,24 @@ class ListingDetailsComp extends Component {
                         </Card>
                     </View>
                 </Content>
+
+                <Dialog
+                    onDismiss={() => {
+                      this.setState({ scaleAnimationDialog: false });
+                    }}
+                    onTouchOutside={() => {
+                      this.setState({ scaleAnimationDialog: false });
+                    }}
+                    visible={this.state.scaleAnimationDialog}
+                    dialogTitle={<DialogTitle title="Added to your Favorites!" />}
+                    dialogAnimation={
+                        new ScaleAnimation({ toValue: 0, animationDuration: 500, useNativeDriver: true })
+                    }
+                >
+                    <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
+                      <MaterialCommunityIcons name="home-heart" style={{ color: '#cc0000' }} size={75} />
+                    </DialogContent>
+                </Dialog>
             </Container>
         );
     }

@@ -141,7 +141,7 @@ class UserProfileCreateForm2Comp extends Component {
 
     completeUserCreation = () => {
         const {
-            uri, blobs, firstName, lastName, male, female, age, ethnicity, academicMajor
+            uri, blobs, firstName, lastName, male, female, age, ethnicity, academicMajor, religion
         } = this.props;
         const {
             bold, cautious, creative, dutiful, easygoing, excitable, lively,
@@ -187,6 +187,7 @@ class UserProfileCreateForm2Comp extends Component {
                 gender: male ? 'male' : 'female',
                 age, 
                 ethnicity,
+                religion,
                 academicMajor,
                 personality,
                 lifestyle,
@@ -558,7 +559,7 @@ const mapStateToProps = (state, props) => {
     const { 
         uri, blobs, firstName,
         lastName, male, female,
-        age, ethnicity, academicMajor
+        age, ethnicity, academicMajor, religion
     } = props.navigation.state.params;
 
     return {
@@ -571,6 +572,7 @@ const mapStateToProps = (state, props) => {
         age, 
         ethnicity, 
         academicMajor,
+        religion,
         user: state.auth
     };
 };

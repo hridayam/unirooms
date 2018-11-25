@@ -19,8 +19,9 @@ class UserProfileCreateForm1Comp extends Component {
             firstName = '', 
             lastName = '', age = '', 
             gender = '', 
-            ethnicity = '', 
-            academicMajor = null
+            ethnicity = null, 
+            academicMajor = null,
+            religion = null
         } = this.props.user;
         this.state = {
             slideAnimationDialogFailure: false,
@@ -64,6 +65,53 @@ class UserProfileCreateForm1Comp extends Component {
                 {
                     label: 'White/Caucasian',
                     value: 'White/Caucasian',
+                },
+                {
+                    label: 'Other',
+                    value: 'Other',
+                },
+            ],
+            religion,
+            religionItems: [
+                {
+                    label: 'Buddhist',
+                    value: 'Buddhist',
+                },
+                {
+                    label: 'Christian',
+                    value: 'Christian',
+                },
+                {
+                    label: 'Catholic',
+                    value: 'Catholic',
+                },
+                {
+                    label: 'Hindu',
+                    value: 'Hindu',
+                },
+                {
+                    label: 'Jewish',
+                    value: 'Jewish',
+                },
+                {
+                    label: 'Muslim',
+                    value: 'Muslim',
+                },
+                {
+                    label: 'Sikh',
+                    value: 'Sikh',
+                },
+                {
+                    label: 'Shinto',
+                    value: 'Shinto',
+                },
+                {
+                    label: 'Spiritual but not religious',
+                    value: 'Spiritual but not religious',
+                },
+                {
+                    label: 'Neither religious nor spiritual',
+                    value: 'Neither religious nor spiritual',
                 },
                 {
                     label: 'Other',
@@ -342,6 +390,7 @@ class UserProfileCreateForm1Comp extends Component {
     }
 
     goToUserProfileCreate2() {
+        console.log(this.state.religion);
     	this.props.navigation.navigate('CreateForm2', { 
             uri: this.state.uri,
             blobs: this.state.blobs,
@@ -351,11 +400,12 @@ class UserProfileCreateForm1Comp extends Component {
     		female: this.state.female,
     		age: this.state.age,
     		ethnicity: this.state.ethnicity,
-    		academicMajor: this.state.academicMajor
+            academicMajor: this.state.academicMajor,
+            religion: this.state.religion
     	});
     }
 
-	renderImageSelectors = () => {
+    renderImageSelectors = () => {
         const rows = [];
         const { uri } = this.state;
 
@@ -377,7 +427,7 @@ class UserProfileCreateForm1Comp extends Component {
     }
 
     render() {
-        const { firstName, lastName, age, ethnicity, academicMajor } = this.state;
+        const { firstName, lastName, age, ethnicity, religion, academicMajor } = this.state;
 
         if (!this.props.user) {
             return (
@@ -385,25 +435,26 @@ class UserProfileCreateForm1Comp extends Component {
             );
         }
         return (
-			<Container style={{ flex: 1 }}>
-				<Header style={{ height: 75 }}>
-					<Left style={{ flex: 1 }} />
+            <Container style={{ flex: 1 }}>
+                <Header style={{ height: 75 }}>
+                    <Left style={{ flex: 1 }} />
                     <Body style={{ flex: 1, alignItems: 'center' }}>
                         <Title>Your Profile</Title>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
+                
                 <Content>
-					<Form>
-						<Grid>
-							<Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-							  <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
-							      Profile Images
-							  </Text>
-							</Row>
-							<Row>
-								{this.renderImageSelectors()}
-							</Row>
+                    <Form>
+                        <Grid style={{ width: '100%' }}>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
+                              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                  Profile Images
+                              </Text>
+                            </Row>
+                            <Row>
+                                {this.renderImageSelectors()}
+                            </Row>
 
 							<Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
 							  <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
@@ -447,152 +498,178 @@ class UserProfileCreateForm1Comp extends Component {
 	                        	<Col size={10} />
 	                        </Row>
                             <Row style={{ paddingBottom: 15 }}>
-                            	<Col size={10} />
-                            	<Col size={35} style={styles.colIcon}>	
-                            		{this.state.male === false || this.state.female === true ? 
-	                            		<Button bordered dark style={styles.genderButton} onPress={() => this.setState({ male: true, female: false })}>
-	                            			<Foundation name="male" size={50} />
-	                            		</Button>
-	                            		:
-	                            		<Button bordered dark style={[styles.genderButton, styles.maleColor]} onPress={() => this.setState({ male: false })}>
-	                            			<Foundation name="male" size={50} color="white" />
-	                            		</Button>
-	                            	}
-                            	</Col>
-                            	<Col size={13} />
-                            	<Col size={35} style={styles.colIcon}>
-                            		{this.state.female === false || this.state.male === true ? 
-	                            		<Button bordered dark style={styles.genderButton} onPress={() => this.setState({ female: true, male: false })}>
-	                            			<Foundation name="female" size={50} />
-	                            		</Button>
-	                            		:
-	                            		<Button bordered dark style={[styles.genderButton, styles.femaleColor]} onPress={() => this.setState({ female: false })}>
-	                            			<Foundation name="female" size={50} color="white" />
-	                            		</Button>
-                            		}
-                            	</Col>
-                            	<Col size={7} />
+                                <Col size={10} />
+                                <Col size={35} style={styles.colIcon}>  
+                                    {this.state.male === false || this.state.female === true ? 
+                                        <Button bordered dark style={styles.genderButton} onPress={() => this.setState({ male: true, female: false })}>
+                                            <Foundation name="male" size={50} />
+                                        </Button>
+                                        :
+                                        <Button bordered dark style={[styles.genderButton, styles.maleColor]} onPress={() => this.setState({ male: false })}>
+                                            <Foundation name="male" size={50} color="white" />
+                                        </Button>
+                                    }
+                                </Col>
+                                <Col size={13} />
+                                <Col size={35} style={styles.colIcon}>
+                                    {this.state.female === false || this.state.male === true ? 
+                                        <Button bordered dark style={styles.genderButton} onPress={() => this.setState({ female: true, male: false })}>
+                                            <Foundation name="female" size={50} />
+                                        </Button>
+                                        :
+                                        <Button bordered dark style={[styles.genderButton, styles.femaleColor]} onPress={() => this.setState({ female: false })}>
+                                            <Foundation name="female" size={50} color="white" />
+                                        </Button>
+                                    }
+                                </Col>
+                                <Col size={7} />
                             </Row>
 
-                            <Row style={{ paddingBottom: 15 }}>
-	                            <Col size={10} />
-	                            <Col size={28} >
-	                                <Item rounded>
-	                                	<Text>   </Text>
-	                                	<MaterialCommunityIcons name="cake-variant" size={30} />
-		                                <Input 
+                            <Row style={{ paddingBottom: 12 }}>
+                                <Col size={10} />
+                                <Col size={28} >
+                                    <Item rounded>
+                                        <Text>   </Text>
+                                        <MaterialCommunityIcons name="cake-variant" size={30} />
+                                        <Input 
                                             placeholder='Age'
                                             value={age}
-			                                keyboardType='numeric'
-			                                blurOnSubmit
-			                                returnKeyType='done'
-			                                textAlign='center'
-			                                maxLength={2}
-			                                marginRight={15}
-			                                onChangeText={(text) => this.setState({ age: text })}
-		                                />
-	                                </Item>
-	                            </Col>
-	                            <Col size={3} />
-	                            <Col size={10} style={styles.colIcon}>
-	                            	<Entypo name="globe" size={30} />
-	                            </Col>
-	                            <Col size={2} />
-	                            <Col size={37} >
-	                              <RNPickerSelect
-	                                placeholder={{
-	                                  label: 'Ethnicity',
-	                                  value: null,
+                                            keyboardType='numeric'
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            textAlign='center'
+                                            maxLength={2}
+                                            marginRight={15}
+                                            onChangeText={(text) => this.setState({ age: text })}
+                                        />
+                                    </Item>
+                                </Col>
+                                <Col size={3} />
+                                <Col size={10} style={styles.colIcon}>
+                                    <Entypo name="globe" size={30} />
+                                </Col>
+                                <Col size={2} />
+                                <Col size={37} >
+                                  <RNPickerSelect
+                                    placeholder={{
+                                      label: 'Ethnicity',
+                                      value: null,
                                     }}
                                     value={ethnicity}
-	                                style={{ ...pickerSelectStyles }}
-	                                items={this.state.ethnicityItems}
-	                                onValueChange={(value) => {
-	                                  this.setState({
-	                                      ethnicity: value,
-	                                  });
-	                                }}
-	                              />
-	                            </Col>
-	                            <Col size={10} />
+                                    style={{ ...pickerSelectStyles }}
+                                    items={this.state.ethnicityItems}
+                                    onValueChange={(value) => {
+                                      this.setState({
+                                          ethnicity: value,
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                                <Col size={10} />
+                            </Row>
+
+                            <Row style={{ paddingBottom: 12 }}>
+                                <Col size={10} />
+                                <Col size={15} style={styles.colIcon}>
+                                   <MaterialCommunityIcons name="church" size={30} />
+                                </Col>
+                                <Col size={2} />
+                                <Col size={63} >
+                                  <RNPickerSelect
+                                    placeholder={{
+                                      label: 'Religion',
+                                      value: null,
+                                    }}
+                                    value={religion}
+                                    style={{ ...pickerSelectStyles }}
+                                    items={this.state.religionItems}
+                                    onValueChange={(value) => {
+                                      this.setState({
+                                          religion: value,
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                                <Col size={10} />
                             </Row>
 
                             <Row>
-                            	<Col size={10} />
-	                            <Col size={15} style={styles.colIcon}>
-	                               <MaterialIcons name="school" size={30} />
-	                            </Col>
-	                            <Col size={2} />
-	                            <Col size={63} >
-	                              <RNPickerSelect
-	                                placeholder={{
-	                                  label: 'Academic Major',
-	                                  value: null,
+                                <Col size={10} />
+                                <Col size={15} style={styles.colIcon}>
+                                   <MaterialIcons name="school" size={30} />
+                                </Col>
+                                <Col size={2} />
+                                <Col size={63} >
+                                  <RNPickerSelect
+                                    placeholder={{
+                                      label: 'Academic Major',
+                                      value: null,
                                     }}
                                     value={academicMajor}
-	                                style={{ ...pickerSelectStyles }}
-	                                items={this.state.academicMajorItems}
-	                                onValueChange={(value) => {
-	                                  this.setState({
-	                                      academicMajor: value,
-	                                  });
-	                                }}
-	                              />
-	                            </Col>
-	                            <Col size={10} />
+                                    style={{ ...pickerSelectStyles }}
+                                    items={this.state.academicMajorItems}
+                                    onValueChange={(value) => {
+                                      this.setState({
+                                          academicMajor: value,
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                                <Col size={10} />
                             </Row>
 
-							<Dialog
-								onDismiss={() => {
-								  this.setState({ slideAnimationDialogFailure: false });
-								}}	
-								onTouchOutside={() => {
-								  this.setState({ slideAnimationDialogFailure: false });
-								}}
-								visible={this.state.slideAnimationDialogFailure}
-								dialogTitle={<DialogTitle title="       Please fill in all forms!
-								At least one image is required." />}
-								dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
-							>
-								<DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
-								  <MaterialCommunityIcons name="alert-circle-outline" style={{ color: '#cc0000' }} size={75} />
-								</DialogContent>
-							</Dialog>
+                            <Dialog
+                                onDismiss={() => {
+                                  this.setState({ slideAnimationDialogFailure: false });
+                                }}  
+                                onTouchOutside={() => {
+                                  this.setState({ slideAnimationDialogFailure: false });
+                                }}
+                                visible={this.state.slideAnimationDialogFailure}
+                                dialogTitle={<DialogTitle title="       Please fill in all forms!
+                                At least one image is required." />}
+                                dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
+                            >
+                                <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
+                                  <MaterialCommunityIcons name="alert-circle-outline" style={{ color: '#cc0000' }} size={75} />
+                                </DialogContent>
+                            </Dialog>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 30 }}>
-                            	<Col size={100} style={{ paddingHorizontal: 20 }}>
-                            		{this.state.uri.length === 0 ||
-                            		 this.state.firstName === '' ||
-                            		 this.state.lastName === '' ||
-                            		 ((this.state.male === false) && (this.state.female === false)) ||
-                            		 this.state.age === '' ||
-                            		 this.state.ethnicity === null ||
-                            		 this.state.academicMajor === null ?
-	                            		<Button 
-		                                    block
-		                                    style={{ flexDirection: 'row' }}
-		                                    onPress={() => this.setState({ slideAnimationDialogFailure: true })}
-		                                >
-		                                	<Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
-		                                		Continue
-		                                	</Text>
-		                                    <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
-		                                </Button>
-		                               	:
-		                               	<Button 
-		                                    block
-		                                    style={{ flexDirection: 'row' }}
-		                                    onPress={() => this.goToUserProfileCreate2()}
-	                                	>
-		                                	<Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
-		                                		Continue
-		                                	</Text>
-		                                    <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
-		                                </Button>
-                            		}
-	                            </Col>
+                                <Col size={100} style={{ paddingHorizontal: 20 }}>
+                                    {this.state.uri.length === 0 ||
+                                     this.state.firstName === '' ||
+                                     this.state.lastName === '' ||
+                                     ((this.state.male === false) && (this.state.female === false)) ||
+                                     this.state.age === '' ||
+                                     this.state.ethnicity === null ||
+                                     this.state.religion === null ||
+                                     this.state.academicMajor === null ?
+                                        <Button 
+                                            block
+                                            style={{ flexDirection: 'row' }}
+                                            onPress={() => this.setState({ slideAnimationDialogFailure: true })}
+                                        >
+                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                                Continue
+                                            </Text>
+                                            <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
+                                        </Button>
+                                        :
+                                        <Button 
+                                            block
+                                            style={{ flexDirection: 'row' }}
+                                            onPress={() => this.goToUserProfileCreate2()}
+                                        >
+                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                                Continue
+                                            </Text>
+                                            <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
+                                        </Button>
+                                    }
+                                </Col>
                             </Row>
-						</Grid>
-					</Form>
+                        </Grid>
+                    </Form>
                 </Content>
             </Container>
         );

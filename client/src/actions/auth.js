@@ -79,7 +79,7 @@ export const logoutUser = () => async dispatch => {
 
 export const updateUserData = (data, cb) => async dispatch => {
     const { id } = data;
-    const images = [];
+    let images = [];
     try {
         data.images.forEach(async (image, i) => {
             const uri = await uploadImage(image, i, id, cb);
@@ -87,6 +87,8 @@ export const updateUserData = (data, cb) => async dispatch => {
             if (i === data.images.length - 1) {
                 try {
                     const ref = await usersCollection.doc(id).get();
+                    images = images.concat(ref.data().images);
+                    images = images.slice(0, 6);
                     const newData = {
                         ...ref.data(),
                         ...data.info,

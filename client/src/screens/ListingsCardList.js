@@ -86,7 +86,7 @@ class ListingsCardListComp extends Component {
                         <Button 
                             transparent
                             style={{ marginLeft: 3 }}
-                            onPress={() => this.props.navigation.navigate({ routeName: 'Form', transitionStyle: 'inverted' })}
+                            onPress={() => this.props.navigation.navigate({ routeName: 'Form' })}
                         >
                             <MaterialIcons name="library-add" size={30} />
                         </Button>
