@@ -3,7 +3,7 @@ const functions = require('firebase-functions');
 const sgMail = require('@sendgrid/mail');
 
 
-const SENDGRID_API_KEY = functions.config().sendgrid.key;
+const SENDGRID_API_KEY = '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';
 sgMail.setApiKey(SENDGRID_API_KEY);
 
 module.exports = function(req, res) {

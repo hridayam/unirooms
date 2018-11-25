@@ -17,8 +17,11 @@ const contentWidth = width - (2 * padding);
 const crossComponentSize = contentWidth * (3 / 10);
 
 class ImageSelector extends Component {
-    state = {
-        uri: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            uri: props.uri ? props.uri : null
+        };
     }
 
     componentWillReceiveProps(nextProps) {

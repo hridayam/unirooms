@@ -51,8 +51,11 @@ const AuthStack = createStackNavigator({
 });
 
 const ProfileStack = createStackNavigator({
+	// CreateForm1: UserProfileCreateForm1,
+	// CreateForm2: UserProfileCreateForm2,
 	Profile: UserProfileDetails,
-	EditForm: UserProfileEditForm,
+	CreateForm1: UserProfileCreateForm1,
+	CreateForm2: UserProfileCreateForm2,
 }, { headerMode: 'none' });
 
 const MessageStack = createStackNavigator({

@@ -1,7 +1,5 @@
-import axios from 'axios';
-
 import { GET_LISTINGS } from './types';
-import { app, db, firebase } from '../../firebase-setup'; 
+import { db, firebase } from '../../firebase-setup'; 
 
 const listingsRef = db.collection('listings');
 const usersRef = db.collection('users');
@@ -50,7 +48,7 @@ const uploadImage = async (image, i, ref) => {
 
 let first = null; 
 let lastVisible = null;
-const pageSize = 2;
+const pageSize = 5;
 
 export const getReservations = (cb) => async dispatch => {
     const listings = [];
