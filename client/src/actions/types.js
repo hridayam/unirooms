@@ -10,4 +10,10 @@ export const UPDATE_MESSAGES = 'update_messages';
 // listings
 export const GET_LISTINGS = 'get_listings';
 
+// get user matches
+export const MATCHES = 'get_matches';
+// get user right swipes
+export const RIGHT_SWIPE = 'get_like';
+export const LEFT_SWIPE = 'get_dislike';
+
 export const URL = 'https://us-central1-uniroom-project.cloudfunctions.net/';

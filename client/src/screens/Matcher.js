@@ -9,11 +9,34 @@ import { app } from '../../firebase-setup';
 import { addLike, addDisLike } from '../actions/matcherConnect.js';
 import { connect } from 'react-redux';
 
+// Display data
+// update the data on swipe
+
+//Update matches on database
+// send user id
+// retrieve user id's and run the algorithm
+
+
+// once the swipe happens, update the user information
+//figure out how to update the image
+// update this data in the card
 const cards = [
   {
-    text: 'Card One',
-    name: 'One'
-  }
+    otherUser: 'name 1',
+    uID: 'A',
+    age: 12,
+    major: 'Comp science',
+    description: 'this is a sample of what a student can write about in their description. This can be as long as possible.',
+    image: 'source it'
+},
+{
+    otherUser: 'name 2',
+    uID: 'B',
+    age: 16,
+    major: 'Comp science',
+    description: 'this is a sample of what a student can write about in their description. This can be as long as possible.',
+    image: 'source it'
+}
 ];
 
 const images = [
@@ -24,45 +47,56 @@ const images = [
 ];
 
 export default class Matcher extends Component {
+
+
+    onRightSwipe(id) {
+        const { user, otherUser } = this.props;
+        addLike(id, uid);
+}
+
+    onLeftSwipe(dislikes = []) {
+        const { user, otherUser } = this.props;
+        addDisLike(id, uid);
+}
+
   render() {
     return (
       <Container>
         <View>
-                        <DeckSwiper
-                                ref={(c) => this._deckSwiper = c}
-                                dataSource={cards}
-                                onSwipeRight={() => console.log("print right!!!!!!!!!!!!!!!!!")}
-                                onSwipeLeft={() => console.log("print left!!!!!!!!!!!!!!!!!")}
-                                renderItem={item =>
-                                <Card style={{ elevation: 3}}>
-                                  <CardItem cardBody>
-                                    <Slick style={styles.wrapper, {height: 250}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
-                                          <View style={styles.slide}>
-                                              <Image style={{height: 250, width: 350}} source={require('../resources/d.png')} />
-                                          </View>
-                                          <View style={styles.slide}>
-                                            <Image style={{height: 250, width: 350}} source={require('../resources/p.jpg')} />
-                                          </View>
-                                    </Slick>
-                                  </CardItem>
-                                  <CardItem style={{ backgroundColor: '#00FFFF' }}>
-                                      <Content style={{height: 250}}>
-                                          <View style={{ flexDirection: 'row' }}>
-                                              <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
-                                          </View>
+        <DeckSwiper
+                ref={(c) => this._deckSwiper = c}
+                dataSource={cards}
+                onSwipeRight={(otherUserID) => this.onRightSwipe(otherUserID)}
+                onSwipeLeft={(otherUserID) => this.onLeftSwipe(otherUserID)}
+                renderItem={item =>
+                <Card style={{ elevation: 3}}>
+                  <CardItem cardBody>
+                    <Slick style={styles.wrapper, {height: 250}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
+                          <View style={styles.slide}>
+                              // this image needs to be updated
+                              <Image style={{height: 250, width: 350}} source={require('../resources/d.png')} />
+                          </View>
+                          <View style={styles.slide}>
+                            <Image style={{height: 250, width: 350}} source={require('../resources/p.jpg')} />
+                          </View>
+                    </Slick>
+                  </CardItem>
+                  <CardItem style={{ backgroundColor: '#00FFFF' }}>
+                      <Content style={{height: 250}}>
+                          <View style={{ flexDirection: 'row' }}>
+                              <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>{item.otherUser}</Text>
+                          </View>
 
-                                          <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
+                          <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
 
-                                          <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
-                                          <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
-                                          <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
-
-                                          <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
-                                      </Content>
-                                  </CardItem>
-                                </Card>
-                                }
-                                />
+                          <Text style={styles.descriptionText}>{item.age}</Text>
+                          <Text style={styles.descriptionText}>{item.major}</Text>
+                          <Text style={styles.descriptionText}>{item.description}</Text>
+                      </Content>
+                  </CardItem>
+                </Card>
+                }
+            />
         </View>
       </Container>
     );
