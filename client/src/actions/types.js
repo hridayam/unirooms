@@ -10,9 +10,9 @@ export const UPDATE_MESSAGES = 'update_messages';
 // listings
 export const GET_LISTINGS = 'get_listings';
 
-// get user matches
+//matcher
+export const GET_MATCHER_USERS = 'get_matcher_users';
 export const MATCHES = 'get_matches';
-// get user right swipes
 export const RIGHT_SWIPE = 'get_like';
 export const LEFT_SWIPE = 'get_dislike';
 
