@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator,
-	createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { 
+	createStackNavigator, createTabNavigator,
+	createSwitchNavigator, createMaterialTopTabNavigator 
+} from 'react-navigation';
+import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import { Icon } from 'native-base';
+import { Platform } from 'react-native';
+
+import TabBarComponent from './components/TabBarComponent';
 import {
 	ListingDetails,
 	ListingForm,
@@ -45,14 +51,15 @@ const AuthStack = createStackNavigator({
 });
 
 const ProfileStack = createStackNavigator({
+	// CreateForm1: UserProfileCreateForm1,
+	// CreateForm2: UserProfileCreateForm2,
+	Profile: UserProfileDetails,
 	CreateForm1: UserProfileCreateForm1,
 	CreateForm2: UserProfileCreateForm2,
-	Profile: UserProfileDetails,
-	EditForm: UserProfileEditForm,
 }, { headerMode: 'none' });
 
 const MessageStack = createStackNavigator({
-	// FriendsList,
+	FriendsList,
 	Messages
 });
 
@@ -108,6 +115,7 @@ const MainNavigator = createBottomTabNavigator({
 	navigationOptions: {
 		tabBarVisible: true
 	},
+	tabBarComponent: Platform.OS === 'android' ? TabBarComponent : BottomTabBar,
 	tabBarOptions: {
 		activeTintColor: 'midnightblue',
 		inactiveTintColor: 'grey',

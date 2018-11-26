@@ -40,14 +40,14 @@ class ListingsViewCardComponent extends Component {
 
                 <CardItem bordered>
                     <Body>
-                        <Grid>
+                        <Grid style={{ width: '100%' }}>
                             <Row style={{ justifyContent: 'center', alignItems: 'center' }}>               
-                                <Text style={{ fontSize: 25, fontWeight: '600', textAlign: 'center', width: '100%' }}>
+                                <Text style={{ fontSize: 25, fontWeight: '600', textAlign: 'center' }}>
                                     {title}
                                 </Text>
                             </Row>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>               
-                                <Text note style={{ textAlign: 'center', width: '100%' }}>
+                                <Text note style={{ textAlign: 'center' }}>
                                     {streetAddress}
                                 </Text>
                             </Row>
@@ -56,7 +56,7 @@ class ListingsViewCardComponent extends Component {
                 </CardItem>
 
                 <CardItem footer bordered>
-                    <Grid>
+                    <Grid style={{ width: '100%' }}>
                         <Row>
                             <Col size={25} style={styles.colIcon}>
                                 <Row size={85}>

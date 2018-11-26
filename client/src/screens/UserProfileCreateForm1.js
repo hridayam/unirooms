@@ -3,25 +3,36 @@ import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, 
 import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
 import { ImagePicker, Permissions } from 'expo';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
 import 'firebase/firestore';
 import Dialog, { DialogTitle, DialogContent, SlideAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import RNPickerSelect from 'react-native-picker-select';
+import { connect } from 'react-redux';
+
 import { ImageSelector } from '../common';
 
-class UserProfileCreateForm1 extends Component {
+class UserProfileCreateForm1Comp extends Component {
 	constructor(props) {
         super(props);
+        const { 
+            images = [], 
+            firstName = '', 
+            lastName = '', age = '', 
+            gender = '', 
+            ethnicity = null, 
+            academicMajor = null,
+            religion = null
+        } = this.props.user;
         this.state = {
             slideAnimationDialogFailure: false,
-            uri: [],
-            firstName: '',
-            lastName: '',
-            age: '',
-            female: false,
-            male: false,  
-            ethnicity: null,
+            uri: images,
+            blobs: [],
+            firstName,
+            lastName,
+            age,
+            female: gender === 'female' ? true : false,
+            male: gender === 'male' ? true : false,
+            ethnicity,
             ethnicityItems: [
                 {
                     label: 'Asian',
@@ -60,7 +71,54 @@ class UserProfileCreateForm1 extends Component {
                     value: 'Other',
                 },
             ],
-            academicMajor: null,
+            religion,
+            religionItems: [
+                {
+                    label: 'Buddhist',
+                    value: 'Buddhist',
+                },
+                {
+                    label: 'Christian',
+                    value: 'Christian',
+                },
+                {
+                    label: 'Catholic',
+                    value: 'Catholic',
+                },
+                {
+                    label: 'Hindu',
+                    value: 'Hindu',
+                },
+                {
+                    label: 'Jewish',
+                    value: 'Jewish',
+                },
+                {
+                    label: 'Muslim',
+                    value: 'Muslim',
+                },
+                {
+                    label: 'Sikh',
+                    value: 'Sikh',
+                },
+                {
+                    label: 'Shinto',
+                    value: 'Shinto',
+                },
+                {
+                    label: 'Spiritual but not religious',
+                    value: 'Spiritual but not religious',
+                },
+                {
+                    label: 'Neither religious nor spiritual',
+                    value: 'Neither religious nor spiritual',
+                },
+                {
+                    label: 'Other',
+                    value: 'Other',
+                },
+            ],
+            academicMajor,
             academicMajorItems: [
                 {
                     label: 'Aerospace Engineering',
@@ -312,42 +370,42 @@ class UserProfileCreateForm1 extends Component {
     }
 
     onRemove = (key) => {
-        const { uri } = this.state;
+        const { uri, blobs } = this.state;
         console.log(key, uri.length);
         if (key > uri.length) {
             return;
         }
+        blobs.splice(key, 1);
         uri.splice(key, 1);
-        this.setState({ uri });
+        this.setState({ uri, blobs });
     }
 
-    setImage = (uri) => {
+    setImage = (uri, base64) => {
         const newArray = this.state.uri.concat(uri);
-        this.setState({ uri: newArray });
+        const newBlobArray = this.state.blobs.concat(base64);
+        this.setState({ 
+            uri: newArray,
+            blobs: newBlobArray
+        });
     }
 
     goToUserProfileCreate2() {
+        console.log(this.state.religion);
     	this.props.navigation.navigate('CreateForm2', { 
-    		image1: this.state.image1,
-    		image2: this.state.image2,
-    		image3: this.state.image3,
-    		image4: this.state.image4,
-    		image5: this.state.image5,
-    		image6: this.state.image6,
-    		image7: this.state.image7,
-    		image8: this.state.image8,
-    		image9: this.state.image9,
+            uri: this.state.uri,
+            blobs: this.state.blobs,
     		firstName: this.state.firstName,
     		lastName: this.state.lastName,
     		male: this.state.male,
     		female: this.state.female,
     		age: this.state.age,
     		ethnicity: this.state.ethnicity,
-    		academicMajor: this.state.academicMajor
+            academicMajor: this.state.academicMajor,
+            religion: this.state.religion
     	});
     }
 
-	renderImageSelectors = () => {
+    renderImageSelectors = () => {
         const rows = [];
         const { uri } = this.state;
 
@@ -369,26 +427,34 @@ class UserProfileCreateForm1 extends Component {
     }
 
     render() {
+        const { firstName, lastName, age, ethnicity, religion, academicMajor } = this.state;
+
+        if (!this.props.user) {
+            return (
+                <Text>Loading</Text>
+            );
+        }
         return (
-			<Container style={{ flex: 1 }}>
-				<Header style={{ height: 75 }}>
-					<Left style={{ flex: 1 }} />
+            <Container style={{ flex: 1 }}>
+                <Header style={{ height: 75 }}>
+                    <Left style={{ flex: 1 }} />
                     <Body style={{ flex: 1, alignItems: 'center' }}>
                         <Title>Your Profile</Title>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
+                
                 <Content>
-					<Form>
-						<Grid>
-							<Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-							  <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
-							      Profile Images
-							  </Text>
-							</Row>
-							<Row>
-								{this.renderImageSelectors()}
-							</Row>
+                    <Form>
+                        <Grid style={{ width: '100%' }}>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
+                              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                  Profile Images
+                              </Text>
+                            </Row>
+                            <Row>
+                                {this.renderImageSelectors()}
+                            </Row>
 
 							<Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
 							  <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
@@ -402,7 +468,8 @@ class UserProfileCreateForm1 extends Component {
 	                        			<Text>     </Text>
 	                        			<MaterialCommunityIcons name="account" size={30} />
 							            <Input
-							            	placeholder='First Name'
+                                            placeholder='First Name'
+                                            value={firstName}
 							            	blurOnSubmit
 							            	returnKeyType='done'
 							            	autoCapitalize='words'
@@ -419,7 +486,8 @@ class UserProfileCreateForm1 extends Component {
 	                        			<Text>     </Text>
 	                        			<MaterialCommunityIcons name="account" size={30} />
 							            <Input
-							            	placeholder='Last Name'
+                                            placeholder='Last Name'
+                                            value={lastName}
 							            	blurOnSubmit
 							            	returnKeyType='done'
 							            	autoCapitalize='words'
@@ -430,149 +498,178 @@ class UserProfileCreateForm1 extends Component {
 	                        	<Col size={10} />
 	                        </Row>
                             <Row style={{ paddingBottom: 15 }}>
-                            	<Col size={10} />
-                            	<Col size={35} style={styles.colIcon}>	
-                            		{this.state.male === false || this.state.female === true ? 
-	                            		<Button bordered dark style={styles.genderButton} onPress={() => this.setState({ male: true, female: false })}>
-	                            			<Foundation name="male" size={50} />
-	                            		</Button>
-	                            		:
-	                            		<Button bordered dark style={[styles.genderButton, styles.maleColor]} onPress={() => this.setState({ male: false })}>
-	                            			<Foundation name="male" size={50} color="white" />
-	                            		</Button>
-	                            	}
-                            	</Col>
-                            	<Col size={13} />
-                            	<Col size={35} style={styles.colIcon}>
-                            		{this.state.female === false || this.state.male === true ? 
-	                            		<Button bordered dark style={styles.genderButton} onPress={() => this.setState({ female: true, male: false })}>
-	                            			<Foundation name="female" size={50} />
-	                            		</Button>
-	                            		:
-	                            		<Button bordered dark style={[styles.genderButton, styles.femaleColor]} onPress={() => this.setState({ female: false })}>
-	                            			<Foundation name="female" size={50} color="white" />
-	                            		</Button>
-                            		}
-                            	</Col>
-                            	<Col size={7} />
+                                <Col size={10} />
+                                <Col size={35} style={styles.colIcon}>  
+                                    {this.state.male === false || this.state.female === true ? 
+                                        <Button bordered dark style={styles.genderButton} onPress={() => this.setState({ male: true, female: false })}>
+                                            <Foundation name="male" size={50} />
+                                        </Button>
+                                        :
+                                        <Button bordered dark style={[styles.genderButton, styles.maleColor]} onPress={() => this.setState({ male: false })}>
+                                            <Foundation name="male" size={50} color="white" />
+                                        </Button>
+                                    }
+                                </Col>
+                                <Col size={13} />
+                                <Col size={35} style={styles.colIcon}>
+                                    {this.state.female === false || this.state.male === true ? 
+                                        <Button bordered dark style={styles.genderButton} onPress={() => this.setState({ female: true, male: false })}>
+                                            <Foundation name="female" size={50} />
+                                        </Button>
+                                        :
+                                        <Button bordered dark style={[styles.genderButton, styles.femaleColor]} onPress={() => this.setState({ female: false })}>
+                                            <Foundation name="female" size={50} color="white" />
+                                        </Button>
+                                    }
+                                </Col>
+                                <Col size={7} />
                             </Row>
 
-                            <Row style={{ paddingBottom: 15 }}>
-	                            <Col size={10} />
-	                            <Col size={28} >
-	                                <Item rounded>
-	                                	<Text>   </Text>
-	                                	<MaterialCommunityIcons name="cake-variant" size={30} />
-		                                <Input 
-		                                	placeholder='Age'
-			                                keyboardType='numeric'
-			                                blurOnSubmit
-			                                returnKeyType='done'
-			                                textAlign='center'
-			                                maxLength={2}
-			                                marginRight={15}
-			                                onChangeText={(text) => this.setState({ age: text })}
-		                                />
-	                                </Item>
-	                            </Col>
-	                            <Col size={3} />
-	                            <Col size={10} style={styles.colIcon}>
-	                            	<Entypo name="globe" size={30} />
-	                            </Col>
-	                            <Col size={2} />
-	                            <Col size={37} >
-	                              <RNPickerSelect
-	                                placeholder={{
-	                                  label: 'Ethnicity',
-	                                  value: null,
-	                                }}
-	                                style={{ ...pickerSelectStyles }}
-	                                items={this.state.ethnicityItems}
-	                                onValueChange={(value) => {
-	                                  this.setState({
-	                                      ethnicity: value,
-	                                  });
-	                                }}
-	                              />
-	                            </Col>
-	                            <Col size={10} />
+                            <Row style={{ paddingBottom: 12 }}>
+                                <Col size={10} />
+                                <Col size={28} >
+                                    <Item rounded>
+                                        <Text>   </Text>
+                                        <MaterialCommunityIcons name="cake-variant" size={30} />
+                                        <Input 
+                                            placeholder='Age'
+                                            value={age}
+                                            keyboardType='numeric'
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            textAlign='center'
+                                            maxLength={2}
+                                            marginRight={15}
+                                            onChangeText={(text) => this.setState({ age: text })}
+                                        />
+                                    </Item>
+                                </Col>
+                                <Col size={3} />
+                                <Col size={10} style={styles.colIcon}>
+                                    <Entypo name="globe" size={30} />
+                                </Col>
+                                <Col size={2} />
+                                <Col size={37} >
+                                  <RNPickerSelect
+                                    placeholder={{
+                                      label: 'Ethnicity',
+                                      value: null,
+                                    }}
+                                    value={ethnicity}
+                                    style={{ ...pickerSelectStyles }}
+                                    items={this.state.ethnicityItems}
+                                    onValueChange={(value) => {
+                                      this.setState({
+                                          ethnicity: value,
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                                <Col size={10} />
+                            </Row>
+
+                            <Row style={{ paddingBottom: 12 }}>
+                                <Col size={10} />
+                                <Col size={15} style={styles.colIcon}>
+                                   <MaterialCommunityIcons name="church" size={30} />
+                                </Col>
+                                <Col size={2} />
+                                <Col size={63} >
+                                  <RNPickerSelect
+                                    placeholder={{
+                                      label: 'Religion',
+                                      value: null,
+                                    }}
+                                    value={religion}
+                                    style={{ ...pickerSelectStyles }}
+                                    items={this.state.religionItems}
+                                    onValueChange={(value) => {
+                                      this.setState({
+                                          religion: value,
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                                <Col size={10} />
                             </Row>
 
                             <Row>
-                            	<Col size={10} />
-	                            <Col size={15} style={styles.colIcon}>
-	                               <MaterialIcons name="school" size={30} />
-	                            </Col>
-	                            <Col size={2} />
-	                            <Col size={63} >
-	                              <RNPickerSelect
-	                                placeholder={{
-	                                  label: 'Academic Major',
-	                                  value: null,
-	                                }}
-	                                style={{ ...pickerSelectStyles }}
-	                                items={this.state.academicMajorItems}
-	                                onValueChange={(value) => {
-	                                  this.setState({
-	                                      academicMajor: value,
-	                                  });
-	                                }}
-	                              />
-	                            </Col>
-	                            <Col size={10} />
+                                <Col size={10} />
+                                <Col size={15} style={styles.colIcon}>
+                                   <MaterialIcons name="school" size={30} />
+                                </Col>
+                                <Col size={2} />
+                                <Col size={63} >
+                                  <RNPickerSelect
+                                    placeholder={{
+                                      label: 'Academic Major',
+                                      value: null,
+                                    }}
+                                    value={academicMajor}
+                                    style={{ ...pickerSelectStyles }}
+                                    items={this.state.academicMajorItems}
+                                    onValueChange={(value) => {
+                                      this.setState({
+                                          academicMajor: value,
+                                      });
+                                    }}
+                                  />
+                                </Col>
+                                <Col size={10} />
                             </Row>
 
-							<Dialog
-								onDismiss={() => {
-								  this.setState({ slideAnimationDialogFailure: false });
-								}}	
-								onTouchOutside={() => {
-								  this.setState({ slideAnimationDialogFailure: false });
-								}}
-								visible={this.state.slideAnimationDialogFailure}
-								dialogTitle={<DialogTitle title="       Please fill in all forms!
-								At least one image is required." />}
-								dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
-							>
-								<DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
-								  <MaterialCommunityIcons name="alert-circle-outline" style={{ color: '#cc0000' }} size={75} />
-								</DialogContent>
-							</Dialog>
+                            <Dialog
+                                onDismiss={() => {
+                                  this.setState({ slideAnimationDialogFailure: false });
+                                }}  
+                                onTouchOutside={() => {
+                                  this.setState({ slideAnimationDialogFailure: false });
+                                }}
+                                visible={this.state.slideAnimationDialogFailure}
+                                dialogTitle={<DialogTitle title="       Please fill in all forms!
+                                At least one image is required." />}
+                                dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
+                            >
+                                <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
+                                  <MaterialCommunityIcons name="alert-circle-outline" style={{ color: '#cc0000' }} size={75} />
+                                </DialogContent>
+                            </Dialog>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 30 }}>
-                            	<Col size={100} style={{ paddingHorizontal: 20 }}>
-                            		{this.state.uri.length === 0 ||
-                            		 this.state.firstName === '' ||
-                            		 this.state.lastName === '' ||
-                            		 ((this.state.male === false) && (this.state.female === false)) ||
-                            		 this.state.age === '' ||
-                            		 this.state.ethnicity === null ||
-                            		 this.state.academicMajor === null ?
-	                            		<Button 
-		                                    block
-		                                    style={{ flexDirection: 'row' }}
-		                                    onPress={() => this.setState({ slideAnimationDialogFailure: true })}
-		                                >
-		                                	<Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
-		                                		Continue
-		                                	</Text>
-		                                    <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
-		                                </Button>
-		                               	:
-		                               	<Button 
-		                                    block
-		                                    style={{ flexDirection: 'row' }}
-		                                    onPress={() => this.goToUserProfileCreate2()}
-	                                	>
-		                                	<Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
-		                                		Continue
-		                                	</Text>
-		                                    <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
-		                                </Button>
-                            		}
-	                            </Col>
+                                <Col size={100} style={{ paddingHorizontal: 20 }}>
+                                    {this.state.uri.length === 0 ||
+                                     this.state.firstName === '' ||
+                                     this.state.lastName === '' ||
+                                     ((this.state.male === false) && (this.state.female === false)) ||
+                                     this.state.age === '' ||
+                                     this.state.ethnicity === null ||
+                                     this.state.religion === null ||
+                                     this.state.academicMajor === null ?
+                                        <Button 
+                                            block
+                                            style={{ flexDirection: 'row' }}
+                                            onPress={() => this.setState({ slideAnimationDialogFailure: true })}
+                                        >
+                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                                Continue
+                                            </Text>
+                                            <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
+                                        </Button>
+                                        :
+                                        <Button 
+                                            block
+                                            style={{ flexDirection: 'row' }}
+                                            onPress={() => this.goToUserProfileCreate2()}
+                                        >
+                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                                Continue
+                                            </Text>
+                                            <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
+                                        </Button>
+                                    }
+                                </Col>
                             </Row>
-						</Grid>
-					</Form>
+                        </Grid>
+                    </Form>
                 </Content>
             </Container>
         );
@@ -624,5 +721,13 @@ const pickerSelectStyles = StyleSheet.create({
         textAlign: 'center'
     },
 });
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        user: auth
+    };
+};
+
+const UserProfileCreateForm1 = connect(mapStateToProps)(UserProfileCreateForm1Comp);
 
 export { UserProfileCreateForm1 };

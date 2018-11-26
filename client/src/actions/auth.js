@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { URL, LOGIN_USER } from './types';
-import { app, db } from '../../firebase-setup'; 
+import { URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER } from './types';
+import { app, db, firebase } from '../../firebase-setup'; 
 
 //const db = firebase.firestore(app);
 const usersCollection = db.collection('users');
@@ -34,7 +34,10 @@ export const getUserData = async (uid, dispatch) => {
         const user = await usersCollection.doc(uid).get();
         dispatch({
             type: LOGIN_USER,
-            payload: user.data()
+            payload: {
+                id: uid,
+                ...user.data()
+            }
         });
     } catch (err) {
         console.log(err);
@@ -63,6 +66,73 @@ export const verifyUser = async (code, cb) => {
         await axios.post(`${URL}verifyUser`, data);
         cb(true);
     } catch (err) {
+        console.log(err);
+    }
+};
+
+export const logoutUser = () => async dispatch => {
+    app.auth().signOut();
+    dispatch({
+        type: LOGOUT_USER
+    });
+};
+
+export const updateUserData = (data, cb) => async dispatch => {
+    const { id } = data;
+    let images = [];
+    try {
+        data.images.forEach(async (image, i) => {
+            const uri = await uploadImage(image, i, id, cb);
+            images.push(uri);
+            if (i === data.images.length - 1) {
+                try {
+                    const ref = await usersCollection.doc(id).get();
+                    images = images.concat(ref.data().images);
+                    images = images.slice(0, 6);
+                    const newData = {
+                        ...ref.data(),
+                        ...data.info,
+                        images
+                    };
+                    await usersCollection.doc(id).set(newData);
+                    dispatch({
+                        type: UPDATE_USER,
+                        payload: newData
+                    });
+                    cb();
+                } catch (err) {
+                    console.log(err);
+                    cb(err);
+                }
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        cb(err);
+    }
+};
+
+const uploadImage = async (image, i, id, cb) => {
+    const base64Img = `data:image/jpg;base64,${image}`;
+    const apiUrl = 'https://api.cloudinary.com/v1_1/dvt7vxvkz/image/upload';
+    const data = {
+        file: base64Img,
+        upload_preset: 'unirooms-listings',
+        folder: `users/${id}`,
+    };
+
+    try {
+        let imageData = await fetch(apiUrl, {
+            body: JSON.stringify(data),
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'POST',
+        });
+        imageData = await imageData.json();
+        return imageData.secure_url;
+    } catch (err) {
+        cb(err);
         console.log(err);
     }
 };

@@ -2,28 +2,66 @@ import React, { Component } from 'react';
 import { Text, Image, View, Dimensions, StyleSheet } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Thumbnail, Card, CardItem } from 'native-base';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Slick from 'react-native-slick';
 import { MapView } from 'expo';
+import { connect } from 'react-redux';
+import moment from 'moment';
 
 const { width } = Dimensions.get('window');
 
 const renderPagination = (index, total, context) => {
   return (
-    <View style={{ position: 'absolute', bottom: 10, right: 10 }}>
-      <Text style={{ color: 'grey' }}>
-        <Text style={{ color: 'white', fontSize: 20 }}>
-            {index + 1}
+    <View 
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 10
+        }}
+    >
+        <Text style={{ color: 'black', fontSize: 18, fontWeight: '500' }}>
+            <Text style={{ color: 'white', fontSize: 24, fontWeight: '500' }}>
+                {index + 1}
+            </Text>
+            /{total}
         </Text>
-        /{total}
-      </Text>
     </View>
   );
 };
 
-class ListingDetails extends Component {
+class ListingDetailsComp extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        isFavorited: false,
+        scaleAnimationDialog: false
+      };
+    }
+
+    renderImages = () => {
+        const imagesView = [];
+        const { images } = this.props.listing;
+        images.forEach((image, i) => {
+            imagesView.push(
+                <View key={i} style={styles.slide}>
+                    <Image style={styles.image} source={{ uri: image }} />
+                </View>
+            );
+        });
+        return (imagesView);
+    };
+
     render() {
         const { goBack } = this.props.navigation;
+        const { user, date, listingTitle, 
+            streetAddress, housingType, beds, 
+            baths, rentingPrice, listingDescription, location,
+            parking, pets, squarefeet, laundry, airConditioning
+        } = this.props.listing;
+        const { latitude, longitude } = location;
+        const userName = `${user.firstName} ${user.lastName}`;
+        const displayDate = moment(date).format('MMM D, YYYY');
 
         return (
             <Container style={{ flex: 1 }}>
@@ -40,7 +78,24 @@ class ListingDetails extends Component {
                     <Body style={{ flex: 1, alignItems: 'center' }}>
                         <Title>Details</Title>
                     </Body>
-                    <Right style={{ flex: 1 }} />
+                    <Right style={{ flex: 1 }}>
+                        {
+                            this.state.isFavorited === false ?
+                                 <Button 
+                                    transparent
+                                    onPress={() => this.setState({ scaleAnimationDialog: true, isFavorited: true })}
+                                >
+                                    <FontAwesome name="heart-o" size={30} />
+                                </Button>
+                            :
+                            <Button 
+                                transparent
+                                onPress={() => this.setState({ isFavorited: false })}
+                            >
+                                <FontAwesome name="heart" size={30} style={{ color: '#cc0000' }} />
+                            </Button>
+                        }
+                    </Right>
                 </Header>
 
                 <Content>
@@ -50,8 +105,10 @@ class ListingDetails extends Component {
                                 <Left>
                                     <Thumbnail source={{ uri: 'https://i.kym-cdn.com/entries/icons/medium/000/009/754/PhotogenicGuy.jpg' }} />
                                     <Body>
-                                        <Text style={{ fontSize: 20, paddingBottom: 3, fontWeight: '600' }}>Wade Douglas</Text>
-                                        <Text note>Posted June 19, 2018</Text>
+                                        <Text style={{ fontSize: 20, paddingBottom: 3, fontWeight: '600' }}>
+                                            {userName}
+                                        </Text>
+                                        <Text note>Posted {displayDate}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
@@ -64,52 +121,41 @@ class ListingDetails extends Component {
                             showsButtons
                             loop={false}
                         >
-                            <View style={styles.slide}>
-                                <Image style={styles.image} source={{ uri: 'https://images.craigslist.org/00x0x_bpgidDrSIlE_600x450.jpg' }} />
-                            </View>
-                            <View style={styles.slide}>
-                                <Image style={styles.image} source={{ uri: 'https://cdn.freshome.com/wp-content/uploads/2018/01/living-room-intro.jpg' }} />
-                            </View>
-                            <View style={styles.slide}>
-                                <Image style={styles.image} source={{ uri: 'https://www.thelodgeac.com/-/media/ttc/rch/the-lodge-at-ashford/main-carousel/mobile/ld-deluxeroom-001-1024x576.jpg' }} />
-                            </View>
-                            <View style={styles.slide}>
-                                <Image style={styles.image} source={{ uri: 'https://www.knowwherecoffee.com/wp-content/uploads/2018/07/Modern-Bathroom-and-Toilet-Designs.jpg' }} />
-                            </View>
+                            {this.renderImages()}
                         </Slick>
 
                         <Card transparent>
                             <CardItem>
-                                <Grid>
-                                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>               
-                                        <Text style={{ fontSize: 25, fontWeight: '600', textAlign: 'center', width: '100%' }}>
-                                            Home for Rent in Aptos
+                                <Grid style={{ width: '100%' }}>
+                                    <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text 
+                                            style={{ 
+                                                fontSize: 25, 
+                                                fontWeight: '600', 
+                                                textAlign: 'center', 
+                                                width: '100%' 
+                                            }}
+                                        >
+                                            {listingTitle}
                                         </Text>
                                     </Row>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>               
-                                        <Text note style={{ textAlign: 'center', width: '100%' }}>
-                                            325 Homewood Court Rahway, NJ 07065
+                                        <Text note style={{ textAlign: 'center' }}>
+                                            {streetAddress}
                                         </Text>
                                     </Row>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>
                                         <Text note style={{ fontWeight: '900', textAlign: 'center' }}>
-                                            $1000 Per Month
+                                            {rentingPrice}/Month
                                         </Text>
                                     </Row>
                                 </Grid>
                             </CardItem>
 
                             <CardItem>
-                                <Body>
+                                <Body style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Text note style={{ textAlign: 'justify' }}>
-                                        Elegant yet comfortable, sophisticated and effortless, 
-                                        the achievement of architecture and art reflects the breathtaking 
-                                        natural setting in the exclusive and private, gated community of 
-                                        Seascape Uplands. 4 Bedrooms, 3.5 Bathrooms on a highly coveted 6,970 
-                                        SF lot, offers panoramic views of the shimmering waters of Monterey Bay,
-                                        and an expansive natural preserve. This modern, "green" home is a 
-                                        kaleidoscope of wood, glass, stone and light, a place where function 
-                                        never compromises and creativity never capitulates.
+                                        {listingDescription}
                                     </Text>
                                 </Body>
                             </CardItem>
@@ -127,80 +173,88 @@ class ListingDetails extends Component {
                             <CardItem>
                                 <Body>
                                     <Body>
-                                        <Grid>
-                                            <Col>
+                                        <Grid style={{ width: '100%' }}>
+                                            <Col size={50}>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialCommunityIcons name="home-modern" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Type</Text>
-                                                        <Text style={{ fontSize: 12 }}>Apartment</Text>
+                                                        <Text style={{ fontSize: 12 }}>{housingType}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <FontAwesome name="bed" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Beds</Text>
-                                                        <Text style={{ fontSize: 12 }}>1</Text>
+                                                        <Text style={{ fontSize: 12 }}>{beds}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialIcons name="local-laundry-service" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Laundry</Text>
-                                                        <Text style={{ fontSize: 12 }}>In Unit</Text>
+                                                        <Text style={{ fontSize: 12 }}>{laundry}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialCommunityIcons name="air-conditioner" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>A/C</Text>
-                                                        <Text style={{ fontSize: 12 }}>Yes</Text>
+                                                        <Text style={{ fontSize: 12 }}>{airConditioning}</Text>
                                                     </Col>
                                                 </Row>
                                             </Col>
-                                            <Col>
+                                            <Col size={50}>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <Entypo name="ruler" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>SqFt</Text>
-                                                        <Text style={{ fontSize: 12 }}>2,432</Text>
+                                                        <Text style={{ fontSize: 12 }}>{squarefeet}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <FontAwesome name="bathtub" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Baths</Text>
-                                                        <Text style={{ fontSize: 12 }}>1</Text>
+                                                        <Text style={{ fontSize: 12 }}>{baths}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialCommunityIcons name="parking" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Parking</Text>
-                                                        <Text style={{ fontSize: 12 }}>Attached Garage</Text>
+                                                        <Text style={{ fontSize: 12 }}>{parking}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row>
+                                                    <Col size={10} />
                                                     <Col size={30} style={styles.colIcon}>
                                                         <MaterialIcons name="pets" size={30} />
                                                     </Col>
-                                                    <Col size={70} style={styles.colDetail}>
+                                                    <Col size={60} style={styles.colDetail}>
                                                         <Text style={{ fontSize: 15, fontWeight: '600' }}>Pets</Text>
-                                                        <Text style={{ fontSize: 12 }}>Small Dogs and Cats</Text>
+                                                        <Text style={{ fontSize: 12 }}>{pets}</Text>
                                                     </Col>
                                                 </Row>
 
@@ -224,16 +278,16 @@ class ListingDetails extends Component {
                                 <MapView
                                     style={StyleSheet.absoluteFillObject}
                                     initialRegion={{
-                                        latitude: 37.78825,
-                                        longitude: -122.4324,
+                                        latitude,
+                                        longitude,
                                         latitudeDelta: 0.0922,
                                         longitudeDelta: 0.0421
                                     }}
                                 >
                                     <MapView.Marker
                                         coordinate={{
-                                            latitude: 37.757885,
-                                            longitude: -122.47069
+                                            latitude,
+                                            longitude
                                         }}
                                         title={'Title'}
                                         description={'Street/Description'}
@@ -243,6 +297,24 @@ class ListingDetails extends Component {
                         </Card>
                     </View>
                 </Content>
+
+                <Dialog
+                    onDismiss={() => {
+                      this.setState({ scaleAnimationDialog: false });
+                    }}
+                    onTouchOutside={() => {
+                      this.setState({ scaleAnimationDialog: false });
+                    }}
+                    visible={this.state.scaleAnimationDialog}
+                    dialogTitle={<DialogTitle title="Added to your Favorites!" />}
+                    dialogAnimation={
+                        new ScaleAnimation({ toValue: 0, animationDuration: 500, useNativeDriver: true })
+                    }
+                >
+                    <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
+                      <MaterialCommunityIcons name="home-heart" style={{ color: '#cc0000' }} size={75} />
+                    </DialogContent>
+                </Dialog>
             </Container>
         );
     }
@@ -273,5 +345,14 @@ const styles = StyleSheet.create({
     }
 
 });
+
+const mapStateToProps = (state, props) => {
+    const { id } = props.navigation.state.params;
+    return {
+        listing: state.listings[id]
+    };
+};
+
+const ListingDetails = connect(mapStateToProps)(ListingDetailsComp);
 
 export { ListingDetails };

@@ -17,8 +17,11 @@ const contentWidth = width - (2 * padding);
 const crossComponentSize = contentWidth * (3 / 10);
 
 class ImageSelector extends Component {
-    state = {
-        uri: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            uri: props.uri ? props.uri : null
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,17 +40,18 @@ class ImageSelector extends Component {
     }
 
     openImageSelector = async () => {
-        const { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
+        const { uri, cancelled, base64 } = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: 'Images',
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 1
+            quality: 1,
+            base64: true
         });
         if (cancelled) { 
             return;
         }
         //this.setState({ uri });
-        this.props.setImage(uri);
+        this.props.setImage(uri, base64);
     }
 
     removeImage = () => {
