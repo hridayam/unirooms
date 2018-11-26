@@ -4,7 +4,10 @@ import { Content, Row, Grid, Button as NbButton, Icon as NbIcon, Container, Head
 import { Carousel } from '../common';
 import { Badge, Button, Divider, Icon } from 'react-native-elements';
 import Slick from 'react-native-slick';
-
+import { Swiper } from 'react-native-deck-swiper';
+import { app } from '../../firebase-setup';
+import { addLike, addDisLike } from '../actions/matcherConnect.js';
+import { connect } from 'react-redux';
 
 const cards = [
   {
@@ -25,38 +28,41 @@ export default class Matcher extends Component {
     return (
       <Container>
         <View>
-          <DeckSwiper
-            dataSource={cards}
-            renderItem={item =>
-              <Card style={{ elevation: 3}}>
-                <CardItem cardBody>
-                  <Slick style={styles.wrapper, {height: 250}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
-                        <View style={styles.slide}>
-                            <Image style={{height: 250, width: 350}} source={require('../resources/d.png')} />
-                        </View>
-                        <View style={styles.slide}>
-                          <Image style={{height: 250, width: 350}} source={require('../resources/p.jpg')} />
-                        </View>
-                  </Slick>
-                </CardItem>
-                <CardItem style={{ backgroundColor: '#00FFFF' }}>
-                    <Content style={{height: 250}}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
-                        </View>
+                        <DeckSwiper
+                                ref={(c) => this._deckSwiper = c}
+                                dataSource={cards}
+                                onSwipeRight={() => console.log("print right!!!!!!!!!!!!!!!!!")}
+                                onSwipeLeft={() => console.log("print left!!!!!!!!!!!!!!!!!")}
+                                renderItem={item =>
+                                <Card style={{ elevation: 3}}>
+                                  <CardItem cardBody>
+                                    <Slick style={styles.wrapper, {height: 250}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
+                                          <View style={styles.slide}>
+                                              <Image style={{height: 250, width: 350}} source={require('../resources/d.png')} />
+                                          </View>
+                                          <View style={styles.slide}>
+                                            <Image style={{height: 250, width: 350}} source={require('../resources/p.jpg')} />
+                                          </View>
+                                    </Slick>
+                                  </CardItem>
+                                  <CardItem style={{ backgroundColor: '#00FFFF' }}>
+                                      <Content style={{height: 250}}>
+                                          <View style={{ flexDirection: 'row' }}>
+                                              <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>Michael Scott</Text>
+                                          </View>
 
-                        <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
+                                          <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
 
-                        <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
-                        <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
-                        <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
+                                          <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
+                                          <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
+                                          <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
 
-                        <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
-                    </Content>
-                </CardItem>
-              </Card>
-            }
-          />
+                                          <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
+                                      </Content>
+                                  </CardItem>
+                                </Card>
+                                }
+                                />
         </View>
       </Container>
     );
