@@ -1,33 +1,72 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, View } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
-import { ImagePicker, Permissions } from 'expo';
-import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
+import { Alert } from 'react-native';
+import { Container, Header, Body, Title } from 'native-base';
+import { connect } from 'react-redux';
 
-class UserListings extends Component {
+import ListingCardFlatListScroller from '../components/ListingCardFlatListScroller';
+import { getUserListings } from '../actions';
+
+class UserListingsComp extends Component {
+    state = {
+        loadingData: true
+    }
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    getData = () => {
+        if (!this.state.loadingData) {
+            this.setState({ loadingData: true });
+        }
+        
+        this.props.getUserListings(this.props.user, (err) => {
+            if (err) { 
+                Alert.alert('unable to fetch data');
+            }
+            this.setState({ loadingData: false });
+        });
+    }
+
+    mapListings = () => {
+        const { userListings } = this.props;
+        return _.map(userListings, listing => {
+            return listing;
+        });
+    }
+
     render() {
+        const listings = this.mapListings();
         return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
-                    <Left style={{ flex: 1 }} />
-                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                    <Body style={{ alignItems: 'center' }}>
                         <Title>Your Listings</Title>
                     </Body>
-                    <Right style={{ flex: 1 }}>
-                        <Button 
-                            transparent
-                        >
-                            <MaterialCommunityIcons name="square-edit-outline" size={30} />
-                        </Button>
-                    </Right>
                 </Header>
+
+                <ListingCardFlatListScroller 
+                    listings={listings}
+                    user={this.props.user}
+                    loadingData={false}
+                    getData={() => {}}
+                    navigation={this.props.navigation}
+                    refreshing={this.state.loadingData}
+                    onRefresh={this.getData}
+                />
             </Container>
         );
     }
 }
+
+const matchStateToProps = (state) => {
+    return {
+        userListings: state.userListings,
+        user: state.auth
+    };
+};
+
+const UserListings = connect(matchStateToProps, { getUserListings })(UserListingsComp);
 
 export { UserListings };

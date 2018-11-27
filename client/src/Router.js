@@ -43,6 +43,18 @@ const exploreSwitch = createSwitchNavigator({
 	Roommates: MatcherStack 
 });
 
+const UserFavoritesStack = createStackNavigator({
+	Favorites: UserFavorites,
+	Details: ListingDetails,
+}, { headerMode: 'none' });
+
+const userListingsStack = createStackNavigator({
+	Listings: UserListings,
+	Form: ListingForm,
+	Details: ListingDetails,
+}, { headerMode: 'none' });
+
+
 const AuthStack = createStackNavigator({
 	Welcome,
 	auth: createSwitchNavigator({
@@ -68,7 +80,7 @@ const MessageStack = createStackNavigator({
 
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {
-		screen: UserFavorites,
+		screen: UserFavoritesStack,
 		navigationOptions: {
 			tabBarLabel: 'Favorites',
 			tabBarIcon: ({ tintColor }) => (
@@ -77,7 +89,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	YourListings: {
-		screen: UserListings,
+		screen: userListingsStack,
 		navigationOptions: {
 			tabBarLabel: 'Your Listings',
 			tabBarIcon: ({ tintColor }) => (

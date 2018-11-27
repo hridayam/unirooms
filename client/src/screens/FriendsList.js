@@ -1,6 +1,7 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, FlatList, ActivityIndicator, ScrollView, StyleSheet, Platform } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, List, ListItem, SearchBar, Text, Thumbnail, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
+import { Container, Content, Header, Left, Body, Right, SearchBar, Text, Thumbnail, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
 import { ImagePicker, Permissions } from 'expo';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
@@ -8,15 +9,15 @@ import 'firebase/firestore';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
+import { List, ListItem } from 'react-native-elements';
 import moment from 'moment';
 
 import { getAllMessages } from '../actions';
 
-class comp extends Component {
+class FriendsListComp extends Component {
     constructor(props) {
         super(props);
 
-        this.getMessages();
         this.state = {
             loading: true,
             data: [],
@@ -26,20 +27,61 @@ class comp extends Component {
         };
     }
 
+    componentDidMount() {
+        this.getMessages();
+    }
+
     getMessages = () => {
         this.props.getAllMessages(() => {
             this.setState({ loading: false });
         });
     }
 
-    render() {
-        const items = this.props.messages;
+    keyExtractor = (item, index) => item.id;
 
+    listEmptyComponent = () => <View />
+    
+    mapMessages = () => {
+        const { messages } = this.props;
+        return _.map(messages, message => {
+            return message;
+        });
+    }
+
+    renderRow = ({ item }) => {
+        console.log(item);
+        const date = item.thread[0].created;
+        console.log(date);
         return (
-            this.state.loading ? 
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size={Platform.OS === 'ios' ? 'large' : 100} />
-            </View> :
+            <ListItem
+                roundAvatar
+                title={`${item.user.firstName} ${item.user.lastName}`}
+                subtitle={item.thread[0].content}
+                avatar={{ 
+                    uri: item.user.images ? item.user.images[0] : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6dz9gihQ9k_G92EryW9SlmPr5GmPRZxYF_ouPWLaZ4MiBw7fw' 
+                }}
+                rightTitle={moment(date).format('HH[:]mm')}
+                onPress={() => {
+                    const { navigate } = this.props.navigation;
+                    navigate('Messages', {
+                        title: `${item.user.firstName} ${item.user.lastName}`,
+                        item
+                    });
+                }}
+            />
+        );
+    }
+
+    renderFooter = (loadingData) => {
+        if (loadingData) {
+            return <ActivityIndicator size="large" />;
+        }
+    }
+
+    render() {
+        const messages = this.mapMessages();
+        console.log('messages', messages);
+        return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
                     <Body style={{ alignItems: 'center' }}>
@@ -47,43 +89,15 @@ class comp extends Component {
                     </Body>
                 </Header>
 
-                <ScrollView style={styles.containerStyle}>
-                    <List 
-                        dataArray={items}
-                        renderRow={(item) => {
-                            const date = item.thread[0].created;
-                            return (
-                                <ListItem 
-                                    avatar
-                                    onPress={() => {
-                                        const { navigate } = this.props.navigation;
-                                        navigate('Messages', {
-                                            title: `${item.user.firstName} ${item.user.lastName}`,
-                                            item
-                                        });
-                                    }}
-                                >
-                                    <Left>
-                                        <Thumbnail 
-                                            source={{ 
-                                                uri: 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png' 
-                                            }} 
-                                        />
-                                    </Left>
-                                    <Body>
-                                        <Text>{item.user.firstName} {item.user.lastName}</Text>
-                                        <Text note>{item.thread[0].content}</Text>
-                                    </Body>
-                                    <Right>
-                                        <Text note>
-                                            {moment(date).format('HH[:]mm')}
-                                        </Text>
-                                    </Right>
-                                </ListItem>
-                            );   
-                        }}
+                <List>
+                    <FlatList
+                        data={messages}
+                        renderItem={this.renderRow}
+                        ListEmptyComponent={this.listEmptyComponent}
+                        keyExtractor={this.keyExtractor}
+                        ListFooterComponent={this.renderFooter(this.state.loading)}
                     />
-                </ScrollView>
+                </List>
             </Container>
         );
     }
@@ -101,11 +115,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+    console.log('inside state', state.messages);
     return {
         messages: state.messages
     };
 };
 
-const FriendsList = connect(mapStateToProps, { getAllMessages })(comp);
+const FriendsList = connect(mapStateToProps, { getAllMessages })(FriendsListComp);
 
 export { FriendsList };

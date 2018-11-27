@@ -17,7 +17,10 @@ module.exports = function(req, res) {
 
     const code = Math.floor((Math.random() * 8999 + 1000))
 
-    const newUser = {username, firstName, lastName, email, code};
+    const favorites = [];
+    const liked = [];
+    const disLiked = [];
+    const newUser = {username, firstName, lastName, email, code, favorites, liked, disLiked};
 
     let hasError = false;
     let errors = [];
