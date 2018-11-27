@@ -31,7 +31,7 @@ class UserProfileDetailsComp extends Component {
             academicMajor = 'Computer Engineering',
             personality = [],
             lifestyle = [],
-            description = 'No Description added',
+            description = 'No description added..',
             smoking = 'Didn\'t Say',
             drinking = 'Didn\'t Say',
             drugs = 'Didn\'t Say'
@@ -168,7 +168,7 @@ class UserProfileDetailsComp extends Component {
                             }}
                             onPress={() => {
                                 this.setState({ scaleAnimationDialog: false });
-                                this.props.navigation.navigate('CreateForm1');
+                                this.props.navigation.navigate('ProfileEdit1');
                             }}
                         >
                             <Text style={{ fontSize: 18, fontWeight: '600' }}>

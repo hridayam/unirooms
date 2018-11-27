@@ -21,7 +21,8 @@ import {
 	UserProfileCreateForm1,
 	UserProfileCreateForm2,
 	UserProfileDetails,
-	UserProfileEditForm,
+	UserProfileEditForm1,
+	UserProfileEditForm2,
 	Verification,
 	Welcome,
 	Matcher
@@ -65,14 +66,14 @@ const ProfileStack = createStackNavigator({
 	// CreateForm1: UserProfileCreateForm1,
 	// CreateForm2: UserProfileCreateForm2,
 	Profile: UserProfileDetails,
-	CreateForm1: UserProfileCreateForm1,
-	CreateForm2: UserProfileCreateForm2,
+	ProfileEdit1: UserProfileEditForm1,
+	ProfileEdit2: UserProfileEditForm2,
 }, { headerMode: 'none' });
 
 const MessageStack = createStackNavigator({
 	FriendsList,
 	Messages
-});
+}, { headerMode: 'none' });
 
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {
