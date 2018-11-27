@@ -14,7 +14,7 @@ class UserFavorites extends Component {
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
                     <Body style={{ alignItems: 'center' }}>
-                        <Title>Your Favorite Listings</Title>
+                        <Title>Your Favorites</Title>
                     </Body>
                 </Header>
             </Container>
