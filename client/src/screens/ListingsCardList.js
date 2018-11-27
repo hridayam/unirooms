@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { TouchableOpacity, ActivityIndicator, View, Alert, FlatList, Platform } from 'react-native';
+import { TouchableOpacity, ActivityIndicator, View, Alert, FlatList, Platform, Text } from 'react-native';
 import { Container, Header, Left, Right, Body, Title, Button } from 'native-base';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import SwitchSelector from 'react-native-switch-selector';
 
 //import { ListingsViewCardComponent } from '../common';
 import { getReservations } from '../actions';
@@ -39,23 +40,52 @@ class ListingsCardListComp extends Component {
         });
     }
 
+    switchToRoommates = async () => {
+        await new Promise(resolve => setTimeout(resolve, 360));
+        this.props.navigation.navigate('Roommates');
+    }
+
     render() {
         const listings = this.mapListings();
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75 }}>
+                <Header style={{ height: 120, zIndex: -1 }}>
+                    <Body style={{ flex: 1, alignItems: 'center', marginTop: 45 }}>
+                        <SwitchSelector
+                            initial={0}
+                            onPress={() => this.switchToRoommates()}
+                            textColor={'#1F355D'}
+                            selectedColor={'white'}
+                            buttonColor={'#1F355D'}
+                            borderColor={'#1F355D'}
+                            hasPadding
+                            animationDuration={325}
+                            fontSize={16}
+                            options={[
+                                { label: 'Rooms', value: 'Rooms' },
+                                { label: 'Roommates', value: 'Roommates' }
+                            ]} 
+                        />
+                    </Body>
+                </Header>
+
+                <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
+                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                        <Title>SJSU</Title>
+                    </Body>
+                </Header>
+
+                <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
                     <Left style={{ flex: 1 }}>
                         <Button 
                             transparent
                             style={{ marginLeft: 3 }}
-                            onPress={() => this.props.navigation.navigate({ routeName: 'Form' })}
+                            onPress={() => this.props.navigation.navigate('Form')}
                         >
                             <MaterialIcons name="library-add" size={30} />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>SJSU</Title>
-                    </Body>
+                    <Body style={{ flex: 1 }} />
                     <Right style={{ flex: 1 }}>
                         <Button 
                             transparent
@@ -65,7 +95,8 @@ class ListingsCardListComp extends Component {
                     </Right>
                 </Header>
 
-                <ListingCardFlatListScroller 
+                <ListingCardFlatListScroller
+                    style={{ paddingVertical: 10 }}
                     listings={listings}
                     user={this.props.user}
                     loadingData={this.state.loadingData}

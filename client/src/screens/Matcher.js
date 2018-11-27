@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { AppRegistery, StyleSheet, Image } from 'react-native';
-import { Content, Row, Grid, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
+import { Content, Row, Grid, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Title, Right, Thumbnail, Text, Left, Body } from 'native-base';
 import { Carousel } from '../common';
 import { Badge, Button, Divider, Icon } from 'react-native-elements';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import SwitchSelector from 'react-native-switch-selector';
 import Slick from 'react-native-slick';
 
 
@@ -21,10 +23,43 @@ const images = [
 ];
 
 export default class Matcher extends Component {
+
+  switchToRooms = async () => {
+    await new Promise(resolve => setTimeout(resolve, 360));
+    this.props.navigation.navigate('Rooms');
+  }
+
   render() {
     return (
-      <Container>
+      <Container style={{ flex: 1 }}>
+        <Header style={{ height: 120, zIndex: -1 }}>
+          <Body style={{ flex: 1, alignItems: 'center', marginTop: 45 }}>
+              <SwitchSelector
+                  initial={1}
+                  onPress={() => this.switchToRooms()}
+                  textColor={'#1F355D'}
+                  selectedColor={'white'}
+                  buttonColor={'#1F355D'}
+                  borderColor={'#1F355D'}
+                  hasPadding
+                  animationDuration={325}
+                  fontSize={16}
+                  options={[
+                      { label: 'Rooms', value: 'Rooms' },
+                      { label: 'Roommates', value: 'Roommates' }
+                  ]} 
+              />
+          </Body>
+        </Header>
+
+        <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
+            <Body style={{ flex: 1, alignItems: 'center' }}>
+                <Title>SJSU</Title>
+            </Body>
+        </Header>
+
         <View>
+
           <DeckSwiper
             dataSource={cards}
             renderItem={item =>

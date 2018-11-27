@@ -34,23 +34,26 @@ const ListingStack = createStackNavigator({
 	Details: ListingDetails,
 }, { headerMode: 'none' });
 
-const UserFavoritesLisitngStack = createStackNavigator({
-	favorites: UserFavorites,
+const MatcherStack = createStackNavigator({
+	Matcher
+}, { headerMode: 'none' });
+
+const exploreSwitch = createSwitchNavigator({
+	Rooms: ListingStack,
+	Roommates: MatcherStack 
+});
+
+const UserFavoritesStack = createStackNavigator({
+	Favorites: UserFavorites,
 	Details: ListingDetails,
 }, { headerMode: 'none' });
 
-const UserCreatedLisitngStack = createStackNavigator({
-	userListings: UserListings,
+const userListingsStack = createStackNavigator({
+	Listings: UserListings,
 	Form: ListingForm,
 	Details: ListingDetails,
 }, { headerMode: 'none' });
 
-const ExploreTopNav = createMaterialTopTabNavigator({
-	Listings: {
-		screen: ListingStack,
-	},
-	Matcher
-}, { swipeEnabled: false });
 
 const AuthStack = createStackNavigator({
 	Welcome,
@@ -77,7 +80,7 @@ const MessageStack = createStackNavigator({
 
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {
-		screen: UserFavoritesLisitngStack,
+		screen: UserFavoritesStack,
 		navigationOptions: {
 			tabBarLabel: 'Favorites',
 			tabBarIcon: ({ tintColor }) => (
@@ -86,7 +89,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	YourListings: {
-		screen: UserCreatedLisitngStack,
+		screen: userListingsStack,
 		navigationOptions: {
 			tabBarLabel: 'Your Listings',
 			tabBarIcon: ({ tintColor }) => (
@@ -95,7 +98,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	Explore: {
-		screen: ExploreTopNav,
+		screen: exploreSwitch,
 		navigationOptions: {
 			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => (
@@ -129,10 +132,11 @@ const MainNavigator = createBottomTabNavigator({
 	},
 	tabBarComponent: Platform.OS === 'android' ? TabBarComponent : BottomTabBar,
 	tabBarOptions: {
-		activeTintColor: 'midnightblue',
+		activeTintColor: '#1F355D',
 		inactiveTintColor: 'grey',
 		style: {
-			backgroundColor: 'white'
+			backgroundColor: 'white',
+			height: 55
 		}
 	}
 });
