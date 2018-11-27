@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { 
-    View, FlatList, ActivityIndicator, 
-    ScrollView, StyleSheet, Platform
-} from 'react-native';
-import { 
-    List, ListItem, SearchBar, 
-    Left, Thumbnail, Body, Right, Text 
-} from 'native-base';
+import { View, FlatList, ActivityIndicator, ScrollView, StyleSheet, Platform } from 'react-native';
+import { Container, Content, Header, Left, Body, Right, List, ListItem, SearchBar, Text, Thumbnail, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
+import { ImagePicker, Permissions } from 'expo';
+import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -40,43 +40,51 @@ class comp extends Component {
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size={Platform.OS === 'ios' ? 'large' : 100} />
             </View> :
-            <ScrollView style={styles.containerStyle}>
-                <List 
-                    dataArray={items}
-                    renderRow={(item) => {
-                        const date = item.thread[0].created;
-                        return (
-                            <ListItem 
-                                avatar
-                                onPress={() => {
-                                    const { navigate } = this.props.navigation;
-                                    navigate('Messages', {
-                                        title: `${item.user.firstName} ${item.user.lastName}`,
-                                        item
-                                    });
-                                }}
-                            >
-                                <Left>
-                                    <Thumbnail 
-                                        source={{ 
-                                            uri: 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png' 
-                                        }} 
-                                    />
-                                </Left>
-                                <Body>
-                                    <Text>{item.user.firstName} {item.user.lastName}</Text>
-                                    <Text note>{item.thread[0].content}</Text>
-                                </Body>
-                                <Right>
-                                    <Text note>
-                                        {moment(date).format('HH[:]mm')}
-                                    </Text>
-                                </Right>
-                            </ListItem>
-                        );   
-                    }}
-                />
-            </ScrollView>
+            <Container style={{ flex: 1 }}>
+                <Header style={{ height: 75 }}>
+                    <Body style={{ alignItems: 'center' }}>
+                        <Title>Chat</Title>
+                    </Body>
+                </Header>
+
+                <ScrollView style={styles.containerStyle}>
+                    <List 
+                        dataArray={items}
+                        renderRow={(item) => {
+                            const date = item.thread[0].created;
+                            return (
+                                <ListItem 
+                                    avatar
+                                    onPress={() => {
+                                        const { navigate } = this.props.navigation;
+                                        navigate('Messages', {
+                                            title: `${item.user.firstName} ${item.user.lastName}`,
+                                            item
+                                        });
+                                    }}
+                                >
+                                    <Left>
+                                        <Thumbnail 
+                                            source={{ 
+                                                uri: 'http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png' 
+                                            }} 
+                                        />
+                                    </Left>
+                                    <Body>
+                                        <Text>{item.user.firstName} {item.user.lastName}</Text>
+                                        <Text note>{item.thread[0].content}</Text>
+                                    </Body>
+                                    <Right>
+                                        <Text note>
+                                            {moment(date).format('HH[:]mm')}
+                                        </Text>
+                                    </Right>
+                                </ListItem>
+                            );   
+                        }}
+                    />
+                </ScrollView>
+            </Container>
         );
     }
 }

@@ -62,7 +62,7 @@ const ProfileStack = createStackNavigator({
 const MessageStack = createStackNavigator({
 	FriendsList,
 	Messages
-});
+}, { headerMode: 'none' });
 
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {

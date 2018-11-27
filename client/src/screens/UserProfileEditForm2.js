@@ -234,7 +234,7 @@ class UserProfileEditForm2Comp extends Component {
                         </Button>
                     </Left>
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Your Profile</Title>
+                        <Title>Edit Profile</Title>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
@@ -444,14 +444,14 @@ class UserProfileEditForm2Comp extends Component {
                             <Dialog
                                 onDismiss={() => {
                                   this.setState({ slideAnimationDialogSuccess: false });
-                                  this.props.navigation.navigate('Explore');
+                                  this.props.navigation.navigate('Profile');
                                 }}
                                 onTouchOutside={() => {
                                   this.setState({ slideAnimationDialogSuccess: false });
-                                  this.props.navigation.navigate('Explore');
+                                  this.props.navigation.navigate('Profile');
                                 }}
                                 visible={this.state.slideAnimationDialogSuccess}
-                                dialogTitle={<DialogTitle title="Succesfully created profile!" />}
+                                dialogTitle={<DialogTitle title="Succesfully edited profile!" />}
                                 dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
                                 >
                                 <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
@@ -481,7 +481,7 @@ class UserProfileEditForm2Comp extends Component {
                                         onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                     >
                                         <Text style={{ color: 'white', fontSize: 22 }} >
-                                          Complete
+                                          Done
                                         </Text>
                                     </Button>
                                     :
@@ -494,7 +494,7 @@ class UserProfileEditForm2Comp extends Component {
                                             this.state.uploadingData ? 
                                             <ActivityIndicator size='large' /> :
                                             <Text style={{ color: 'white', fontSize: 22 }} >
-                                                Complete
+                                                Done
                                             </Text>
                                         }
                                     </Button>

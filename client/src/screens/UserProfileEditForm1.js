@@ -427,6 +427,7 @@ class UserProfileEditForm1Comp extends Component {
     }
 
     render() {
+        const { goBack } = this.props.navigation;
         const { firstName, lastName, age, ethnicity, religion, academicMajor } = this.state;
 
         if (!this.props.user) {
@@ -437,9 +438,17 @@ class UserProfileEditForm1Comp extends Component {
         return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
-                    <Left style={{ flex: 1 }} />
+                    <Left style={{ flex: 1 }}>
+                        <Button 
+                            transparent 
+                            style={{ marginLeft: 3 }}
+                            onPress={() => goBack()}
+                        >
+                            <Ionicons name="md-arrow-round-back" size={30} />
+                        </Button>
+                    </Left>
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Your Profile</Title>
+                        <Title>Edit Profile</Title>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
