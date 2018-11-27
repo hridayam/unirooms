@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Dimensions, StyleSheet } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Thumbnail, Card, CardItem } from 'native-base';
+import { Text, Image, View, Dimensions, StyleSheet, Alert } from 'react-native';
+import { Button, Container, Header, Left, Body, Content, Right, Title, Card, CardItem, Thumbnail } from 'native-base';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -8,6 +8,8 @@ import Slick from 'react-native-slick';
 import { MapView } from 'expo';
 import { connect } from 'react-redux';
 import moment from 'moment';
+
+import { addToFavorites, removeFromFavorites } from '../actions';
 
 const { width } = Dimensions.get('window');
 
@@ -34,9 +36,31 @@ class ListingDetailsComp extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        isFavorited: false,
-        scaleAnimationDialog: false
+        isFavorited: this.props.liked,
+        scaleAnimationDialog: false,
+        listing: props.listing
       };
+    }
+
+    addToFavorites = () => {
+        const { id } = this.props;
+        if (this.state.isFavorited) {
+            this.props.removeFromFavorites(id, err => {
+                if (err) {
+                    Alert.alert('unable to remove favorites');
+                    return;
+                }
+                this.setState({ isFavorited: false });
+            });
+        } else {
+            this.props.addToFavorites(id, err => {
+                if (err) {
+                    Alert.alert('unable to add to favorites');
+                    return;
+                }
+                this.setState({ scaleAnimationDialog: true, isFavorited: true });
+            });
+        }
     }
 
     renderImages = () => {
@@ -83,14 +107,14 @@ class ListingDetailsComp extends Component {
                             this.state.isFavorited === false ?
                                  <Button 
                                     transparent
-                                    onPress={() => this.setState({ scaleAnimationDialog: true, isFavorited: true })}
+                                    onPress={() => this.addToFavorites()}
                                 >
                                     <FontAwesome name="heart-o" size={30} />
                                 </Button>
                             :
                             <Button 
                                 transparent
-                                onPress={() => this.setState({ isFavorited: false })}
+                                onPress={() => this.addToFavorites()}
                             >
                                 <FontAwesome name="heart" size={30} style={{ color: '#cc0000' }} />
                             </Button>
@@ -347,12 +371,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, props) => {
-    const { id } = props.navigation.state.params;
+    const { id, liked, listing } = props.navigation.state.params;
     return {
-        listing: state.listings[id]
+        listing,
+        liked,
+        id
     };
 };
 
-const ListingDetails = connect(mapStateToProps)(ListingDetailsComp);
+const ListingDetails = connect(mapStateToProps, { addToFavorites, removeFromFavorites })(ListingDetailsComp);
 
 export { ListingDetails };

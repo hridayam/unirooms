@@ -33,6 +33,17 @@ const ListingStack = createStackNavigator({
 	Details: ListingDetails,
 }, { headerMode: 'none' });
 
+const UserFavoritesLisitngStack = createStackNavigator({
+	favorites: UserFavorites,
+	Details: ListingDetails,
+}, { headerMode: 'none' });
+
+const UserCreatedLisitngStack = createStackNavigator({
+	userListings: UserListings,
+	Form: ListingForm,
+	Details: ListingDetails,
+}, { headerMode: 'none' });
+
 const ExploreTopNav = createMaterialTopTabNavigator({
 	Listings: {
 		screen: ListingStack,
@@ -65,7 +76,7 @@ const MessageStack = createStackNavigator({
 
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {
-		screen: UserFavorites,
+		screen: UserFavoritesLisitngStack,
 		navigationOptions: {
 			tabBarLabel: 'Favorites',
 			tabBarIcon: ({ tintColor }) => (
@@ -74,7 +85,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	YourListings: {
-		screen: UserListings,
+		screen: UserCreatedLisitngStack,
 		navigationOptions: {
 			tabBarLabel: 'Your Listings',
 			tabBarIcon: ({ tintColor }) => (

@@ -11,7 +11,7 @@ import reducers from '../reducers';
 
 const persistConfig = {
     key: 'root',
-    blacklist: ['connectedUsers', 'messages', 'activeMessages', 'listings'],
+    whitelist: ['auth'],
     storage: AsyncStorage,
 };
 

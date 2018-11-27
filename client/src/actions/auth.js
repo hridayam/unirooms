@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-import { URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER } from './types';
+import { 
+    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES 
+} from './types';
 import { app, db, firebase } from '../../firebase-setup'; 
 
 //const db = firebase.firestore(app);
@@ -131,6 +133,40 @@ const uploadImage = async (image, i, id, cb) => {
         });
         imageData = await imageData.json();
         return imageData.secure_url;
+    } catch (err) {
+        cb(err);
+        console.log(err);
+    }
+};
+
+export const addToFavorites = (lid, cb) => async dispatch => {
+    const userId = app.auth().currentUser.uid;
+    try {
+        await usersCollection.doc(userId).update({
+            favorites: firebase.firestore.FieldValue.arrayUnion(lid)
+        });
+        dispatch({
+            type: ADD_TO_FAVORITES,
+            payload: lid
+        });
+        cb();
+    } catch (err) {
+        cb(err);
+        console.log(err);
+    }
+};
+
+export const removeFromFavorites = (lid, cb) => async dispatch => {
+    const userId = app.auth().currentUser.uid;
+    try {
+        await usersCollection.doc(userId).update({
+            favorites: firebase.firestore.FieldValue.arrayRemove(lid)
+        });
+        dispatch({
+            type: REMOVE_FROM_FAVORITES,
+            payload: lid
+        });
+        cb();
     } catch (err) {
         cb(err);
         console.log(err);

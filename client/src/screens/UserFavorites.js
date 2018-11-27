@@ -1,15 +1,43 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, View } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
-import { ImagePicker, Permissions } from 'expo';
-import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
+import { Alert } from 'react-native';
+import { Container, Header, Body, Title } from 'native-base';
+import { connect } from 'react-redux';
 
-class UserFavorites extends Component {
+import ListingCardFlatListScroller from '../components/ListingCardFlatListScroller';
+import { getFavorites } from '../actions';
+
+class UserFavoritesComp extends Component {
+    state = {
+        loadingData: true
+    }
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    getData = () => {
+        if (!this.state.loadingData) {
+            this.setState({ loadingData: true });
+        }
+        
+        this.props.getFavorites(this.props.user.favorites, (err) => {
+            if (err) { 
+                Alert.alert('unable to fetch data');
+            }
+            this.setState({ loadingData: false });
+        });
+    }
+
+    mapListings = () => {
+        const { favoriteListings } = this.props;
+        return _.map(favoriteListings, listing => {
+            return listing;
+        });
+    }
+
     render() {
+        const listings = this.mapListings();
         return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
@@ -17,9 +45,28 @@ class UserFavorites extends Component {
                         <Title>Your Favorite Listings</Title>
                     </Body>
                 </Header>
+
+                <ListingCardFlatListScroller 
+                    listings={listings}
+                    user={this.props.user}
+                    loadingData={false}
+                    getData={() => {}}
+                    navigation={this.props.navigation}
+                    refreshing={this.state.loadingData}
+                    onRefresh={this.getData}
+                />
             </Container>
         );
     }
 }
+
+const matchStateToProps = (state) => {
+    return {
+        favoriteListings: state.favoriteListings,
+        user: state.auth
+    };
+};
+
+const UserFavorites = connect(matchStateToProps, { getFavorites })(UserFavoritesComp);
 
 export { UserFavorites };
