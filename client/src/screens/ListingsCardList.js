@@ -6,8 +6,9 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { ListingsViewCardComponent } from '../common';
+//import { ListingsViewCardComponent } from '../common';
 import { getReservations } from '../actions';
+import ListingCardFlatListScroller from '../components/ListingCardFlatListScroller';
 
 class ListingsCardListComp extends Component {
     state = {
@@ -31,50 +32,11 @@ class ListingsCardListComp extends Component {
         });
     }
 
-    keyExtractor = (item, index) => item.id;
-
-    listEmptyComponent = () => <View />
-
     mapListings = () => {
         const { listings } = this.props;
         return _.map(listings, listing => {
             return listing;
         });
-    }
-
-    renderCard = (listing) => {
-        const { user, date, images, listingTitle, 
-            streetAddress, housingType, beds, 
-            baths, rentingPrice
-        } = listing.item;
-        return (
-            <TouchableOpacity 
-                key={listing.id}
-                activeOpacity={0.4} 
-                onPress={() => this.props.navigation.navigate('Details', {
-                    id: listing.item.id
-                })} 
-            >
-                <ListingsViewCardComponent 
-                    posterName={`${user.firstName} ${user.lastName}`}
-                    postDate={moment(date).format('MMM D, YYYY')}
-                    posterImageSource='https://i.kym-cdn.com/entries/icons/medium/000/009/754/PhotogenicGuy.jpg'
-                    imageSource={images[0]} 
-                    title={listingTitle}
-                    streetAddress={streetAddress}
-                    housingType={housingType}
-                    rentingPrice={rentingPrice}
-                    beds={beds}
-                    baths={baths}
-                />
-            </TouchableOpacity>
-        );
-    }
-
-    renderFooter = (loadingData) => {
-        if (loadingData) {
-            return <ActivityIndicator size="large" />;
-        }
     }
 
     render() {
@@ -103,14 +65,14 @@ class ListingsCardListComp extends Component {
                     </Right>
                 </Header>
 
-                <FlatList
-                    data={listings}
-                    ListEmptyComponent={this.listEmptyComponent}
-                    keyExtractor={this.keyExtractor}
-                    renderItem={this.renderCard}
-                    onEndReachedThreshold={Platform.OS === 'android' ? 0.01 : -0.15}
-                    onEndReached={() => this.getData()}
-                    ListFooterComponent={this.renderFooter(this.state.loadingData)}
+                <ListingCardFlatListScroller 
+                    listings={listings}
+                    user={this.props.user}
+                    loadingData={this.state.loadingData}
+                    getData={this.getData}
+                    navigation={this.props.navigation}
+                    refreshing={false}
+                    onRefresh={() => {}}
                 />
             </Container>
         );
@@ -119,10 +81,68 @@ class ListingsCardListComp extends Component {
 
 const matchStateToProps = (state) => {
     return {
-        listings: state.listings
+        listings: state.listings,
+        user: state.auth
     };
 };
 
 const ListingsCardList = connect(matchStateToProps, { getReservations })(ListingsCardListComp);
 
 export { ListingsCardList };
+
+/* <FlatList
+    data={listings}
+    ListEmptyComponent={this.listEmptyComponent}
+    keyExtractor={this.keyExtractor}
+    renderItem={this.renderCard}
+    onEndReachedThreshold={Platform.OS === 'android' ? 0.01 : -0.15}
+    onEndReached={() => this.getData()}
+    ListFooterComponent={this.renderFooter(this.state.loadingData)}
+/> */
+
+    // keyExtractor = (item, index) => item.id;
+
+    // listEmptyComponent = () => <View />
+
+    // mapListings = () => {
+    //     const { listings } = this.props;
+    //     return _.map(listings, listing => {
+    //         return listing;
+    //     });
+    // }
+
+    // renderCard = (listing) => {
+    //     const { user, date, images, listingTitle, 
+    //         streetAddress, housingType, beds, 
+    //         baths, rentingPrice
+    //     } = listing.item;
+    //     return (
+    //         <TouchableOpacity 
+    //             key={listing.id}
+    //             activeOpacity={0.4} 
+    //             onPress={() => this.props.navigation.navigate('Details', {
+    //                 id: listing.item.id,
+    //                 liked: this.props.user.favorites.includes(listing.item.id)
+    //             })} 
+    //         >
+    //             <ListingsViewCardComponent 
+    //                 posterName={`${user.firstName} ${user.lastName}`}
+    //                 postDate={moment(date).format('MMM D, YYYY')}
+    //                 posterImageSource='https://i.kym-cdn.com/entries/icons/medium/000/009/754/PhotogenicGuy.jpg'
+    //                 imageSource={images[0]} 
+    //                 title={listingTitle}
+    //                 streetAddress={streetAddress}
+    //                 housingType={housingType}
+    //                 rentingPrice={rentingPrice}
+    //                 beds={beds}
+    //                 baths={baths}
+    //             />
+    //         </TouchableOpacity>
+    //     );
+    // }
+
+    // renderFooter = (loadingData) => {
+    //     if (loadingData) {
+    //         return <ActivityIndicator size="large" />;
+    //     }
+    // }
