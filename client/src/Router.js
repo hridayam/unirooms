@@ -34,12 +34,14 @@ const ListingStack = createStackNavigator({
 	Details: ListingDetails,
 }, { headerMode: 'none' });
 
-const ExploreTopNav = createMaterialTopTabNavigator({
-	Listings: {
-		screen: ListingStack,
-	},
+const MatcherStack = createStackNavigator({
 	Matcher
-}, { swipeEnabled: false });
+}, { headerMode: 'none' });
+
+const exploreSwitch = createSwitchNavigator({
+	Rooms: ListingStack,
+	Roommates: MatcherStack 
+});
 
 const AuthStack = createStackNavigator({
 	Welcome,
@@ -84,7 +86,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	Explore: {
-		screen: ExploreTopNav,
+		screen: exploreSwitch,
 		navigationOptions: {
 			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => (
@@ -118,10 +120,11 @@ const MainNavigator = createBottomTabNavigator({
 	},
 	tabBarComponent: Platform.OS === 'android' ? TabBarComponent : BottomTabBar,
 	tabBarOptions: {
-		activeTintColor: 'midnightblue',
+		activeTintColor: '#1F355D',
 		inactiveTintColor: 'grey',
 		style: {
-			backgroundColor: 'white'
+			backgroundColor: 'white',
+			height: 55
 		}
 	}
 });
