@@ -390,7 +390,6 @@ class UserProfileCreateForm1Comp extends Component {
     }
 
     goToUserProfileCreate2() {
-        console.log(this.state.religion);
     	this.props.navigation.navigate('CreateForm2', { 
             uri: this.state.uri,
             blobs: this.state.blobs,

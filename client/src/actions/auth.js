@@ -81,33 +81,42 @@ export const logoutUser = () => async dispatch => {
 
 export const updateUserData = (data, cb) => async dispatch => {
     const { id } = data;
-    let images = [];
-    try {
-        data.images.forEach(async (image, i) => {
-            const uri = await uploadImage(image, i, id, cb);
-            images.push(uri);
-            if (i === data.images.length - 1) {
-                try {
-                    const ref = await usersCollection.doc(id).get();
-                    images = images.concat(ref.data().images);
-                    images = images.slice(0, 6);
-                    const newData = {
-                        ...ref.data(),
-                        ...data.info,
-                        images
-                    };
-                    await usersCollection.doc(id).set(newData);
-                    dispatch({
-                        type: UPDATE_USER,
-                        payload: newData
-                    });
-                    cb();
-                } catch (err) {
-                    console.log(err);
-                    cb(err);
+    const images = [];
+    if (data.images === []) {
+        try {
+            data.images.forEach(async (image, i) => {
+                const uri = await uploadImage(image, i, id, cb);
+                images.push(uri);
+                if (i === data.images.length - 1) {
+                    pushUpdatedUserData(data, id, images, cb, dispatch);
                 }
-            }
+            });
+        } catch (err) {
+            console.log(err);
+            cb(err);
+        }
+    } else {
+        pushUpdatedUserData(data, id, images, cb, dispatch);
+    }
+};
+
+const pushUpdatedUserData = async (data, id, URIs, cb, dispatch) => {
+    let images = URIs;
+    try {
+        const ref = await usersCollection.doc(id).get();
+        images = images.concat(ref.data().images);
+        images = images.slice(0, 6);
+        const newData = {
+            ...ref.data(),
+            ...data.info,
+            images
+        };
+        await usersCollection.doc(id).set(newData);
+        dispatch({
+            type: UPDATE_USER,
+            payload: newData
         });
+        cb();
     } catch (err) {
         console.log(err);
         cb(err);

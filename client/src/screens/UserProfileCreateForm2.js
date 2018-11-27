@@ -453,7 +453,7 @@ class UserProfileCreateForm2Comp extends Component {
                                 visible={this.state.slideAnimationDialogSuccess}
                                 dialogTitle={<DialogTitle title="Succesfully created profile!" />}
                                 dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
-                                >
+                            >
                                 <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
                                   <MaterialCommunityIcons name="check-circle-outline" style={{ color: '#4BB543' }} size={75} />
                                 </DialogContent>
@@ -487,7 +487,7 @@ class UserProfileCreateForm2Comp extends Component {
                                     :
                                     <Button 
                                         block
-                                        disabled={this.state.uploadingData ? true : false}
+                                        disabled={this.state.uploadingData}
                                         onPress={() => this.completeUserCreation()} Have to add all the user data to the current user
                                     >
                                         {
