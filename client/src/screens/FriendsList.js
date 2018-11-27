@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { 
-    View, FlatList, ActivityIndicator, 
-    ScrollView, StyleSheet, Platform
-} from 'react-native';
-// import { 
-//     List, ListItem, SearchBar, 
-//     Left, Thumbnail, Body, Right, Text 
-// } from 'native-base';
+import { View, FlatList, ActivityIndicator, ScrollView, StyleSheet, Platform } from 'react-native';
+import { Container, Content, Header, Left, Body, Right, List, ListItem, SearchBar, Text, Thumbnail, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
+import { ImagePicker, Permissions } from 'expo';
+import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
 import moment from 'moment';
@@ -82,15 +82,23 @@ class FriendsListComp extends Component {
         const messages = this.mapMessages();
         console.log('messages', messages);
         return (
-            <List>
-                <FlatList
-                    data={messages}
-                    renderItem={this.renderRow}
-                    ListEmptyComponent={this.listEmptyComponent}
-                    keyExtractor={this.keyExtractor}
-                    ListFooterComponent={this.renderFooter(this.state.loading)}
-                />
-            </List>
+            <Container style={{ flex: 1 }}>
+                <Header style={{ height: 75 }}>
+                    <Body style={{ alignItems: 'center' }}>
+                        <Title>Chat</Title>
+                    </Body>
+                </Header>
+
+                <List>
+                    <FlatList
+                        data={messages}
+                        renderItem={this.renderRow}
+                        ListEmptyComponent={this.listEmptyComponent}
+                        keyExtractor={this.keyExtractor}
+                        ListFooterComponent={this.renderFooter(this.state.loading)}
+                    />
+                </List>
+            </Container>
         );
     }
 }

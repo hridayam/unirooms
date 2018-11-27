@@ -170,7 +170,7 @@ class ListingDetailsComp extends Component {
                                     </Row>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>
                                         <Text note style={{ fontWeight: '900', textAlign: 'center' }}>
-                                            {rentingPrice}/Month
+                                            ${rentingPrice} Per Month
                                         </Text>
                                     </Row>
                                 </Grid>
