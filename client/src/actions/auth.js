@@ -16,7 +16,7 @@ const tryLogin = async (credentials, dispatch, cb) => {
     let { email, password } = credentials;
     email = email.trim();
     password = password.trim();
-
+    console.log(email, password);
     try {
         let user = await app.auth().signInWithEmailAndPassword(email, password);
         user = user.user;
@@ -55,6 +55,17 @@ export const registerUser = (data, cb) => async dispatch => {
     } catch (err) {
         console.log(err);
     }
+};
+
+export const forgetPassword = (data, cb) => async dispatch => {
+    // const { email, password } = data;
+    // try {
+    //     const res = await axios.post(`${URL}registerUser`, data);
+    //     tryLogin({ email, password }, dispatch, cb);
+    //     console.log(res);
+    // } catch (err) {
+    //     console.log(err);
+    // }
 };
 
 export const verifyUser = async (code, cb) => {

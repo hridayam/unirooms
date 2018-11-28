@@ -3,6 +3,7 @@ export * from './ListingDetails';
 export * from './ListingForm';
 export * from './ListingsCardList';
 export * from './Login';
+export * from './ForgetPassword';
 export * from './Matcher';
 export * from './Messages';
 export * from './Register';

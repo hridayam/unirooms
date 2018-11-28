@@ -16,6 +16,7 @@ import {
 	Messages,
 	FriendsList,
 	Register,
+	ForgetPassword,
 	UserFavorites,
 	UserListings,
 	UserProfileCreateForm1,
@@ -56,13 +57,24 @@ const userListingsStack = createStackNavigator({
 
 
 const AuthStack = createStackNavigator({
-	Welcome,
-	auth: createSwitchNavigator({
-		Login, Register
-	})
-}, {
-	headerMode: 'none',
-	mode: 'modal'
+	Login: {
+		screen: Login,
+		navigationOptions: {
+		  title: "Login"
+		}
+	  },
+	Register: {
+		screen: Register,
+		navigationOptions: {
+		  title: "Register"
+		}
+	  },
+	ForgetPassword: {
+		screen: ForgetPassword,
+		navigationOptions: {
+		  title: "ForgetPassword"
+		}
+	  },
 });
 
 const ProfileStack = createStackNavigator({

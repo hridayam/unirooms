@@ -1,206 +1,205 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from 'react-redux';
 import {
+ 
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
+  TextInput,
+  TouchableHighlight,
   Image,
-  Dimensions
-} from 'react-native';
-import { Content, Form, Item, Input, Label } from 'native-base';
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard
+
+} from "react-native";
 
 import { registerUser } from '../actions/index';
-import { icon } from '../common/images';
+
+
+
+const DismissKeyboard = ({children}) => {
+  return (<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>);
+}
 
 class comp extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      username:"",
+      password: "",
+      confirmPassword: ""
+    };
+  }
 
-        this.state = {
-            firstName: '',
-            lastName: '',
-            email: '',
-            username: '',
-            password: '',
-            confirmPassword: '',
-        };
+  static navigationOptions = {
+    headerStyle: {
+      backgroundColor: "#003399",
+      elevation: null
     }
+  };
 
-    _handlePress() {
-        console.log(this.state.first);
-        console.log(this.state.last);
-        console.log(this.state.email);
-        console.log(this.state.pass1);
-        console.log(this.state.pass2);
-    }
+  async onRegisterPress() {
+    const { email, password, firstName,lastName } = this.state;
+    console.log(email);
+    console.log(firstName);
+    console.log(lastName);
+    console.log(password);
+    this.props.registerUser(this.state)
+    this.props.navigation.navigate("Login");
+  }
 
-    checkInputs() {
-        const emailCount = this.state.email.length;
-        if (this.state.pass1 !== this.state.pass2) {
-        return false;
-        } else if (this.state.first === '' || this.state.last === '') {
-        return false;
-        } else if (this.state.email.substring(emailCount - 10, emailCount - 1) !== '@sjsu.edu') {
-            return false;
-        }
 
-        this._handlePress();
-        return true;
-    }
 
-    onSubmit() {
-        this.props.registerUser(this.state);
-    }
 
-    render() {
-        return (
-            <KeyboardAvoidingView
-                style={{ backgroundColor: '#455a64', flex: 1, justifyContent: 'center' }}
-                behavior="padding" enabled
-            >
-                <Content>
-                    <View style={styles.logoContainer}>
-                        <Image
-                            style={{ 
-                                width: 200, 
-                                height: 150,
-                                resizeMode: 'contain' 
-                            }}
-                            source={icon} 
-                        />
-                    </View>
-                    <Form style={{ alignItems: 'center' }}>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>First Name</Label>
-                            <Input 
-                                onChangeText={(firstName) => { this.setState({ firstName }); }}
-                                value={this.state.firstName}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Last Name</Label>
-                            <Input 
-                                onChangeText={(lastName) => { this.setState({ lastName }); }}
-                                value={this.state.lastName}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Username</Label>
-                            <Input 
-                                onChangeText={(username) => { this.setState({ username }); }}
-                                value={this.state.username}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Email</Label>
-                            <Input 
-                                textContentType='emailAddress'
-                                onChangeText={(email) => { this.setState({ email }); }}
-                                value={this.state.email}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Password</Label>
-                            <Input 
-                                textContentType='password'
-                                onChangeText={(password) => { this.setState({ password }); }}
-                                value={this.state.password}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Confirm Password</Label>
-                            <Input 
-                                textContentType='password'
-                                onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
-                                value={this.state.confirmPassword}
-                            />
-                        </Item>
-                  </Form>
-                  <View>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={this.onSubmit.bind(this)}
-                        >
-                            <Text style={styles.buttonText}>Sign Up</Text>
-                        </TouchableOpacity>
-                        <View style={styles.signupTextCont}>
-                            <Text style={styles.signupText}>Already have an account?</Text>
-                            <TouchableOpacity
-                                onPress={() => this.props.navigation.navigate('Login')}
-                            >
-                                <Text style={styles.signupButton}>Log In</Text>
-                            </TouchableOpacity>
-                        </View>
-                  </View>
-              </Content>
-          </KeyboardAvoidingView>
-        );
-    }
+
+  render() {
+ 
+    return (
+      <DismissKeyboard>
+      <View behavior="padding" style={styles.container}>
+    
+        <View style={styles.logoContainer}>
+          <Image style={styles.logo} source={require("../../assets/icon_blank.png")} />
+          <Text style={styles.subtext}>Sign Up:</Text>
+        </View>
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <TextInput
+            value={this.state.firstName}
+            onChangeText={firstName => this.setState({ firstName })}
+            style={styles.input}
+            placeholder="firstName"
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="next"
+            onSubmitEditing={() => this.emailInput.focus()}
+          />
+          <TextInput
+            value={this.state.lastName}
+            onChangeText={lastName => this.setState({ lastName })}
+            style={styles.input}
+            placeholder="lastName"
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="next"
+            onSubmitEditing={() => this.emailInput.focus()}
+          />
+          <TextInput
+            value={this.state.username}
+            onChangeText={username => this.setState({ username })}
+            style={styles.input}
+            placeholder="username"
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="next"
+            onSubmitEditing={() => this.emailInput.focus()}
+          />
+          <TextInput
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+            style={styles.input}
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="next"
+            ref={input => (this.emailInput = input)}
+            onSubmitEditing={() => this.passwordCInput.focus()}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Email"
+          />
+          <TextInput
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={true}
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            ref={input => (this.passwordCInput = input)}
+            onSubmitEditing={() => this.passwordInput.focus()}
+            returnKeyType="next"
+            secureTextEntry
+          />
+          <TextInput
+            value={this.state.password}
+            onChangeText={confirmPassword => this.setState({ confirmPassword })}
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry={true}
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="go"
+            secureTextEntry
+            ref={input => (this.passwordInput = input)}
+          />
+      
+        <TouchableHighlight
+          onPress={this.onRegisterPress.bind(this)}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableHighlight>
+        </KeyboardAvoidingView>
+      </View>
+      </DismissKeyboard>
+      
+    );
+    
+  }
+  
 }
 
 const styles = StyleSheet.create({
-    logoContainer: {
-        flexGrow: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop: 50
-    },
-    logoText: {
-        marginVertical: 15,
-        fontSize: 18,
-        color: 'rgba(255, 255, 255, 0.7)'
-    },
-    container: {
-        backgroundColor: '#455a64',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    signupTextCont: {
-        flexGrow: 1,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        paddingVertical: 16,
-        flexDirection: 'row'
-    },
-    signupText: {
-        color: 'rgba(255,255,255,0.6)',
-        fontSize: 16
-    },
-    signupButton: {
-        color: '#ffffff',
-        fontSize: 16,
-        fontWeight: '500'
-    },
-    formContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    inputBox: {
-        width: 300,
-        backgroundColor: 'rgba(255, 255,255,0.2)',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10
-    },
-    button: {
-        width: 300,
-        backgroundColor: '#1c313a',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
-        textAlign: 'center'
-    }
+  container: {
+    flex: 1.2,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#003399",
+    padding: 20,
+    paddingTop: 100
+  },
+  logoContainer: {
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  logo: {
+    width: 200,
+    height: 150
+  },
+  input: {
+    height: 40,
+    width: 350,
+    marginBottom: 10,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    color: "#fff",
+    paddingHorizontal: 10
+  },
+  button: {
+    height: 50,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignSelf: "stretch",
+    marginTop: 10,
+    justifyContent: "center",
+    paddingVertical: 15,
+    marginBottom: 10
+  },
+  buttonText: {
+    fontSize: 18,
+    alignSelf: "center",
+    textAlign: "center",
+    color: "#FFF",
+    fontWeight: "700"
+  },
+  subtext: {
+    color: "#ffffff",
+    width: 160,
+    textAlign: "center",
+    fontSize: 35,
+    fontWeight: "bold",
+    marginTop: 20
+  }
 });
 
 const Register = connect(null, { registerUser })(comp);
