@@ -224,6 +224,12 @@ class UserProfileCreateForm2Comp extends Component {
         return (
 			<Container style={{ flex: 1 }}>
 				<Header style={{ height: 75 }}>
+                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26 }}>Your Profile</Text>
+                    </Body>
+                </Header>
+
+                <Header transparent style={{ height: 75, marginTop: -75 }}>
                     <Left style={{ flex: 1 }}>
                         <Button 
                             transparent 
@@ -233,9 +239,7 @@ class UserProfileCreateForm2Comp extends Component {
                             <Ionicons name="md-arrow-round-back" size={30} />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Your Profile</Title>
-                    </Body>
+                    <Body style={{ flex: 1, alignItems: 'center' }} />
                     <Right style={{ flex: 1 }} />
                 </Header>
 
@@ -243,7 +247,7 @@ class UserProfileCreateForm2Comp extends Component {
 					<Form>
 						<Grid>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                     What Personalities Define You?
                                 </Text>
                             </Row>
@@ -293,7 +297,7 @@ class UserProfileCreateForm2Comp extends Component {
                             </Row>
 
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 20 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                     Your Hobbies and Lifestyle
                                 </Text>
                             </Row>
@@ -419,7 +423,7 @@ class UserProfileCreateForm2Comp extends Component {
                             </Row>
 
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 10 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                     About Me
                                 </Text>
                             </Row>
@@ -480,7 +484,7 @@ class UserProfileCreateForm2Comp extends Component {
                                         block
                                         onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                     >
-                                        <Text style={{ color: 'white', fontSize: 22 }} >
+                                        <Text style={{ fontFamily: 'titleFont', color: 'white', fontSize: 22 }} >
                                           Complete
                                         </Text>
                                     </Button>
@@ -493,7 +497,7 @@ class UserProfileCreateForm2Comp extends Component {
                                         {
                                             this.state.uploadingData ? 
                                             <ActivityIndicator size='large' /> :
-                                            <Text style={{ color: 'white', fontSize: 22 }} >
+                                            <Text style={{ fontFamily: 'titleFont', color: 'white', fontSize: 22 }} >
                                                 Complete
                                             </Text>
                                         }

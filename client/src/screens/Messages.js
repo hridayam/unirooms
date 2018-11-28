@@ -51,9 +51,9 @@ class comp extends Component {
 
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75, zIndex: 1 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2', zIndex: 1 }}>
                     <Body style={{ alignItems: 'center' }}>
-                        <Title>{this.props.user.firstName} {this.props.user.lastName}</Title>
+                        <Text style={{ fontFamily: 'titleFont', fontSize: 22, color: '#E5A823' }} >{this.props.user.firstName} {this.props.user.lastName}</Text>
                     </Body>
                 </Header>
 
@@ -64,7 +64,7 @@ class comp extends Component {
                             style={{ marginLeft: 3 }}
                             onPress={() => goBack()}
                         >
-                            <Ionicons name="md-arrow-round-back" size={30} />
+                            <Ionicons name="md-arrow-round-back" size={30} color='white' />
                         </Button>
                     </Left>
                     <Body style={{ flex: 1 }} />         

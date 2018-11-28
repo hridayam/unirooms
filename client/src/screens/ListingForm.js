@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, StyleSheet, YellowBox, ImageBackground, TouchableOpacity, View } from 'react-native';
+import { Text, Image, StyleSheet, ImageBackground, TouchableOpacity, View } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import Dialog, { DialogTitle, DialogContent, SlideAnimation } from 'react-native-popup-dialog';
@@ -12,7 +12,6 @@ import { ImageSelector } from '../common';
 import { createReservation } from '../actions';
 import { firebase, app } from '../../firebase-setup';
 
-YellowBox.ignoreWarnings(['Warning: TouchableWithoutFeedback']);
 class comp extends Component {
     constructor(props) {
         super(props);
@@ -244,19 +243,23 @@ class comp extends Component {
 
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2', zIndex: -1 }}>
+                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Add Listing</Text>
+                    </Body>
+                </Header>
+
+                <Header transparent style={{ height: 75, marginTop: -75, zIndex: 1 }}>
                     <Left style={{ flex: 1 }}>
                         <Button 
                             transparent 
                             style={{ marginLeft: 3 }}
                             onPress={() => goBack()}
                         >
-                            <Ionicons name="md-arrow-round-back" size={30} />
+                            <Ionicons name="md-arrow-round-back" size={30} color='white' />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Add Listing</Title>
-                    </Body>
+                    <Body style={{ flex: 1, alignItems: 'center' }} />
                     <Right style={{ flex: 1 }} />
                 </Header>
 
@@ -264,7 +267,7 @@ class comp extends Component {
                     <Form>
                         <Grid style={{ width: '100%' }}>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                <Text style={{ textAlign: 'center',  fontFamily: 'titleFont', fontSize: 22 }}>
                                     Housing Images
                                 </Text>
                             </Row>
@@ -272,7 +275,7 @@ class comp extends Component {
                                 {this.renderImageSelectors()}
                             </Row>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 10 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                     Basic Details
                                 </Text>
                             </Row>
@@ -379,7 +382,7 @@ class comp extends Component {
                             </Row>
 
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30, paddingBottom: 10 }}>
-                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                <Text style={{ textAlign: 'center',  fontFamily: 'titleFont', fontSize: 22 }}>
                                     Features
                                 </Text>
                             </Row>
@@ -606,7 +609,7 @@ class comp extends Component {
                                         block
                                         onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                     >
-                                        <Text style={{ color: 'white', fontSize: 22 }} >
+                                        <Text style={{ color: 'white',  fontFamily: 'titleFont', fontSize: 22 }} >
                                           Post
                                         </Text>
                                     </Button>
@@ -615,7 +618,7 @@ class comp extends Component {
                                         block
                                         onPress={() => this.addToDatabase()}
                                     >
-                                        <Text style={{ color: 'white', fontSize: 22 }} >
+                                        <Text style={{ color: 'white',  fontFamily: 'titleFont', fontSize: 22 }} >
                                           Post
                                         </Text>
                                     </Button>

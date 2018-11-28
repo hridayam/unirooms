@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { MatcherSlick } from '../common';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import SwitchSelector from 'react-native-switch-selector';
 
 import { app } from '../../firebase-setup';
 import { addLike, addDisLike, getUsers, getLikes } from '../actions';
@@ -36,16 +37,16 @@ const images = [
 class MatcherComp extends Component {
 
     onRightSwipe(otherId) {
-        addLike(otherId, err => {
-            if (err)
-            {
-                return;
-            }
-            else {
-                this.props.getLikes(otherId);
-            }
-        });
-        //getLikes(otherId);
+      addLike(otherId, err => {
+          if (err)
+          {
+              return;
+          }
+          else {
+              this.props.getLikes(otherId);
+          }
+      });
+      //getLikes(otherId);
     }
 
     onLeftSwipe(otherId) {
@@ -61,148 +62,153 @@ class MatcherComp extends Component {
         const { matcherUsers } = this.props;
         return _.map(matcherUsers, user => {
             return user;
-        })
+        });
     }
 
-  render() {
+    switchToRoommates = async () => {
+      await new Promise(resolve => setTimeout(resolve, 360));
+      this.props.navigation.navigate('Roommates');
+    }
+
+    render() {
       const users = this.createUsersArray();
       console.log(users);
-    return (
-      <Container style={{ flex: 1 }}>
-        <Header style={{ height: 120, zIndex: -1 }}>
-          <Body style={{ flex: 1, alignItems: 'center', marginTop: 45 }}>
-              <SwitchSelector
+      return (
+        <Container style={{ flex: 1 }}>
+          <Header style={{ height: 120, backgroundColor: '#0055A2', zIndex: -1 }}>
+            <Body style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
+                <SwitchSelector
                   initial={1}
                   onPress={() => this.switchToRooms()}
                   textColor={'#1F355D'}
-                  selectedColor={'white'}
+                  textStyle={{ fontFamily: 'titleFont' }}
+                  selectedTextStyle={{ fontFamily: 'titleFont' }}
+                  selectedColor={'#E5A823'}
                   buttonColor={'#1F355D'}
                   borderColor={'#1F355D'}
                   hasPadding
                   animationDuration={325}
-                  fontSize={16}
+                  fontSize={18}
                   options={[
                       { label: 'Rooms', value: 'Rooms' },
                       { label: 'Roommates', value: 'Roommates' }
                   ]} 
               />
-          </Body>
-        </Header>
-
-        <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
-            <Body style={{ flex: 1, alignItems: 'center' }}>
-                <Title>SJSU</Title>
             </Body>
-        </Header>
+          </Header>
 
-        <View>
-            <DeckSwiper
-                    ref={(c) => this._deckSwiper = c}
-                    dataSource={users}
-                    onSwipeRight={(item) => this.onRightSwipe(item.id)}
-                    onSwipeLeft={(item) => this.onLeftSwipe(item.id)}
-                    renderItem={item =>
-                    <Card style={{ elevation: 3}}>
-                      <CardItem cardBody>
-                        <MatcherSlick
-                            imageSource={item.images}
-                            choice={images}
-                        />
-                      </CardItem>
-                      <CardItem bordered>
-                         <Body>
-                             <Grid style={{ width: '100%' }}>
-                                 <Row style={{ paddingBottom: 10 }} onPress={() => {console.log('it printinnng!!!!!!!!!!!!!!!')}}>
-                                     <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}>
-                                         <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
-                                             {item.firstName}{' '}{item.lastName}{'  '}
-                                         </Text>
-                                         <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
-                                             {item.age}
-                                         </Text>
+          <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
+              <Body style={{ flex: 1, alignItems: 'center' }}>
+                  <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>San Jose State</Text>
+              </Body>
+          </Header>
 
-                                     </Text>
-                                 </Row>
-                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                     <Col size={10}>
-                                         <MaterialIcons name="school" size={25} />
-                                     </Col>
-                                     <Col size={90}>
-                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                             {item.academicMajor}
-                                         </Text>
-                                     </Col>
-                                 </Row>
-                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                     <Col size={10}>
-                                         <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
-                                     </Col>
-                                     <Col size={90}>
-                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                             {item.ethnicity}
-                                         </Text>
-                                     </Col>
-                                 </Row>
-                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                     <Col size={10}>
-                                         <MaterialCommunityIcons name="church" size={25} />
-                                     </Col>
-                                     <Col size={90}>
-                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                             {item.religion}
-                                         </Text>
-                                     </Col>
-                                 </Row>
-                             </Grid>
-                         </Body>
-                     </CardItem>
-                     <CardItem bordered>
-                         <Body>
-                             <Grid style={{ width: '100%' }}>
-                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                     <Col size={2.5} />
-                                     <Col size={10}>
-                                         <MaterialCommunityIcons name="smoking" size={25} />
-                                     </Col>
-                                     <Col size={20}>
-                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                             {item.smoking}
-                                         </Text>
-                                     </Col>
-                                     <Col size={2.5} />
-                                     <Col size={10}>
-                                         <Entypo name="drink" size={25} />
-                                     </Col>
-                                     <Col size={20}>
-                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                             {item.drinking}
-                                         </Text>
-                                     </Col>
-                                     <Col size={2.5} />
-                                     <Col size={10}>
-                                         <MaterialCommunityIcons name="cannabis" size={25} />
-                                     </Col>
-                                     <Col size={20}>
-                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                             {item.drugs}
-                                         </Text>
-                                     </Col>
-                                     <Col size={2.5} />
-                                 </Row>
-                             </Grid>
-                         </Body>
-                     </CardItem>
-                    </Card>
-                    }
+              <DeckSwiper
+                ref={(c) => this._deckSwiper = c}
+                dataSource={users}
+                onSwipeRight={(item) => this.onRightSwipe(item.id)}
+                onSwipeLeft={(item) => this.onLeftSwipe(item.id)}
+                renderItem={item =>
+                <Card style={{ elevation: 3}}>
+                  <CardItem cardBody>
+                    <MatcherSlick
+                        imageSource={item.images}
+                        choice={images}
                     />
-        </View>
+                  </CardItem>
+                  <CardItem bordered>
+                     <Body>
+                         <Grid style={{ width: '100%' }}>
+                             <Row style={{ paddingBottom: 10 }} onPress={() => {console.log('it printinnng!!!!!!!!!!!!!!!')}}>
+                                 <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}>
+                                     <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
+                                         {item.firstName}{' '}{item.lastName}{'  '}
+                                     </Text>
+                                     <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
+                                         {item.age}
+                                     </Text>
+
+                                 </Text>
+                             </Row>
+                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                 <Col size={10}>
+                                     <MaterialIcons name="school" size={25} />
+                                 </Col>
+                                 <Col size={90}>
+                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                         {item.academicMajor}
+                                     </Text>
+                                 </Col>
+                             </Row>
+                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                 <Col size={10}>
+                                     <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
+                                 </Col>
+                                 <Col size={90}>
+                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                         {item.ethnicity}
+                                     </Text>
+                                 </Col>
+                             </Row>
+                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                 <Col size={10}>
+                                     <MaterialCommunityIcons name="church" size={25} />
+                                 </Col>
+                                 <Col size={90}>
+                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                         {item.religion}
+                                     </Text>
+                                 </Col>
+                             </Row>
+                         </Grid>
+                     </Body>
+                 </CardItem>
+                 <CardItem bordered>
+                     <Body>
+                         <Grid style={{ width: '100%' }}>
+                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                 <Col size={2.5} />
+                                 <Col size={10}>
+                                     <MaterialCommunityIcons name="smoking" size={25} />
+                                 </Col>
+                                 <Col size={20}>
+                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                         {item.smoking}
+                                     </Text>
+                                 </Col>
+                                 <Col size={2.5} />
+                                 <Col size={10}>
+                                     <Entypo name="drink" size={25} />
+                                 </Col>
+                                 <Col size={20}>
+                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                         {item.drinking}
+                                     </Text>
+                                 </Col>
+                                 <Col size={2.5} />
+                                 <Col size={10}>
+                                     <MaterialCommunityIcons name="cannabis" size={25} />
+                                 </Col>
+                                 <Col size={20}>
+                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                         {item.drugs}
+                                     </Text>
+                                 </Col>
+                                 <Col size={2.5} />
+                             </Row>
+                         </Grid>
+                     </Body>
+                 </CardItem>
+                </Card>
+                }
+              />
       </Container>
     );
   }
 }
 
-var styles = StyleSheet.create({
-  text: {
+const styles = StyleSheet.create({
+text: {
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
@@ -232,13 +238,13 @@ badgeWrapperStyle: {
     paddingBottom: 10,
     paddingHorizontal: 2
 }
-})
+});
 
 const mapstateToProps = (state) => {
     return {
         matcherUsers: state.matcherUsers
-    }
-}
+    };
+};
 
 const Matcher = connect(mapstateToProps, { getUsers, getLikes })(MatcherComp);
 

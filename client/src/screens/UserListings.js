@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
-import { Container, Header, Body, Title } from 'native-base';
+import { Container, Header, Body, Title, Text } from 'native-base';
 import { connect } from 'react-redux';
 
 import ListingCardFlatListScroller from '../components/ListingCardFlatListScroller';
@@ -40,9 +40,9 @@ class UserListingsComp extends Component {
         const listings = this.mapListings();
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
                     <Body style={{ alignItems: 'center' }}>
-                        <Title>Your Listings</Title>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Your Listings</Text>
                     </Body>
                 </Header>
 

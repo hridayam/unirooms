@@ -437,19 +437,23 @@ class UserProfileEditForm1Comp extends Component {
         }
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
+                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Edit Profile</Text>
+                    </Body>
+                </Header>
+
+                <Header transparent style={{ height: 75, marginTop: -75 }}>
                     <Left style={{ flex: 1 }}>
                         <Button 
                             transparent 
                             style={{ marginLeft: 3 }}
                             onPress={() => goBack()}
                         >
-                            <Ionicons name="md-arrow-round-back" size={30} />
+                            <Ionicons name="md-arrow-round-back" size={30} color='white' />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Edit Profile</Title>
-                    </Body>
+                    <Body style={{ flex: 1, alignItems: 'center' }} />
                     <Right style={{ flex: 1 }} />
                 </Header>
                 
@@ -457,7 +461,7 @@ class UserProfileEditForm1Comp extends Component {
                     <Form>
                         <Grid style={{ width: '100%' }}>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-                              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                              <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                   Profile Images
                               </Text>
                             </Row>
@@ -466,7 +470,7 @@ class UserProfileEditForm1Comp extends Component {
                             </Row>
 
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-                              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                              <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                   General Information
                               </Text>
                             </Row>
@@ -658,7 +662,7 @@ class UserProfileEditForm1Comp extends Component {
                                             style={{ flexDirection: 'row' }}
                                             onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                         >
-                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                            <Text style={{ color: 'white', fontFamily: 'titleFont', fontSize: 22, paddingRight: 5 }}>
                                                 Continue
                                             </Text>
                                             <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
@@ -669,7 +673,7 @@ class UserProfileEditForm1Comp extends Component {
                                             style={{ flexDirection: 'row' }}
                                             onPress={() => this.goToUserProfileEdit2()}
                                         >
-                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                            <Text style={{ color: 'white', fontFamily: 'titleFont', fontSize: 22, paddingRight: 5 }}>
                                                 Continue
                                             </Text>
                                             <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />

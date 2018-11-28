@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Platform, YellowBox } from 'react-native';
 import { Font, Permissions } from 'expo';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -8,6 +8,9 @@ import { store, persistor } from './src/store';
 import Router from './src/Router';
 import { app } from './firebase-setup';
 //import StatusBar from './src/common/StatusBar';
+
+YellowBox.ignoreWarnings(['Warning: TouchableWithoutFeedback']);
+YellowBox.ignoreWarnings(['Warning: Failed prop type: Invalid props.style key `fontfamily`']);
 
 class App extends Component {
     constructor(props) {
@@ -37,8 +40,9 @@ class App extends Component {
         });
 
         await Font.loadAsync({
-            Roboto: require('native-base/Fonts/Roboto.ttf'),
-            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
+            headerFont: require('./assets/fonts/Pacifico.ttf'),
+            titleFont: require('./assets/fonts/Lato-Bold.ttf'),
+            bodyFont: require('./assets/fonts/Lato-Light.ttf'),
         });
         this.setState({ loading: false });
     }

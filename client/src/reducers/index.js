@@ -13,7 +13,7 @@ export default combineReducers({
     messages: messagesList,
     activeMessages,
     listings,
-    matcherUsers
+    matcherUsers,
     favoriteListings,
     userListings
 });

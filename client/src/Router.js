@@ -66,8 +66,8 @@ const AuthStack = createStackNavigator({
 });
 
 const ProfileStack = createStackNavigator({
-	// CreateForm1: UserProfileCreateForm1,
-	// CreateForm2: UserProfileCreateForm2,
+	//CreateForm1: UserProfileCreateForm1,
+	//CreateForm2: UserProfileCreateForm2,
 	Profile: UserProfileDetails,
 	ProfileEdit1: UserProfileEditForm1,
 	ProfileEdit2: UserProfileEditForm2,
@@ -84,7 +84,7 @@ const MainNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLabel: 'Favorites',
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name="home-heart" type="MaterialCommunityIcons" style={{ color: tintColor }} size={30} />
+				<Icon name="home-heart" type="MaterialCommunityIcons" style={{ color: tintColor }} size={34} />
 			)
 		}
 	},
@@ -93,7 +93,7 @@ const MainNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLabel: 'Your Listings',
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name="home-account" type="MaterialCommunityIcons" style={{ color: tintColor }} size={30} />
+				<Icon name="home-account" type="MaterialCommunityIcons" style={{ color: tintColor }} size={34} />
 			)
 		}
 	},
@@ -102,7 +102,7 @@ const MainNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name="explore" type="MaterialIcons" style={{ color: tintColor }} size={30} />
+				<Icon name="explore" type="MaterialIcons" style={{ color: tintColor }} size={34} />
 			)
 		},
 	},
@@ -111,7 +111,7 @@ const MainNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLabel: 'Messages',
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name="ios-chatbubbles" type="Ionicons" style={{ color: tintColor }} size={30} />
+				<Icon name="ios-chatbubbles" type="Ionicons" style={{ color: tintColor }} size={34} />
 			)
 		}
 	},
@@ -120,7 +120,7 @@ const MainNavigator = createBottomTabNavigator({
 		navigationOptions: {
 			tabBarLabel: 'Profile',
 			tabBarIcon: ({ tintColor }) => (
-				<Icon name="face" type="MaterialCommunityIcons" style={{ color: tintColor }} size={30} />
+				<Icon name="face" type="MaterialCommunityIcons" style={{ color: tintColor }} size={34} />
 			)
 		}
 	}
@@ -132,12 +132,13 @@ const MainNavigator = createBottomTabNavigator({
 	},
 	tabBarComponent: Platform.OS === 'android' ? TabBarComponent : BottomTabBar,
 	tabBarOptions: {
-		activeTintColor: '#1F355D',
-		inactiveTintColor: 'grey',
+		activeTintColor: '#E5A823',
+		inactiveTintColor: '#0055A2',
 		style: {
 			backgroundColor: 'white',
 			height: 55
-		}
+		},
+		showLabel: false
 	}
 });
 
