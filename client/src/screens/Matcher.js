@@ -1,14 +1,17 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { AppRegistery, StyleSheet, Image } from 'react-native';
-import { Content, Row, Grid, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
+import { Content, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
 import { Carousel } from '../common';
 import { Badge, Button, Divider, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { MatcherSlick } from '../common';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 import { app } from '../../firebase-setup';
 import { addLike, addDisLike, getUsers, getLikes } from '../actions';
+import { moderateScale } from '../common';
 
 // Display data
 // update the data on swipe
@@ -22,25 +25,6 @@ import { addLike, addDisLike, getUsers, getLikes } from '../actions';
 //figure out how to update the image
 // update this data in the card
 
-
-const cards = [
-  {
-    otherUser: 'name 1',
-    uID: 'A',
-    age: 12,
-    major: 'Comp science',
-    description: 'this is a sample of what a student can write about in their description. This can be as long as possible.',
-    image: 'source it'
-},
-{
-    otherUser: 'name 2',
-    uID: 'B',
-    age: 16,
-    major: 'Comp science',
-    description: 'this is a sample of what a student can write about in their description. This can be as long as possible.',
-    image: 'source it'
-}
-];
 
 const images = [
     'http://www.bistiproofpage.com/wp-content/uploads/2018/04/cute-profile-pics-for-whatsapp-images.png',
@@ -65,7 +49,7 @@ class MatcherComp extends Component {
     }
 
     onLeftSwipe(otherId) {
-        this.props.addDisLike(otherId);
+        addDisLike(otherId);
     }
 
     componentDidMount() {
@@ -99,21 +83,89 @@ class MatcherComp extends Component {
                             choice={images}
                         />
                       </CardItem>
-                      <CardItem style={{ backgroundColor: '#00FFFF' }}>
-                          <Content style={{height: 250}}>
-                              <View style={{ flexDirection: 'row' }}>
-                                  <Text adjustsFontSizeToFit style={[styles.priceText, { flex: 4 }]}>{item.code}</Text>
-                              </View>
+                      <CardItem bordered>
+                         <Body>
+                             <Grid style={{ width: '100%' }}>
+                                 <Row style={{ paddingBottom: 10 }} onPress={() => {console.log('it printinnng!!!!!!!!!!!!!!!')}}>
+                                     <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}>
+                                         <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
+                                             {item.firstName}{' '}{item.lastName}{'  '}
+                                         </Text>
+                                         <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
+                                             {item.age}
+                                         </Text>
 
-                              <Divider style={{ backgroundColor: 'black', marginBottom: 5 }} />
-
-                              <Text style={styles.descriptionText}>1 Bed, 2 Bath, 1088 soft</Text>
-                              <Text style={styles.descriptionText}>Condo, 342 Days on Trulia</Text>
-                              <Text style={styles.descriptionText}>Est. Mortgage $52,604</Text>
-
-                              <Text style={styles.descriptionText}>this is a sample of what a student can write about in their description. This can be as long as possible.</Text>
-                          </Content>
-                      </CardItem>
+                                     </Text>
+                                 </Row>
+                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                     <Col size={10}>
+                                         <MaterialIcons name="school" size={25} />
+                                     </Col>
+                                     <Col size={90}>
+                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                             {item.academicMajor}
+                                         </Text>
+                                     </Col>
+                                 </Row>
+                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                     <Col size={10}>
+                                         <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
+                                     </Col>
+                                     <Col size={90}>
+                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                             {item.ethnicity}
+                                         </Text>
+                                     </Col>
+                                 </Row>
+                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                     <Col size={10}>
+                                         <MaterialCommunityIcons name="church" size={25} />
+                                     </Col>
+                                     <Col size={90}>
+                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                             {item.religion}
+                                         </Text>
+                                     </Col>
+                                 </Row>
+                             </Grid>
+                         </Body>
+                     </CardItem>
+                     <CardItem bordered>
+                         <Body>
+                             <Grid style={{ width: '100%' }}>
+                                 <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                                     <Col size={2.5} />
+                                     <Col size={10}>
+                                         <MaterialCommunityIcons name="smoking" size={25} />
+                                     </Col>
+                                     <Col size={20}>
+                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                             {item.smoking}
+                                         </Text>
+                                     </Col>
+                                     <Col size={2.5} />
+                                     <Col size={10}>
+                                         <Entypo name="drink" size={25} />
+                                     </Col>
+                                     <Col size={20}>
+                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                             {item.drinking}
+                                         </Text>
+                                     </Col>
+                                     <Col size={2.5} />
+                                     <Col size={10}>
+                                         <MaterialCommunityIcons name="cannabis" size={25} />
+                                     </Col>
+                                     <Col size={20}>
+                                         <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                             {item.drugs}
+                                         </Text>
+                                     </Col>
+                                     <Col size={2.5} />
+                                 </Row>
+                             </Grid>
+                         </Body>
+                     </CardItem>
                     </Card>
                     }
                     />
@@ -128,7 +180,32 @@ var styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
-  }
+},
+colIcon: {
+    justifyContent: 'center',
+    alignItems: 'center'
+},
+badgeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    paddingVertical: 5
+},
+personalityBadgeStyle: {
+    backgroundColor: '#4FC1E9',
+},
+hobbiesBadgeStyle: {
+    backgroundColor: '#A0D468',
+},
+badgeTextStyle: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold'
+},
+badgeWrapperStyle: {
+    paddingBottom: 10,
+    paddingHorizontal: 2
+}
 })
 
 const mapstateToProps = (state) => {
