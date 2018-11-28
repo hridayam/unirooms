@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { AppRegistery, StyleSheet, Image } from 'react-native';
-import { Content, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
+import { Content, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Title } from 'native-base';
 import { Carousel } from '../common';
 import { Badge, Button, Divider, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { MatcherSlick } from '../common';
+import SwitchSelector from 'react-native-switch-selector';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
@@ -84,7 +85,7 @@ class MatcherComp extends Component {
                   options={[
                       { label: 'Rooms', value: 'Rooms' },
                       { label: 'Roommates', value: 'Roommates' }
-                  ]} 
+                  ]}
               />
           </Body>
         </Header>
