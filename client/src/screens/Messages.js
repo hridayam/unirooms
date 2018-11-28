@@ -15,7 +15,7 @@ import { app } from '../../firebase-setup';
 import { sendMessage } from '../actions/chat';
 
 
-class comp extends Component {
+class MessagesComp extends Component {
     static navigationOptions = ({ navigation }) => ({
             title: `${navigation.state.params.title}`,
             headerTitleStyle: { textAlign: 'left', alignSelf: 'center' },
@@ -79,7 +79,7 @@ class comp extends Component {
                         user={{
                             _id: app.auth().currentUser.uid,
                             name: `${this.props.user.firstName} ${this.props.user.lastName}`,
-                            avatar: 'https://placeimg.com/140/140/any'
+                            avatar: this.props.user.images[0]
                         }}
                         
                     />
@@ -101,13 +101,13 @@ const mapStateToProps = (state, props) => {
             userData = {
                 name: `${state.auth.firstName} ${state.auth.lastName}`,
                 _id: app.auth().currentUser.uid,
-                avatar: 'https://placeimg.com/140/140/any'
+                avatar: state.auth.images[0]
             };
         } else {
             userData = {
                 name: `${user.firstName} ${user.lastName}`,
                 _id: user.id,
-                avatar: 'https://placeimg.com/140/140/any'
+                avatar: user.images[0]
             };
         }
 
@@ -128,5 +128,5 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const Messages = connect(mapStateToProps, {})(comp);
+const Messages = connect(mapStateToProps, {})(MessagesComp);
 export { Messages };

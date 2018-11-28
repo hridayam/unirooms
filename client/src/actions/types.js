@@ -6,6 +6,9 @@ export const UPDATE_USER = 'update_user';
 export const ADD_TO_FAVORITES = 'add_to_favorites';
 export const REMOVE_FROM_FAVORITES = 'remove_from_favorites';
 
+// matched User 
+export const GET_MATCHES = 'get_matches';
+
 // get messages
 export const GET_MESSAGES = 'get_messages';
 export const GET_ACTIVE_MESSAGES = 'get_active_messages';

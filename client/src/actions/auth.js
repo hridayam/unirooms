@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 import { 
-    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES 
+    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, GET_MATCHES
 } from './types';
 import { app, db, firebase } from '../../firebase-setup'; 
 
 //const db = firebase.firestore(app);
 const usersCollection = db.collection('users');
+const matchesRef = db.collection('matches');
 
 export const loginUser = (credentials, cb) => async dispatch => {
     tryLogin(credentials, dispatch, cb);
@@ -180,4 +181,44 @@ export const removeFromFavorites = (lid, cb) => async dispatch => {
         cb(err);
         console.log(err);
     }
+};
+
+export const getMatchedUsers = (cb) => async dispatch => {
+    const uid = app.auth().currentUser.uid;
+    const query = matchesRef.where('users', 'array-contains', uid);
+
+    query.onSnapshot((docs) => {
+        docs.docChanges().forEach(async change => {
+            const temp = change.doc.data();
+            
+            let ouid;
+            if (temp.users[0] === uid) {
+                ouid = temp.users[1];
+            } else {
+                ouid = temp.users[0];
+            }
+
+            if (change.type === 'added') {
+                try {
+                    let user = await usersCollection.doc(ouid).get();
+                    user = {
+                        ...user.data(),
+                        id: user.id
+                    };
+                    dispatch({
+                        type: GET_MATCHES,
+                        payload: user
+                    });
+                    cb();
+                } catch (err) {
+                    console.log(err);
+                    cb(err);
+                }
+            }
+        });
+        cb();
+    }, (err) => {
+        console.log(err);
+        cb(err);
+    });
 };

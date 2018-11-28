@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, FlatList, ActivityIndicator, ScrollView, StyleSheet, Platform } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, SearchBar, Text, Thumbnail, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
+import { Container, Content, Header, Left, Body, Right, SearchBar, Thumbnail, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
 import { ImagePicker, Permissions } from 'expo';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
@@ -9,10 +9,12 @@ import 'firebase/firestore';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Dialog, { DialogTitle, DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, Text } from 'react-native-elements';
 import moment from 'moment';
 
-import { getAllMessages } from '../actions';
+import { getAllMessages, getMatchedUsers } from '../actions';
+import MatcherImagesHorizontalScroller from '../components/MatcherImagesHorizontalScroller';
+import { moderateScale } from '../common';
 
 class FriendsListComp extends Component {
     constructor(props) {
@@ -29,10 +31,17 @@ class FriendsListComp extends Component {
 
     componentDidMount() {
         this.getMessages();
+        this.getMatches();
     }
 
     getMessages = () => {
         this.props.getAllMessages(() => {
+            this.setState({ loading: false });
+        });
+    }
+
+    getMatches = () => {
+        this.props.getMatchedUsers(() => {
             this.setState({ loading: false });
         });
     }
@@ -48,19 +57,40 @@ class FriendsListComp extends Component {
         });
     }
 
+    mapMatchedUsers = (messages) => {
+        const { matchedUsers } = this.props;
+        const data = [];
+        _.map(matchedUsers, user => {
+            if (messages === []) {
+                data.push(user);
+            } else {
+                let approved = true;
+                messages.forEach(message => {
+                    if (message.user.id === user.id) {
+                        approved = false;
+                    }
+                });
+
+                if (approved) {
+                    data.push(user);
+                }
+            }
+        });
+        return data;
+    }
+
     renderRow = ({ item }) => {
-        console.log(item);
-        const date = item.thread[0].created;
-        console.log(date);
+        const date = item.thread[0] ? moment(item.thread[0].created).format('HH[:]mm') : ' ';
+        const subtitle = item.thread[0] ? item.thread[0].content : 'Click here to chat';
         return (
             <ListItem
                 roundAvatar
                 title={`${item.user.firstName} ${item.user.lastName}`}
-                subtitle={item.thread[0].content}
+                subtitle={subtitle}
                 avatar={{ 
                     uri: item.user.images ? item.user.images[0] : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6dz9gihQ9k_G92EryW9SlmPr5GmPRZxYF_ouPWLaZ4MiBw7fw' 
                 }}
-                rightTitle={moment(date).format('HH[:]mm')}
+                rightTitle={date}
                 onPress={() => {
                     const { navigate } = this.props.navigation;
                     navigate('Messages', {
@@ -80,7 +110,7 @@ class FriendsListComp extends Component {
 
     render() {
         const messages = this.mapMessages();
-        console.log('messages', messages);
+        const matchedUsers = this.mapMatchedUsers(messages);
         return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
@@ -88,6 +118,16 @@ class FriendsListComp extends Component {
                         <Title>Chat</Title>
                     </Body>
                 </Header>
+
+                <MatcherImagesHorizontalScroller
+                    users={matchedUsers}
+                    loadingData={false}
+                    refreshing={false}
+                    getData={() => {}}
+                    onRefresh={() => {}}
+                    user={this.props.user}
+                    navigation={this.props.navigation}
+                />
 
                 <List>
                     <FlatList
@@ -115,12 +155,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    console.log('inside state', state.messages);
     return {
-        messages: state.messages
+        messages: state.messages,
+        matchedUsers: state.matchedUsers,
+        user: state.auth
     };
 };
 
-const FriendsList = connect(mapStateToProps, { getAllMessages })(FriendsListComp);
+const FriendsList = connect(mapStateToProps, { getAllMessages, getMatchedUsers })(FriendsListComp);
 
 export { FriendsList };

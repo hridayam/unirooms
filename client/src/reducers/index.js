@@ -6,6 +6,7 @@ import activeMessages from './activeMessages';
 import listings from './listings';
 import favoriteListings from './favoriteListings';
 import userListings from './userListings';
+import matchedUsers from './matchedUsers';
 
 export default combineReducers({
     auth,
@@ -13,5 +14,6 @@ export default combineReducers({
     activeMessages,
     listings,
     favoriteListings,
-    userListings
+    userListings,
+    matchedUsers
 });
