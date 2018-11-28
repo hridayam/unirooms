@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { 
-    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES 
+import {
+    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES
 } from './types';
-import { app, db, firebase } from '../../firebase-setup'; 
+import { app, db, firebase } from '../../firebase-setup';
 
 //const db = firebase.firestore(app);
 const usersCollection = db.collection('users');
@@ -20,14 +20,15 @@ const tryLogin = async (credentials, dispatch, cb) => {
     try {
         let user = await app.auth().signInWithEmailAndPassword(email, password);
         user = user.user;
-        
+
         if (user.emailVerified) {
             getUserData(user.uid, dispatch);
         }
-        
+        cb();
         //cb(user.emailVerified);
     } catch (err) {
         console.log(err);
+        cb(err);
     }
 };
 
@@ -54,6 +55,7 @@ export const registerUser = (data, cb) => async dispatch => {
         console.log(res);
     } catch (err) {
         console.log(err);
+        cb(err);
     }
 };
 

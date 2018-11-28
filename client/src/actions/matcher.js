@@ -53,13 +53,27 @@ export const getLikes = (otherId) => async dispatch => {
     }
 }
 
+
 export const getUsers = () => async dispatch => {
     console.log('getting users');
             try {
             const allUsers = await usersRef.get();
             const currUser = await usersRef.doc(getUID()).get();
             const currData = currUser.data();
+
+            const currUserSmoking = currData.smoking;
+            const currUserAlcohol = currData.drinking;
+            const currUserreligion = currData.religion;
+            const currUserDrugs = currData.drugs;
+            const currUserEthnicity = currData.ethnicity;
+
+            const currUserLifestyle = currData.lifestyle;
+            const currUserPersonality = currData.personality;
+            let personalitiesCount = 0;
+            let lifestyleCount = 0;
+
             const data = [];
+
             allUsers.forEach(u => {
                 if(currData.liked.includes(u.id) || currData.disliked.includes(u.id))
                 {
@@ -70,17 +84,118 @@ export const getUsers = () => async dispatch => {
                     // do nothing
                 }
                 else {
+                    const otherRef = u.data();
+
+                    // yes sometimes no
+                    const otherUserSmoking = otherRef.smoking;
+                    // often sometimes never
+                    const otherUserDrugs = otherRef.drugs;
+                    // 1 0
+                    const otherUserReligion = otherRef.religion;
+                    // socially -> socially, not at all, often 1, 0.4, 0
+                    // often -> often, socially, not at all 1, 0.4, 0
+                    // not at all -> not at all, socially, often 1, 0.4, 0
+                    const otherUserAlcohol = otherRef.drinking;
+                    // 1 0
+                    const otherUserEthnicity = otherRef.ethnicity;
+
+                    let prior = 0;
+
+                    if(otherUserReligion === currUserreligion)
+                    {
+                        prior++;
+                    }
+
+                    if(otherUserEthnicity === currUserEthnicity)
+                    {
+                        prior++;
+                    }
+
+                    if(otherUserAlcohol === currUserAlcohol)
+                    {
+                        prior++;
+                    }
+                    else if(currUserAlcohol === 'Often' || currUserAlcohol === 'Not at all')
+                    {
+                        if(otherUserAlcohol === 'Socially')
+                        {
+                            prior = prior + 0.35;
+                        }
+                    }
+                    else if(otherUserAlcohol === 'Not at all')
+                    {
+                        prior = prior + 0.35;
+                    }
+
+                    if(otherUserDrugs === currUserDrugs)
+                    {
+                        prior++;
+                    }
+                    else if(currUserDrugs === 'Often' || currUserDrugs === 'Never')
+                    {
+                        if(otherUserDrugs === 'Sometimes')
+                        {
+                            prior = prior + 0.35;
+                        }
+                    }
+                    else if(otherUserDrugs === 'Never')
+                    {
+                        prior = prior + 0.35;
+                    }
+
+                    if(otherUserSmoking === currUserSmoking)
+                    {
+                        prior++;
+                    }
+                    else if(currUserSmoking === 'Yes' || currUserSmoking === 'No')
+                    {
+                        if(otherUserSmoking === 'Sometimes')
+                        {
+                            prior = prior + 0.35;
+                        }
+                    }
+                    else if(otherUserSmoking === 'No')
+                    {
+                        prior = prior + 0.35;
+                    }
+
+                    prior = (prior/5)*100;
+
+                    const otherUserLifestyle = otherRef.lifestyle;
+                    const otherUserPersonality = otherRef.personality;
+
+                    otherUserLifestyle.forEach(lifestyle => {
+                        if(currUserLifestyle.includes(lifestyle))
+                        {
+                            lifestyleCount++;
+                        }
+                    });
+
+                    otherUserPersonality.forEach(personality => {
+                        if(currUserPersonality.includes(personality))
+                        {
+                            personalitiesCount++;
+                        }
+                    });
+
+                    let plus = ((lifestyleCount+personalitiesCount)/(otherUserLifestyle.length + otherUserPersonality.length))*100;
+
                     data.push({
                         ...u.data(),
-                        id: u.id
+                        id: u.id,
+                        prior: prior,
+                        plus: plus
                     });
+
+                    data.sort((a, b) => parseFloat(a.prior) - parseFloat(b.prior));
+                    data.reverse();
+
                     dispatch({
                         type: GET_MATCHER_USERS,
                         payload: data
                     })
                 }
             });
-
         }
         catch (err) {
             console.log(err);

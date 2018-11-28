@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
 import Slick from 'react-native-slick';
+import { moderateScale } from '../common';
 
 class MatcherSlick extends Component {
 
@@ -11,7 +12,7 @@ class MatcherSlick extends Component {
             choice.forEach((image, index) => {
                 views.push(
                     <View key={index} style={styles.slide}>
-                        <Image style={{height: 250, width: 350}} key={image} source={{ uri: image }}/>
+                        <Image style={{height: moderateScale(200, 2), width: moderateScale(300, 2)}} key={image} source={{ uri: image }}/>
                     </View>
                 )
             });
@@ -20,7 +21,7 @@ class MatcherSlick extends Component {
             images.forEach((image, index) => {
                 views.push(
                     <View key={index} style={styles.slide}>
-                        <Image style={{height: 250, width: 350}} key={image} source={{ uri: image }}/>
+                        <Image style={{height: moderateScale(200, 2), width: moderateScale(300, 2)}} key={image} source={{ uri: image }}/>
                     </View>
                 )
             });
@@ -35,7 +36,7 @@ class MatcherSlick extends Component {
         } = this.props;
 
         return (
-            <Slick style={styles.wrapper, {height: 250}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
+            <Slick style={styles.wrapper, {height: moderateScale(200, 2)}} showsButtons={true} showsPagination={false} scrollEnabled={false}>
                   {
                       this.renderImages(imageSource, choice)
                   }
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#92BBD9',
-      height: 250
+      height: moderateScale(200, 2)
     },
 });
 

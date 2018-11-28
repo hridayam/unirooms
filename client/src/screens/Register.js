@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Image,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import { Content, Form, Item, Input, Label } from 'native-base';
 
@@ -51,7 +52,9 @@ class comp extends Component {
     }
 
     onSubmit() {
-        this.props.registerUser(this.state);
+        this.props.registerUser(this.state, err => {
+            if (err) Alert.alert('something went wrong, try again later');
+        });
     }
 
     render() {
@@ -63,39 +66,39 @@ class comp extends Component {
                 <Content>
                     <View style={styles.logoContainer}>
                         <Image
-                            style={{ 
-                                width: 200, 
+                            style={{
+                                width: 200,
                                 height: 150,
-                                resizeMode: 'contain' 
+                                resizeMode: 'contain'
                             }}
-                            source={icon} 
+                            source={icon}
                         />
                     </View>
                     <Form style={{ alignItems: 'center' }}>
                         <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>First Name</Label>
-                            <Input 
+                            <Input
                                 onChangeText={(firstName) => { this.setState({ firstName }); }}
                                 value={this.state.firstName}
                             />
                         </Item>
                         <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Last Name</Label>
-                            <Input 
+                            <Input
                                 onChangeText={(lastName) => { this.setState({ lastName }); }}
                                 value={this.state.lastName}
                             />
                         </Item>
                         <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Username</Label>
-                            <Input 
+                            <Input
                                 onChangeText={(username) => { this.setState({ username }); }}
                                 value={this.state.username}
                             />
                         </Item>
                         <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Email</Label>
-                            <Input 
+                            <Input
                                 textContentType='emailAddress'
                                 onChangeText={(email) => { this.setState({ email }); }}
                                 value={this.state.email}
@@ -103,7 +106,7 @@ class comp extends Component {
                         </Item>
                         <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Password</Label>
-                            <Input 
+                            <Input
                                 textContentType='password'
                                 onChangeText={(password) => { this.setState({ password }); }}
                                 value={this.state.password}
@@ -111,7 +114,7 @@ class comp extends Component {
                         </Item>
                         <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Confirm Password</Label>
-                            <Input 
+                            <Input
                                 textContentType='password'
                                 onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
                                 value={this.state.confirmPassword}
