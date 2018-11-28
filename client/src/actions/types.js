@@ -17,4 +17,10 @@ export const GET_FAVORITE_LISTINGS = 'get_favorite_listings';
 export const ON_REFRESH_LISTINGS = 'on_refresh_listings';
 export const GET_CURRENT_USER_LISTINGS = 'get_current_user_listings';
 
+//matcher
+export const GET_MATCHER_USERS = 'get_matcher_users';
+export const MATCHES = 'get_matches';
+export const RIGHT_SWIPE = 'get_like';
+export const LEFT_SWIPE = 'get_dislike';
+
 export const URL = 'https://us-central1-uniroom-project.cloudfunctions.net/';

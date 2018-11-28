@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get('window');
 
 const renderPagination = (index, total, context) => {
   return (
-    <View 
+    <View
         style={{
           position: 'absolute',
           justifyContent: 'center',
@@ -20,7 +20,7 @@ const renderPagination = (index, total, context) => {
           right: 0
         }}
     >
-      <View 
+      <View
           style={{
             borderRadius: 7,
             backgroundColor: 'rgba(255,255,255,.15)',
@@ -38,13 +38,13 @@ const renderPagination = (index, total, context) => {
 
 class ProfileDetailsComponent extends Component {
     render() {
-        const { 
+        const {
             uri,
             firstName,
             lastName,
             age,
             female,
-            male,  
+            male,
             ethnicity,
             religion,
             academicMajor,
@@ -80,7 +80,7 @@ class ProfileDetailsComponent extends Component {
 
         return (
             <View>
-                <Slick 
+                <Slick
                     style={styles.wrapper}
                     height={400}
                     dotColor='black'
@@ -90,7 +90,7 @@ class ProfileDetailsComponent extends Component {
                     showButtons={true}
                     loop={false}
                 >
-                    { 
+                    {
                       uri.map((item, index) => {
                         return (
                             <View style={slickStyles.slide} key={index} >
@@ -105,7 +105,7 @@ class ProfileDetailsComponent extends Component {
                     <Body>
                         <Grid style={{ width: '100%' }}>
                             <Row style={{ paddingBottom: 10 }}>
-                                <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}> 
+                                <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}>
                                     <Text style={{ fontSize: 36, fontWeight: '600', textAlign: 'left' }}>
                                         {firstName}{' '}{lastName}{'  '}
                                     </Text>
@@ -116,7 +116,7 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <MaterialIcons name="school" size={25} />
                                 </Col>
-                                <Col size={90}>             
+                                <Col size={90}>
                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {academicMajor}
                                     </Text>
@@ -126,7 +126,7 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
                                 </Col>
-                                <Col size={90}>             
+                                <Col size={90}>
                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {ethnicity}
                                     </Text>
@@ -136,7 +136,7 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <MaterialCommunityIcons name="church" size={25} />
                                 </Col>
-                                <Col size={90}>             
+                                <Col size={90}>
                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {religion}
                                     </Text>
@@ -151,8 +151,8 @@ class ProfileDetailsComponent extends Component {
                         <Grid style={{ width: '100%' }}>
                             <Row style={styles.badgeContainer}>
                                 {bold === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Bold</Text>
@@ -160,8 +160,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {cautious === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Cautious</Text>
@@ -169,8 +169,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {creative === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Creative</Text>
@@ -178,8 +178,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {dutiful === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Dutiful</Text>
@@ -187,8 +187,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {easygoing === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Easygoing</Text>
@@ -196,8 +196,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {excitable === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Excitable</Text>
@@ -205,8 +205,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {lively === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Lively</Text>
@@ -214,8 +214,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {playful === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Playful</Text>
@@ -223,8 +223,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {reserved === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Reserved</Text>
@@ -232,8 +232,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {serious === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Serious</Text>
@@ -241,8 +241,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {skeptical === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>skeptical</Text>
@@ -250,8 +250,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {willful === true ?
-                                    <Badge 
-                                        containerStyle={styles.personalityBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.personalityBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Willful</Text>
@@ -259,8 +259,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {artsAndCrafts === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Arts and Crafts</Text>
@@ -268,8 +268,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {boardGames === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Board Games</Text>
@@ -277,8 +277,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {cooking === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Cooking</Text>
@@ -286,8 +286,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {dance === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Dance</Text>
@@ -295,8 +295,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {exercise === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Exercise</Text>
@@ -304,8 +304,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {music === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Music</Text>
@@ -313,8 +313,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {photography === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Photography</Text>
@@ -322,8 +322,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {reading === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Reading</Text>
@@ -331,8 +331,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {socializing === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Socializing</Text>
@@ -340,8 +340,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {sports === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Sports</Text>
@@ -349,8 +349,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {videoGames === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Video Games</Text>
@@ -358,8 +358,8 @@ class ProfileDetailsComponent extends Component {
                                     : null
                                 }
                                 {watchingShows === true ?
-                                    <Badge 
-                                        containerStyle={styles.hobbiesBadgeStyle} 
+                                    <Badge
+                                        containerStyle={styles.hobbiesBadgeStyle}
                                         wrapperStyle={styles.badgeWrapperStyle}
                                     >
                                         <Text style={styles.badgeTextStyle}>Watching Shows</Text>
@@ -372,7 +372,7 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <MaterialCommunityIcons name="smoking" size={25} />
                                 </Col>
-                                <Col size={20}>             
+                                <Col size={20}>
                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {smoking}
                                     </Text>
@@ -381,7 +381,7 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <Entypo name="drink" size={25} />
                                 </Col>
-                                <Col size={20}>             
+                                <Col size={20}>
                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {drinking}
                                     </Text>
@@ -390,7 +390,7 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <MaterialCommunityIcons name="cannabis" size={25} />
                                 </Col>
-                                <Col size={20}>             
+                                <Col size={20}>
                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {drugs}
                                     </Text>
@@ -461,4 +461,3 @@ const slickStyles = StyleSheet.create({
 });
 
 export { ProfileDetailsComponent };
-
