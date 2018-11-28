@@ -12,8 +12,21 @@ import { getReservations } from '../actions';
 import ListingCardFlatListScroller from '../components/ListingCardFlatListScroller';
 
 class ListingsCardListComp extends Component {
-    state = {
-        loadingData: true
+    constructor(props) {
+        super(props);
+        this.state = {
+            loadingData: true,
+            distanceFilters: [],
+            rentingPriceFilters: [],
+            housingTypeFilters: [],
+            squareFeetFilters: [],
+            bedsFilters: [],
+            bathsFilters: [],
+            laundryFilters: [],
+            parkingFilters: [],
+            airConditioningFilters: [],
+            petsFilters: []
+        };
     }
 
     componentDidMount() {
@@ -91,6 +104,7 @@ class ListingsCardListComp extends Component {
                     <Right style={{ flex: 1 }}>
                         <Button 
                             transparent
+                            onPress={() => this.props.navigation.navigate('Filter')}
                         >
                             <FontAwesome name="sliders" size={30} color='white' />
                         </Button>

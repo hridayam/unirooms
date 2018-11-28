@@ -12,6 +12,7 @@ import {
 	ListingDetails,
 	ListingForm,
 	ListingsCardList,
+	ListingsFilter,
 	Login,
 	Messages,
 	FriendsList,
@@ -32,6 +33,7 @@ const ListingStack = createStackNavigator({
 	Explore: ListingsCardList,
 	Form: ListingForm,
 	Details: ListingDetails,
+	Filter: ListingsFilter,
 }, { headerMode: 'none' });
 
 const MatcherStack = createStackNavigator({

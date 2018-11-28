@@ -2,6 +2,7 @@ export * from './FriendsList';
 export * from './ListingDetails';
 export * from './ListingForm';
 export * from './ListingsCardList';
+export * from './ListingsFilter';
 export * from './Login';
 export * from './Matcher';
 export * from './Messages';
