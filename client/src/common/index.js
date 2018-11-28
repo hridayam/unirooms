@@ -7,3 +7,4 @@ export * from './ProfileFormCustomButton';
 export * from './Scaling';
 export * from './StatusBar';
 export * from './MatcherHelper';
+export * from './MatcherSlick';

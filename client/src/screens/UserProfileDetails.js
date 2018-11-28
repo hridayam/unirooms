@@ -19,7 +19,7 @@ class UserProfileDetailsComp extends Component {
     render() {
         const {
             images = [
-                'https://www.robotbutt.com/wp-content/uploads/2015/08/College-Student-Thumbs-Up-e1440734712137.jpg', 
+                'https://www.robotbutt.com/wp-content/uploads/2015/08/College-Student-Thumbs-Up-e1440734712137.jpg',
                 'https://st.depositphotos.com/2931363/5142/i/950/depositphotos_51425941-stock-photo-student-reading-book-against-the.jpg'
             ],
             firstName = 'John',
@@ -90,7 +90,7 @@ class UserProfileDetailsComp extends Component {
                             borderWidth: 1, 
                             //borderRadius: 25, for circle
                             borderRadius: 10,
-                            alignItems: 'center', 
+                            alignItems: 'center',
                             justifyContent: 'center'
                             }}
                             onPress={() => this.setState({ scaleAnimationDialog: true })}
@@ -102,6 +102,7 @@ class UserProfileDetailsComp extends Component {
 
                 <Content style={{ marginTop: -75, zIndex: -1 }}>
                     <ProfileDetailsComponent
+                        matcher={false}
                         uri={images}
                         firstName={firstName}
                         lastName={lastName}
@@ -145,7 +146,7 @@ class UserProfileDetailsComp extends Component {
                 <Dialog
                     onDismiss={() => {
                         this.setState({ scaleAnimationDialog: false });
-                    }}  
+                    }}
                     onTouchOutside={() => {
                         this.setState({ scaleAnimationDialog: false });
                     }}
@@ -155,8 +156,8 @@ class UserProfileDetailsComp extends Component {
                     }
                 >
                     <DialogContent>
-                        <Button 
-                            style={{ 
+                        <Button
+                            style={{
                                 width: 250,
                                 backgroundColor: 'white',
                                 borderColor: 'black',
@@ -175,8 +176,8 @@ class UserProfileDetailsComp extends Component {
                                 Edit Profile
                             </Text>
                         </Button>
-                        <Button 
-                            style={{ 
+                        <Button
+                            style={{
                                 width: 250,
                                 backgroundColor: 'white',
                                 borderColor: '#cc0000',
