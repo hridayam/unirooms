@@ -8,18 +8,18 @@ class MatcherSlick extends Component {
         const views = [];
         if(!images)
         {
-            choice.forEach(image => {
+            choice.forEach((image, index) => {
                 views.push(
-                    <View style={styles.slide}>
+                    <View key={index} style={styles.slide}>
                         <Image style={{height: 250, width: 350}} key={image} source={{ uri: image }}/>
                     </View>
                 )
             });
         }
         else {
-            images.forEach(image => {
+            images.forEach((image, index) => {
                 views.push(
-                    <View style={styles.slide}>
+                    <View key={index} style={styles.slide}>
                         <Image style={{height: 250, width: 350}} key={image} source={{ uri: image }}/>
                     </View>
                 )

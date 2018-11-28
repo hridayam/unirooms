@@ -24,9 +24,9 @@ class ListingsCardListComp extends Component {
         if (!this.state.loadingData) {
             this.setState({ loadingData: true });
         }
-        
+
         this.props.getReservations((err) => {
-            if (err) { 
+            if (err) {
                 Alert.alert('unable to fetch data');
             }
             this.setState({ loadingData: false });
@@ -41,7 +41,7 @@ class ListingsCardListComp extends Component {
     }
 
     switchToRoommates = async () => {
-        await new Promise(resolve => setTimeout(resolve, 360));
+        //await new Promise(resolve => setTimeout(resolve, 100));
         this.props.navigation.navigate('Roommates');
     }
 
@@ -61,12 +61,12 @@ class ListingsCardListComp extends Component {
                             buttonColor={'#1F355D'}
                             borderColor={'#1F355D'}
                             hasPadding
-                            animationDuration={325}
+                            animationDuration={100}
                             fontSize={18}
                             options={[
                                 { label: 'Rooms', value: 'Rooms' },
                                 { label: 'Roommates', value: 'Roommates' }
-                            ]} 
+                            ]}
                         />
                     </Body>
                 </Header>
@@ -79,7 +79,7 @@ class ListingsCardListComp extends Component {
 
                 <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
                     <Left style={{ flex: 1 }}>
-                        <Button 
+                        <Button
                             transparent
                             style={{ marginLeft: 3 }}
                             onPress={() => this.props.navigation.navigate('Form')}
@@ -89,7 +89,7 @@ class ListingsCardListComp extends Component {
                     </Left>
                     <Body style={{ flex: 1 }} />
                     <Right style={{ flex: 1 }}>
-                        <Button 
+                        <Button
                             transparent
                         >
                             <FontAwesome name="sliders" size={30} color='white' />
@@ -144,24 +144,24 @@ export { ListingsCardList };
     // }
 
     // renderCard = (listing) => {
-    //     const { user, date, images, listingTitle, 
-    //         streetAddress, housingType, beds, 
+    //     const { user, date, images, listingTitle,
+    //         streetAddress, housingType, beds,
     //         baths, rentingPrice
     //     } = listing.item;
     //     return (
-    //         <TouchableOpacity 
+    //         <TouchableOpacity
     //             key={listing.id}
-    //             activeOpacity={0.4} 
+    //             activeOpacity={0.4}
     //             onPress={() => this.props.navigation.navigate('Details', {
     //                 id: listing.item.id,
     //                 liked: this.props.user.favorites.includes(listing.item.id)
-    //             })} 
+    //             })}
     //         >
-    //             <ListingsViewCardComponent 
+    //             <ListingsViewCardComponent
     //                 posterName={`${user.firstName} ${user.lastName}`}
     //                 postDate={moment(date).format('MMM D, YYYY')}
     //                 posterImageSource='https://i.kym-cdn.com/entries/icons/medium/000/009/754/PhotogenicGuy.jpg'
-    //                 imageSource={images[0]} 
+    //                 imageSource={images[0]}
     //                 title={listingTitle}
     //                 streetAddress={streetAddress}
     //                 housingType={housingType}
