@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { 
+import {
 	createStackNavigator, createTabNavigator,
-	createSwitchNavigator, createMaterialTopTabNavigator 
+	createSwitchNavigator, createMaterialTopTabNavigator
 } from 'react-navigation';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import { Icon } from 'native-base';
@@ -41,7 +41,7 @@ const MatcherStack = createStackNavigator({
 
 const exploreSwitch = createSwitchNavigator({
 	Rooms: ListingStack,
-	Roommates: MatcherStack 
+	Roommates: MatcherStack
 });
 
 const UserFavoritesStack = createStackNavigator({

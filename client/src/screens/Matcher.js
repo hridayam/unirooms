@@ -36,25 +36,44 @@ const images = [
 
 class MatcherComp extends Component {
 
-    onRightSwipe(otherId) {
-      addLike(otherId, err => {
+    onRightSwipe(otherItem, users) {
+      addLike(otherItem.id, err => {
           if (err)
           {
               return;
           }
           else {
-              this.props.getLikes(otherId);
+              this.props.getLikes(otherItem.id);
           }
       });
-      //getLikes(otherId);
     }
+
+//     updateUserData = (otherItem, users) => {
+//         //delete the previous uId from the users
+//         let i = 0;
+//         var BreakException = {};
+//         try{
+//             users.forEach(u => {
+//                 if(u.id === otherItem.id)
+//                 {
+//                     users.splice(i, 1);
+//                     throw BreakException;
+//                 }
+//                 i++;
+//             });
+//         }
+//         catch (e){
+//             if (e !== BreakException) throw e;
+//         }
+// //        const index = _.findIndex(users, {id: id});
+//         console.log(index);
+//     }
 
     onLeftSwipe(otherId) {
         addDisLike(otherId);
     }
 
     componentDidMount() {
-        console.log('mounted');
         this.props.getUsers();
     }
 
@@ -92,7 +111,7 @@ class MatcherComp extends Component {
                   options={[
                       { label: 'Rooms', value: 'Rooms' },
                       { label: 'Roommates', value: 'Roommates' }
-                  ]} 
+                  ]}
                 />
             </Body>
           </Header>
@@ -106,10 +125,10 @@ class MatcherComp extends Component {
           <DeckSwiper
             ref={(c) => this._deckSwiper = c}
             dataSource={users}
-            onSwipeRight={(item) => this.onRightSwipe(item.id)}
+            onSwipeRight={(item, users) => this.onRightSwipe(item)}
             onSwipeLeft={(item) => this.onLeftSwipe(item.id)}
             renderItem={item =>
-            <Card style={{ elevation: 3}}>
+            <Card key={item.id} style={{ elevation: 3}}>
               <CardItem cardBody>
                 <MatcherSlick
                     imageSource={item.images}
@@ -127,7 +146,6 @@ class MatcherComp extends Component {
                                  <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
                                      {item.age}
                                  </Text>
-
                              </Text>
                          </Row>
                          <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>

@@ -7,6 +7,7 @@ const usersRef = db.collection('users');
 // if sending data is done, then start matching
 // after matching, remove from the adding
 
+const data = [];
 
 const getUID = () => {
     return app.auth().currentUser.uid;
@@ -21,7 +22,6 @@ export const addLike = (otherId, cb) => {
         cb()
     })
     .catch(err => console.log(err));
-
 }
 
 export const addDisLike = (otherId) => {
@@ -54,20 +54,55 @@ export const getLikes = (otherId) => async dispatch => {
 }
 
 export const getUsers = () => async dispatch => {
-    try {
-        const refs = await usersRef.get();
-        const data = [];
-        refs.forEach(ref => {
-            data.push({
-                ...ref.data(),
-                id: ref.id
+    console.log('getting users');
+            try {
+            const allUsers = await usersRef.get();
+            const currUser = await usersRef.doc(getUID()).get();
+            const currData = currUser.data();
+            const data = [];
+            allUsers.forEach(u => {
+                if(currData.liked.includes(u.id) || currData.disliked.includes(u.id))
+                {
+                    //do nothing
+                }
+                else if(currData.id === getUID())
+                {
+                    // do nothing
+                }
+                else {
+                    data.push({
+                        ...u.data(),
+                        id: u.id
+                    });
+                    dispatch({
+                        type: GET_MATCHER_USERS,
+                        payload: data
+                    })
+                }
             });
-        });
-        dispatch({
-            type: GET_MATCHER_USERS,
-            payload: data
-        })
-    } catch (err) {
-        console.log(err);
-    }
-};
+
+        }
+        catch (err) {
+            console.log(err);
+        }
+}
+
+// export const getUsers = () => async dispatch => {
+//     console.log('getting users');
+//     try {
+//         const refs = await usersRef.get();
+//         const data = [];
+//         refs.forEach(ref => {
+//             data.push({
+//                 ...ref.data(),
+//                 id: ref.id
+//             });
+//         });
+//         dispatch({
+//             type: GET_MATCHER_USERS,
+//             payload: data
+//         })
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
