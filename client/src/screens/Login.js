@@ -5,7 +5,10 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Image } from 'react-native';
+    Image,
+    ActivityIndicator,
+    Alert
+} from 'react-native';
 import { Container, Content, Form, Item, Input, Label } from 'native-base';
 
 import { icon } from '../common/images';
@@ -14,11 +17,17 @@ import { loginUser } from '../actions';
 class comp extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        loadingData: false
     }
 
     onSubmit() {
-        this.props.loginUser(this.state);
+        const { email, password } = this.state;
+        this.setState({ loadingData: true });
+        this.props.loginUser({ email, password }, (err) => {
+            if (err) Alert.alert('Unable to Login', 'please check the email, and password');
+            this.setState({ loadingData: false });
+        });
     }
 
     render() {
@@ -44,6 +53,10 @@ class comp extends Component {
                                 textContentType='emailAddress'
                                 onChangeText={(email) => { this.setState({ email }); }}
                                 value={this.state.email}
+                                keyboardType='email-address'
+                                autoCapitalize='none'
+                                textInputStyle
+                                autoFocus
                             />
                         </Item>
                         <Item floatingLabel>
@@ -52,6 +65,8 @@ class comp extends Component {
                                 textContentType='password'
                                 onChangeText={(password) => { this.setState({ password }); }}
                                 value={this.state.password}
+                                secureTextEntry
+                                autoCapitalize='none'
                             />
                         </Item>
                     </Form>
@@ -59,8 +74,13 @@ class comp extends Component {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={this.onSubmit.bind(this)}
+                            disabled={this.state.loadingData}
                         >
-                            <Text style={styles.buttonText}>Log In</Text>
+                            {
+                                this.state.loadingData ?
+                                    <ActivityIndicator color='#fff' size='small' /> :
+                                    <Text style={styles.buttonText}>Login</Text>
+                            }
                         </TouchableOpacity>
 
                         <View style={styles.signupTextCont}>

@@ -19,10 +19,7 @@ class comp extends Component {
         super(props);
 
         this.state = {
-            firstName: '',
-            lastName: '',
             email: '',
-            username: '',
             password: '',
             confirmPassword: '',
         };
@@ -73,32 +70,14 @@ class comp extends Component {
                     </View>
                     <Form style={{ alignItems: 'center' }}>
                         <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>First Name</Label>
-                            <Input 
-                                onChangeText={(firstName) => { this.setState({ firstName }); }}
-                                value={this.state.firstName}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Last Name</Label>
-                            <Input 
-                                onChangeText={(lastName) => { this.setState({ lastName }); }}
-                                value={this.state.lastName}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Username</Label>
-                            <Input 
-                                onChangeText={(username) => { this.setState({ username }); }}
-                                value={this.state.username}
-                            />
-                        </Item>
-                        <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Email</Label>
                             <Input 
                                 textContentType='emailAddress'
                                 onChangeText={(email) => { this.setState({ email }); }}
                                 value={this.state.email}
+                                keyboardType='email-address'
+                                autoCapitalize='none'
+                                autoFocus
                             />
                         </Item>
                         <Item floatingLabel>
@@ -107,6 +86,8 @@ class comp extends Component {
                                 textContentType='password'
                                 onChangeText={(password) => { this.setState({ password }); }}
                                 value={this.state.password}
+                                secureTextEntry
+                                autoCapitalize='none'
                             />
                         </Item>
                         <Item floatingLabel>
@@ -115,6 +96,8 @@ class comp extends Component {
                                 textContentType='password'
                                 onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
                                 value={this.state.confirmPassword}
+                                secureTextEntry
+                                autoCapitalize='none'
                             />
                         </Item>
                   </Form>

@@ -25,7 +25,6 @@ module.exports = function(req, res) {
     const images = [];
     const firstTimeUser = true;
     const newUser = {
-        username, firstName, lastName, 
         email, code, favorites, liked, disLiked,
         personality, lifestyle, images, firstTimeUser
     };
@@ -33,14 +32,6 @@ module.exports = function(req, res) {
     let hasError = false;
     let errors = [];
 
-    if (!firstName) {
-        hasError = true;
-        errors.push('Please enter your name');
-    }
-    if (!lastName) {
-        hasError = true;
-        errors.push('Please enter your name');
-    }
     if (!email) {
         hasError = true;
         errors.push('Please enter your email')
@@ -54,10 +45,6 @@ module.exports = function(req, res) {
     } else if (password !== confirmPassword) {
         hasError = true;
         errors.push('Please confirm your passoword');
-    }
-    if (!username) {
-        hasError = true;
-        errors.push('Please enter a username');
     }
 
     if (hasError) {

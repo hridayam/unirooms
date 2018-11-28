@@ -45,24 +45,24 @@ export const addDisLike = (otherId, cb) => async dispatch => {
     }
 };
 
-export const getLikes = (otherId) => async dispatch => {
+export const getLikes = (otherId, cb) => async dispatch => {
     try {
         const likes =[];
         const ref = await usersRef.doc(otherId).get();
-        const data = ref.data()
+        const data = ref.data();
         console.log(data);
-        const uId = getUID()
+        const uId = getUID();
         console.log(data.liked);
-        if(data.liked.includes(getUID()))
-        {
+        if (data.liked.includes(getUID())) {
             // match it
-                matchesRef.add({
+            await matchesRef.add({
                 users: [otherId, uId]
-            })
+            });
+            cb(true);
         }
-    }
-    catch (err) {
-        console.log(err);
+    } catch (err) {
+        console.log(false, err);
+        cb(err);
     }
 };
 

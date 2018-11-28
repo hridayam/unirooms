@@ -26,9 +26,10 @@ const tryLogin = async (credentials, dispatch, cb) => {
             getUserData(user.uid, dispatch);
         }
         
-        //cb(user.emailVerified);
+        cb();
     } catch (err) {
         console.log(err);
+        cb(err);
     }
 };
 
@@ -87,7 +88,6 @@ export const logoutUser = () => async dispatch => {
 export const updateUserData = (data, cb) => async dispatch => {
     const { id } = data;
     const images = [];
-    console.log(data.images);
     if (data.images.length !== 0) {
         try {
             data.images.forEach(async (image, i) => {
@@ -101,9 +101,7 @@ export const updateUserData = (data, cb) => async dispatch => {
             console.log(err);
             cb(err);
         }
-        console.log('if');
     } else {
-        console.log('else');
         pushUpdatedUserData(data, id, images, cb, dispatch);
     }
 };

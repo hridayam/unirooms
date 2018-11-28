@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { AppRegistery, StyleSheet, Image } from 'react-native';
+import { AppRegistery, StyleSheet, Image, Alert } from 'react-native';
 import { Content, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
 import { connect } from 'react-redux';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -67,7 +67,11 @@ class MatcherComp extends Component {
             if (err) {
                 return;
             } 
-                this.props.getLikes(otherItem.id);
+            this.props.getLikes(otherItem.id, (matched, err) => {
+                if (matched) {
+                    Alert.alert('Matched!', 'Head to messages to get to know each other');
+                }
+            });
         });
     }
 
