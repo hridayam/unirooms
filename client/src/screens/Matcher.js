@@ -68,7 +68,33 @@ class MatcherComp extends Component {
       const users = this.createUsersArray();
       console.log(users);
     return (
-      <Container>
+      <Container style={{ flex: 1 }}>
+        <Header style={{ height: 120, zIndex: -1 }}>
+          <Body style={{ flex: 1, alignItems: 'center', marginTop: 45 }}>
+              <SwitchSelector
+                  initial={1}
+                  onPress={() => this.switchToRooms()}
+                  textColor={'#1F355D'}
+                  selectedColor={'white'}
+                  buttonColor={'#1F355D'}
+                  borderColor={'#1F355D'}
+                  hasPadding
+                  animationDuration={325}
+                  fontSize={16}
+                  options={[
+                      { label: 'Rooms', value: 'Rooms' },
+                      { label: 'Roommates', value: 'Roommates' }
+                  ]} 
+              />
+          </Body>
+        </Header>
+
+        <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
+            <Body style={{ flex: 1, alignItems: 'center' }}>
+                <Title>SJSU</Title>
+            </Body>
+        </Header>
+
         <View>
             <DeckSwiper
                     ref={(c) => this._deckSwiper = c}

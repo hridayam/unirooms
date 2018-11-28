@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { ProfileFormCustomButton } from '../common';
 import { updateUserData } from '../actions';
 
-class UserProfileCreateForm2Comp extends Component {
+class UserProfileEditForm2Comp extends Component {
 	constructor(props) {
         super(props);
 
@@ -234,7 +234,7 @@ class UserProfileCreateForm2Comp extends Component {
                         </Button>
                     </Left>
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Your Profile</Title>
+                        <Title>Edit Profile</Title>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
@@ -444,16 +444,16 @@ class UserProfileCreateForm2Comp extends Component {
                             <Dialog
                                 onDismiss={() => {
                                   this.setState({ slideAnimationDialogSuccess: false });
-                                  this.props.navigation.navigate('Explore');
+                                  this.props.navigation.navigate('Profile');
                                 }}
                                 onTouchOutside={() => {
                                   this.setState({ slideAnimationDialogSuccess: false });
-                                  this.props.navigation.navigate('Explore');
+                                  this.props.navigation.navigate('Profile');
                                 }}
                                 visible={this.state.slideAnimationDialogSuccess}
-                                dialogTitle={<DialogTitle title="Succesfully created profile!" />}
+                                dialogTitle={<DialogTitle title="Succesfully edited profile!" />}
                                 dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
-                            >
+                                >
                                 <DialogContent style={{ justifyContent: 'center', alignItems: 'center', marginTop: 25 }}>
                                   <MaterialCommunityIcons name="check-circle-outline" style={{ color: '#4BB543' }} size={75} />
                                 </DialogContent>
@@ -481,20 +481,20 @@ class UserProfileCreateForm2Comp extends Component {
                                         onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                     >
                                         <Text style={{ color: 'white', fontSize: 22 }} >
-                                          Complete
+                                          Done
                                         </Text>
                                     </Button>
                                     :
                                     <Button 
                                         block
-                                        disabled={this.state.uploadingData}
+                                        disabled={this.state.uploadingData ? true : false}
                                         onPress={() => this.completeUserCreation()} Have to add all the user data to the current user
                                     >
                                         {
                                             this.state.uploadingData ? 
                                             <ActivityIndicator size='large' /> :
                                             <Text style={{ color: 'white', fontSize: 22 }} >
-                                                Complete
+                                                Done
                                             </Text>
                                         }
                                     </Button>
@@ -577,6 +577,6 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const UserProfileCreateForm2 = connect(mapStateToProps, { updateUserData })(UserProfileCreateForm2Comp);
+const UserProfileEditForm2 = connect(mapStateToProps, { updateUserData })(UserProfileEditForm2Comp);
 
-export { UserProfileCreateForm2 };
+export { UserProfileEditForm2 };

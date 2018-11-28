@@ -11,6 +11,7 @@ export * from './UserListings';
 export * from './UserProfileCreateForm1';
 export * from './UserProfileCreateForm2';
 export * from './UserProfileDetails';
-export * from './UserProfileEditForm';
+export * from './UserProfileEditForm1';
+export * from './UserProfileEditForm2';
 export * from './Verification';
 export * from './Welcome';

@@ -21,7 +21,8 @@ import {
 	UserProfileCreateForm1,
 	UserProfileCreateForm2,
 	UserProfileDetails,
-	UserProfileEditForm,
+	UserProfileEditForm1,
+	UserProfileEditForm2,
 	Verification,
 	Welcome,
 	Matcher
@@ -33,12 +34,26 @@ const ListingStack = createStackNavigator({
 	Details: ListingDetails,
 }, { headerMode: 'none' });
 
-const ExploreTopNav = createMaterialTopTabNavigator({
-	Listings: {
-		screen: ListingStack,
-	},
+const MatcherStack = createStackNavigator({
 	Matcher
-}, { swipeEnabled: false });
+}, { headerMode: 'none' });
+
+const exploreSwitch = createSwitchNavigator({
+	Rooms: ListingStack,
+	Roommates: MatcherStack 
+});
+
+const UserFavoritesStack = createStackNavigator({
+	Favorites: UserFavorites,
+	Details: ListingDetails,
+}, { headerMode: 'none' });
+
+const userListingsStack = createStackNavigator({
+	Listings: UserListings,
+	Form: ListingForm,
+	Details: ListingDetails,
+}, { headerMode: 'none' });
+
 
 const AuthStack = createStackNavigator({
 	Welcome,
@@ -54,18 +69,18 @@ const ProfileStack = createStackNavigator({
 	// CreateForm1: UserProfileCreateForm1,
 	// CreateForm2: UserProfileCreateForm2,
 	Profile: UserProfileDetails,
-	CreateForm1: UserProfileCreateForm1,
-	CreateForm2: UserProfileCreateForm2,
+	ProfileEdit1: UserProfileEditForm1,
+	ProfileEdit2: UserProfileEditForm2,
 }, { headerMode: 'none' });
 
 const MessageStack = createStackNavigator({
 	FriendsList,
 	Messages
-});
+}, { headerMode: 'none' });
 
 const MainNavigator = createBottomTabNavigator({
 	Favorites: {
-		screen: UserFavorites,
+		screen: UserFavoritesStack,
 		navigationOptions: {
 			tabBarLabel: 'Favorites',
 			tabBarIcon: ({ tintColor }) => (
@@ -74,7 +89,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	YourListings: {
-		screen: UserListings,
+		screen: userListingsStack,
 		navigationOptions: {
 			tabBarLabel: 'Your Listings',
 			tabBarIcon: ({ tintColor }) => (
@@ -83,7 +98,7 @@ const MainNavigator = createBottomTabNavigator({
 		}
 	},
 	Explore: {
-		screen: ExploreTopNav,
+		screen: exploreSwitch,
 		navigationOptions: {
 			tabBarLabel: 'Explore',
 			tabBarIcon: ({ tintColor }) => (
@@ -117,10 +132,11 @@ const MainNavigator = createBottomTabNavigator({
 	},
 	tabBarComponent: Platform.OS === 'android' ? TabBarComponent : BottomTabBar,
 	tabBarOptions: {
-		activeTintColor: 'midnightblue',
+		activeTintColor: '#1F355D',
 		inactiveTintColor: 'grey',
 		style: {
-			backgroundColor: 'white'
+			backgroundColor: 'white',
+			height: 55
 		}
 	}
 });

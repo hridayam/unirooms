@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 
 import { ImageSelector } from '../common';
 
-class UserProfileCreateForm1Comp extends Component {
-	constructor(props) {
+class UserProfileEditForm1Comp extends Component {
+    constructor(props) {
         super(props);
         const { 
             images = [], 
@@ -389,19 +389,20 @@ class UserProfileCreateForm1Comp extends Component {
         });
     }
 
-    goToUserProfileCreate2() {
-    	this.props.navigation.navigate('CreateForm2', { 
+    goToUserProfileEdit2() {
+        console.log(this.state.religion);
+        this.props.navigation.navigate('ProfileEdit2', { 
             uri: this.state.uri,
             blobs: this.state.blobs,
-    		firstName: this.state.firstName,
-    		lastName: this.state.lastName,
-    		male: this.state.male,
-    		female: this.state.female,
-    		age: this.state.age,
-    		ethnicity: this.state.ethnicity,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            male: this.state.male,
+            female: this.state.female,
+            age: this.state.age,
+            ethnicity: this.state.ethnicity,
             academicMajor: this.state.academicMajor,
             religion: this.state.religion
-    	});
+        });
     }
 
     renderImageSelectors = () => {
@@ -426,6 +427,7 @@ class UserProfileCreateForm1Comp extends Component {
     }
 
     render() {
+        const { goBack } = this.props.navigation;
         const { firstName, lastName, age, ethnicity, religion, academicMajor } = this.state;
 
         if (!this.props.user) {
@@ -436,9 +438,17 @@ class UserProfileCreateForm1Comp extends Component {
         return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
-                    <Left style={{ flex: 1 }} />
+                    <Left style={{ flex: 1 }}>
+                        <Button 
+                            transparent 
+                            style={{ marginLeft: 3 }}
+                            onPress={() => goBack()}
+                        >
+                            <Ionicons name="md-arrow-round-back" size={30} />
+                        </Button>
+                    </Left>
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Your Profile</Title>
+                        <Title>Edit Profile</Title>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
@@ -455,47 +465,47 @@ class UserProfileCreateForm1Comp extends Component {
                                 {this.renderImageSelectors()}
                             </Row>
 
-							<Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-							  <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
-							      General Information
-							  </Text>
-							</Row>
-	                        <Row style={{ paddingBottom: 15 }}>
-	                        	<Col size={10} />
-	                        	<Col size={80} style={styles.colIcon}>
-	                        		<Item rounded>
-	                        			<Text>     </Text>
-	                        			<MaterialCommunityIcons name="account" size={30} />
-							            <Input
+                            <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
+                              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                                  General Information
+                              </Text>
+                            </Row>
+                            <Row style={{ paddingBottom: 15 }}>
+                                <Col size={10} />
+                                <Col size={80} style={styles.colIcon}>
+                                    <Item rounded>
+                                        <Text>     </Text>
+                                        <MaterialCommunityIcons name="account" size={30} />
+                                        <Input
                                             placeholder='First Name'
                                             value={firstName}
-							            	blurOnSubmit
-							            	returnKeyType='done'
-							            	autoCapitalize='words'
-							            	onChangeText={(text) => this.setState({ firstName: text })}
-							            />
-							         </Item>
-	                        	</Col>
-	                        	<Col size={10} />
-	                        </Row>
-	                        <Row style={{ paddingBottom: 15 }}>
-	                        	<Col size={10} />
-	                        	<Col size={80} style={styles.colIcon}>
-	                        		<Item rounded>
-	                        			<Text>     </Text>
-	                        			<MaterialCommunityIcons name="account" size={30} />
-							            <Input
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            autoCapitalize='words'
+                                            onChangeText={(text) => this.setState({ firstName: text })}
+                                        />
+                                     </Item>
+                                </Col>
+                                <Col size={10} />
+                            </Row>
+                            <Row style={{ paddingBottom: 15 }}>
+                                <Col size={10} />
+                                <Col size={80} style={styles.colIcon}>
+                                    <Item rounded>
+                                        <Text>     </Text>
+                                        <MaterialCommunityIcons name="account" size={30} />
+                                        <Input
                                             placeholder='Last Name'
                                             value={lastName}
-							            	blurOnSubmit
-							            	returnKeyType='done'
-							            	autoCapitalize='words'
-							            	onChangeText={(text) => this.setState({ lastName: text })}
-							            />
-							         </Item>
-	                        	</Col>
-	                        	<Col size={10} />
-	                        </Row>
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            autoCapitalize='words'
+                                            onChangeText={(text) => this.setState({ lastName: text })}
+                                        />
+                                     </Item>
+                                </Col>
+                                <Col size={10} />
+                            </Row>
                             <Row style={{ paddingBottom: 15 }}>
                                 <Col size={10} />
                                 <Col size={35} style={styles.colIcon}>  
@@ -657,7 +667,7 @@ class UserProfileCreateForm1Comp extends Component {
                                         <Button 
                                             block
                                             style={{ flexDirection: 'row' }}
-                                            onPress={() => this.goToUserProfileCreate2()}
+                                            onPress={() => this.goToUserProfileEdit2()}
                                         >
                                             <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
                                                 Continue
@@ -694,7 +704,7 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   genderButton: {
-  	borderRadius: 8,
+    borderRadius: 8,
     height: 80,
     width: 120,
     justifyContent: 'center',
@@ -702,7 +712,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   maleColor: {
-  	backgroundColor: '#304bff'
+    backgroundColor: '#304bff'
   },
   femaleColor: {
     backgroundColor: '#ff5bc0'
@@ -727,6 +737,6 @@ const mapStateToProps = ({ auth }) => {
     };
 };
 
-const UserProfileCreateForm1 = connect(mapStateToProps)(UserProfileCreateForm1Comp);
+const UserProfileEditForm1 = connect(mapStateToProps)(UserProfileEditForm1Comp);
 
-export { UserProfileCreateForm1 };
+export { UserProfileEditForm1 };
