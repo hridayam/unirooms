@@ -22,8 +22,8 @@ export const GET_CURRENT_USER_LISTINGS = 'get_current_user_listings';
 
 //matcher
 export const GET_MATCHER_USERS = 'get_matcher_users';
-export const MATCHES = 'get_matches';
-export const RIGHT_SWIPE = 'get_like';
-export const LEFT_SWIPE = 'get_dislike';
+export const MATCHES = 'matches';
+export const RIGHT_SWIPE = 'right_swipe';
+export const LEFT_SWIPE = 'left_swipe';
 
 export const URL = 'https://us-central1-uniroom-project.cloudfunctions.net/';

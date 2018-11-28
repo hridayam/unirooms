@@ -13,24 +13,37 @@ const getUID = () => {
     return app.auth().currentUser.uid;
 };
 
-export const addLike = (otherId, cb) => {
+export const addLike = (otherId, cb) => async dispatch => {
+    try {
+        await usersRef.doc(getUID()).update({
+            liked: firebase.firestore.FieldValue.arrayUnion(otherId)
+        });
+        dispatch({
+            type: RIGHT_SWIPE,
+            payload: otherId
+        });
+        cb();
+    } catch (err) {
+        console.log(err);
+    }
+};
 
-    usersRef.doc(getUID()).update({
-        liked: firebase.firestore.FieldValue.arrayUnion(otherId)
-    })
-    .then(() => {
-        cb()
-    })
-    .catch(err => console.log(err));
-}
-
-export const addDisLike = (otherId) => {
-
-    usersRef.doc(getUID()).update({
-        disliked: firebase.firestore.FieldValue.arrayUnion(otherId)
-    })
-    .catch(err => console.log(err));
-}
+export const addDisLike = (otherId, cb) => async dispatch => {
+    console.log(otherId);
+    try {
+        usersRef.doc(getUID()).update({
+            disliked: firebase.firestore.FieldValue.arrayUnion(otherId)
+        });
+        dispatch({
+            type: LEFT_SWIPE,
+            payload: otherId
+        });
+        cb();
+    } catch (err) {
+        console.log(err);
+        cb(err);
+    }
+};
 
 export const getLikes = (otherId) => async dispatch => {
     try {
@@ -51,7 +64,7 @@ export const getLikes = (otherId) => async dispatch => {
     catch (err) {
         console.log(err);
     }
-}
+};
 
 export const getUsers = () => async dispatch => {
     console.log('getting users');
@@ -85,7 +98,7 @@ export const getUsers = () => async dispatch => {
         catch (err) {
             console.log(err);
         }
-}
+};
 
 // export const getUsers = () => async dispatch => {
 //     console.log('getting users');
