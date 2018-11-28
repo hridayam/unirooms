@@ -45,11 +45,12 @@ class comp extends Component {
   };
 
   async onRegisterPress() {
-    const { email, password, firstName,lastName } = this.state;
-    console.log(email);
-    console.log(firstName);
-    console.log(lastName);
-    console.log(password);
+    console.log(this.state.email);
+    console.log(this.state.firstName);
+    console.log(this.state.lastName);
+    console.log(this.state.username);
+    console.log(this.state.password);
+    console.log(this.state.confirmPassword);
     this.props.registerUser(this.state)
     this.props.navigation.navigate("Login");
   }

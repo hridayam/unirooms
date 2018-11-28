@@ -49,6 +49,7 @@ export const getUserData = async (uid, dispatch) => {
 export const registerUser = (data, cb) => async dispatch => {
     const { email, password } = data;
     try {
+        console.log(data);
         const res = await axios.post(`${URL}registerUser`, data);
         tryLogin({ email, password }, dispatch, cb);
         console.log(res);
