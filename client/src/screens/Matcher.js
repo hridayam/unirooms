@@ -65,9 +65,9 @@ class MatcherComp extends Component {
         });
     }
 
-    switchToRoommates = async () => {
+    switchToRooms = async () => {
       await new Promise(resolve => setTimeout(resolve, 360));
-      this.props.navigation.navigate('Roommates');
+      this.props.navigation.navigate('Rooms');
     }
 
     render() {
@@ -93,7 +93,7 @@ class MatcherComp extends Component {
                       { label: 'Rooms', value: 'Rooms' },
                       { label: 'Roommates', value: 'Roommates' }
                   ]} 
-              />
+                />
             </Body>
           </Header>
 
@@ -103,105 +103,105 @@ class MatcherComp extends Component {
               </Body>
           </Header>
 
-              <DeckSwiper
-                ref={(c) => this._deckSwiper = c}
-                dataSource={users}
-                onSwipeRight={(item) => this.onRightSwipe(item.id)}
-                onSwipeLeft={(item) => this.onLeftSwipe(item.id)}
-                renderItem={item =>
-                <Card style={{ elevation: 3}}>
-                  <CardItem cardBody>
-                    <MatcherSlick
-                        imageSource={item.images}
-                        choice={images}
-                    />
-                  </CardItem>
-                  <CardItem bordered>
-                     <Body>
-                         <Grid style={{ width: '100%' }}>
-                             <Row style={{ paddingBottom: 10 }} onPress={() => {console.log('it printinnng!!!!!!!!!!!!!!!')}}>
-                                 <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}>
-                                     <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
-                                         {item.firstName}{' '}{item.lastName}{'  '}
-                                     </Text>
-                                     <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
-                                         {item.age}
-                                     </Text>
-
+          <DeckSwiper
+            ref={(c) => this._deckSwiper = c}
+            dataSource={users}
+            onSwipeRight={(item) => this.onRightSwipe(item.id)}
+            onSwipeLeft={(item) => this.onLeftSwipe(item.id)}
+            renderItem={item =>
+            <Card style={{ elevation: 3}}>
+              <CardItem cardBody>
+                <MatcherSlick
+                    imageSource={item.images}
+                    choice={images}
+                />
+              </CardItem>
+              <CardItem bordered>
+                 <Body>
+                     <Grid style={{ width: '100%' }}>
+                         <Row style={{ paddingBottom: 10 }} onPress={() => {console.log('it printinnng!!!!!!!!!!!!!!!')}}>
+                             <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}>
+                                 <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
+                                     {item.firstName}{' '}{item.lastName}{'  '}
                                  </Text>
-                             </Row>
-                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                 <Col size={10}>
-                                     <MaterialIcons name="school" size={25} />
-                                 </Col>
-                                 <Col size={90}>
-                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                         {item.academicMajor}
-                                     </Text>
-                                 </Col>
-                             </Row>
-                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                 <Col size={10}>
-                                     <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
-                                 </Col>
-                                 <Col size={90}>
-                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                         {item.ethnicity}
-                                     </Text>
-                                 </Col>
-                             </Row>
-                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                 <Col size={10}>
-                                     <MaterialCommunityIcons name="church" size={25} />
-                                 </Col>
-                                 <Col size={90}>
-                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                         {item.religion}
-                                     </Text>
-                                 </Col>
-                             </Row>
-                         </Grid>
-                     </Body>
-                 </CardItem>
-                 <CardItem bordered>
-                     <Body>
-                         <Grid style={{ width: '100%' }}>
-                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
-                                 <Col size={2.5} />
-                                 <Col size={10}>
-                                     <MaterialCommunityIcons name="smoking" size={25} />
-                                 </Col>
-                                 <Col size={20}>
-                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                         {item.smoking}
-                                     </Text>
-                                 </Col>
-                                 <Col size={2.5} />
-                                 <Col size={10}>
-                                     <Entypo name="drink" size={25} />
-                                 </Col>
-                                 <Col size={20}>
-                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                         {item.drinking}
-                                     </Text>
-                                 </Col>
-                                 <Col size={2.5} />
-                                 <Col size={10}>
-                                     <MaterialCommunityIcons name="cannabis" size={25} />
-                                 </Col>
-                                 <Col size={20}>
-                                     <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
-                                         {item.drugs}
-                                     </Text>
-                                 </Col>
-                                 <Col size={2.5} />
-                             </Row>
-                         </Grid>
-                     </Body>
-                 </CardItem>
-                </Card>
-                }
-              />
+                                 <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
+                                     {item.age}
+                                 </Text>
+
+                             </Text>
+                         </Row>
+                         <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                             <Col size={10}>
+                                 <MaterialIcons name="school" size={25} />
+                             </Col>
+                             <Col size={90}>
+                                 <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                     {item.academicMajor}
+                                 </Text>
+                             </Col>
+                         </Row>
+                         <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                             <Col size={10}>
+                                 <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
+                             </Col>
+                             <Col size={90}>
+                                 <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                     {item.ethnicity}
+                                 </Text>
+                             </Col>
+                         </Row>
+                         <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                             <Col size={10}>
+                                 <MaterialCommunityIcons name="church" size={25} />
+                             </Col>
+                             <Col size={90}>
+                                 <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                     {item.religion}
+                                 </Text>
+                             </Col>
+                         </Row>
+                     </Grid>
+                 </Body>
+             </CardItem>
+             <CardItem bordered>
+                 <Body>
+                     <Grid style={{ width: '100%' }}>
+                         <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
+                             <Col size={2.5} />
+                             <Col size={10}>
+                                 <MaterialCommunityIcons name="smoking" size={25} />
+                             </Col>
+                             <Col size={20}>
+                                 <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                     {item.smoking}
+                                 </Text>
+                             </Col>
+                             <Col size={2.5} />
+                             <Col size={10}>
+                                 <Entypo name="drink" size={25} />
+                             </Col>
+                             <Col size={20}>
+                                 <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                     {item.drinking}
+                                 </Text>
+                             </Col>
+                             <Col size={2.5} />
+                             <Col size={10}>
+                                 <MaterialCommunityIcons name="cannabis" size={25} />
+                             </Col>
+                             <Col size={20}>
+                                 <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                     {item.drugs}
+                                 </Text>
+                             </Col>
+                             <Col size={2.5} />
+                         </Row>
+                     </Grid>
+                 </Body>
+             </CardItem>
+            </Card>
+            }
+          />
       </Container>
     );
   }
