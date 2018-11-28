@@ -25,8 +25,8 @@ class ListingsViewCardComponent extends Component {
                     <Left>
                         <Thumbnail source={{ uri: posterImageSource }} />
                         <Body>
-                            <Text style={{ fontSize: 20, paddingBottom: 3, fontWeight: '600' }}>{posterName}</Text>
-                            <Text note>Posted {postDate}</Text>
+                            <Text style={{ fontFamily: 'titleFont', fontSize: 20, paddingBottom: 3, }}>{posterName}</Text>
+                            <Text style={{ fontFamily: 'bodyFont', fontSize: 14 }}>Posted {postDate}</Text>
                         </Body>
                     </Left>
                 </CardItem>
@@ -42,12 +42,12 @@ class ListingsViewCardComponent extends Component {
                     <Body>
                         <Grid style={{ width: '100%' }}>
                             <Row style={{ justifyContent: 'center', alignItems: 'center' }}>               
-                                <Text style={{ fontSize: 25, fontWeight: '600', textAlign: 'center' }}>
+                                <Text style={{ fontFamily: 'titleFont', fontSize: 25, textAlign: 'center' }}>
                                     {title}
                                 </Text>
                             </Row>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>               
-                                <Text note style={{ textAlign: 'center' }}>
+                                <Text style={{ fontFamily: 'bodyFont', fontSize: 16, textAlign: 'center' }}>
                                     {streetAddress}
                                 </Text>
                             </Row>
@@ -63,7 +63,7 @@ class ListingsViewCardComponent extends Component {
                                     <MaterialCommunityIcons name="home-modern" size={30} />
                                 </Row>
                                 <Row size={15}>
-                                    <Text note>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 14 }}>
                                         {housingType}
                                     </Text>
                                 </Row>
@@ -73,7 +73,7 @@ class ListingsViewCardComponent extends Component {
                                     <Foundation name="pricetag-multiple" size={30} />
                                 </Row>
                                 <Row size={15}>
-                                    <Text note>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 14 }}>
                                         ${rentingPrice}/Mo
                                     </Text>
                                 </Row>
@@ -83,7 +83,7 @@ class ListingsViewCardComponent extends Component {
                                     <FontAwesome name="bed" size={30} />
                                 </Row>
                                 <Row size={5}>
-                                    <Text note>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 14 }}>
                                         {beds} Beds
                                     </Text>
                                 </Row>
@@ -93,7 +93,7 @@ class ListingsViewCardComponent extends Component {
                                     <FontAwesome name="bathtub" size={30} />
                                 </Row>
                                 <Row size={5}>
-                                    <Text note>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 14 }}>
                                         {baths} Baths
                                     </Text>
                                 </Row>

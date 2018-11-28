@@ -34,6 +34,7 @@ class ListingCardFlatListScroller extends Component {
         return (
             <TouchableOpacity 
                 key={listing.id}
+                style={{ paddingVertical: 5 }}
                 activeOpacity={0.4} 
                 onPress={() => this.props.navigation.navigate('Details', {
                     id: listing.item.id,

@@ -85,8 +85,8 @@ class UserProfileDetailsComp extends Component {
                             marginTop: 20, 
                             marginRight: 10, 
                             height: 50, 
-                            backgroundColor: 'white', 
-                            borderColor: 'black', 
+                            backgroundColor: '#0055A2', 
+                            borderColor: 'white', 
                             borderWidth: 1, 
                             //borderRadius: 25, for circle
                             borderRadius: 10,
@@ -95,7 +95,7 @@ class UserProfileDetailsComp extends Component {
                             }}
                             onPress={() => this.setState({ scaleAnimationDialog: true })}
                         >
-                            <MaterialCommunityIcons name="settings" size={40} color='black' />
+                            <MaterialCommunityIcons name="settings" size={40} color='#E5A823' />
                         </Button>
                     </Right>
                 </Header>
@@ -171,7 +171,7 @@ class UserProfileDetailsComp extends Component {
                                 this.props.navigation.navigate('ProfileEdit1');
                             }}
                         >
-                            <Text style={{ fontSize: 18, fontWeight: '600' }}>
+                            <Text style={{ fontFamily: 'titleFont', fontSize: 18 }}>
                                 Edit Profile
                             </Text>
                         </Button>
@@ -191,7 +191,7 @@ class UserProfileDetailsComp extends Component {
                                 this.props.logoutUser();
                             }}
                         >
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: '#cc0000' }}>
+                            <Text style={{ fontFamily: 'titleFont', fontSize: 18, color: '#cc0000' }}>
                                 Log Out
                             </Text>
                         </Button>

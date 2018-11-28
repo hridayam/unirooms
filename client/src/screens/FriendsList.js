@@ -83,9 +83,9 @@ class FriendsListComp extends Component {
         console.log('messages', messages);
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
                     <Body style={{ alignItems: 'center' }}>
-                        <Title>Chat</Title>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Chat</Text>
                     </Body>
                 </Header>
 

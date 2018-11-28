@@ -105,8 +105,8 @@ class ProfileDetailsComponent extends Component {
                     <Body>
                         <Grid style={{ width: '100%' }}>
                             <Row style={{ paddingBottom: 10 }}>
-                                <Text style={{ fontSize: 28, fontWeight: '600', textAlign: 'left' }}> 
-                                    <Text style={{ fontSize: 36, fontWeight: '600', textAlign: 'left' }}>
+                                <Text style={{ fontFamily: 'titleFont', fontSize: 28, textAlign: 'left' }}> 
+                                    <Text style={{ fontFamily: 'titleFont', fontSize: 36, textAlign: 'left' }}>
                                         {firstName}{' '}{lastName}{'  '}
                                     </Text>
                                     {age}
@@ -117,7 +117,7 @@ class ProfileDetailsComponent extends Component {
                                     <MaterialIcons name="school" size={25} />
                                 </Col>
                                 <Col size={90}>             
-                                    <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 16, justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {academicMajor}
                                     </Text>
                                 </Col>
@@ -127,7 +127,7 @@ class ProfileDetailsComponent extends Component {
                                     <Ionicons name="md-globe" size={26} style={{ paddingLeft: 2 }} />
                                 </Col>
                                 <Col size={90}>             
-                                    <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 16, justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {ethnicity}
                                     </Text>
                                 </Col>
@@ -137,7 +137,7 @@ class ProfileDetailsComponent extends Component {
                                     <MaterialCommunityIcons name="church" size={25} />
                                 </Col>
                                 <Col size={90}>             
-                                    <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 16, justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {religion}
                                     </Text>
                                 </Col>
@@ -372,30 +372,30 @@ class ProfileDetailsComponent extends Component {
                                 <Col size={10}>
                                     <MaterialCommunityIcons name="smoking" size={25} />
                                 </Col>
-                                <Col size={20}>             
-                                    <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                <Col size={21}>             
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 15, justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {smoking}
                                     </Text>
                                 </Col>
-                                <Col size={2.5} />
+                                <Col size={3.5} />
                                 <Col size={10}>
                                     <Entypo name="drink" size={25} />
                                 </Col>
                                 <Col size={20}>             
-                                    <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 15, justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {drinking}
                                     </Text>
                                 </Col>
-                                <Col size={2.5} />
+                                <Col size={1.5} />
                                 <Col size={10}>
                                     <MaterialCommunityIcons name="cannabis" size={25} />
                                 </Col>
-                                <Col size={20}>             
-                                    <Text style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
+                                <Col size={21}>             
+                                    <Text style={{ fontFamily: 'bodyFont', fontSize: 15, justifyContent: 'center', alignItems: 'center', textAlign: 'left', width: '100%' }}>
                                         {drugs}
                                     </Text>
                                 </Col>
-                                <Col size={2.5} />
+                                <Col size={0.5} />
                             </Row>
                         </Grid>
                     </Body>
@@ -403,7 +403,7 @@ class ProfileDetailsComponent extends Component {
 
                 <CardItem>
                     <Body>
-                        <Text style={{ textAlign: 'justify', fontSize: 18, paddingTop: 5, paddingBottom: 10, fontWeight: '400' }}>
+                        <Text style={{ fontFamily: 'bodyFont', textAlign: 'justify', fontSize: 20, paddingTop: 5, paddingBottom: 10, fontWeight: '400' }}>
                             {userDescription}
                         </Text>
                     </Body>
@@ -435,8 +435,8 @@ const styles = StyleSheet.create({
     },
     badgeTextStyle: {
         color: 'white',
-        fontSize: 14,
-        fontWeight: 'bold'
+        fontFamily: 'titleFont',
+        fontSize: 14
     },
     badgeWrapperStyle: {
         paddingBottom: 10,

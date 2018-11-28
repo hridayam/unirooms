@@ -32,29 +32,31 @@ export default class Matcher extends Component {
   render() {
     return (
       <Container style={{ flex: 1 }}>
-        <Header style={{ height: 120, zIndex: -1 }}>
-          <Body style={{ flex: 1, alignItems: 'center', marginTop: 45 }}>
+        <Header style={{ height: 120, backgroundColor: '#0055A2', zIndex: -1 }}>
+          <Body style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
               <SwitchSelector
-                  initial={1}
-                  onPress={() => this.switchToRooms()}
-                  textColor={'#1F355D'}
-                  selectedColor={'white'}
-                  buttonColor={'#1F355D'}
-                  borderColor={'#1F355D'}
-                  hasPadding
-                  animationDuration={325}
-                  fontSize={16}
-                  options={[
-                      { label: 'Rooms', value: 'Rooms' },
-                      { label: 'Roommates', value: 'Roommates' }
-                  ]} 
-              />
+                initial={1}
+                onPress={() => this.switchToRooms()}
+                textColor={'#1F355D'}
+                textStyle={{ fontFamily: 'titleFont' }}
+                selectedTextStyle={{ fontFamily: 'titleFont' }}
+                selectedColor={'#E5A823'}
+                buttonColor={'#1F355D'}
+                borderColor={'#1F355D'}
+                hasPadding
+                animationDuration={325}
+                fontSize={18}
+                options={[
+                    { label: 'Rooms', value: 'Rooms' },
+                    { label: 'Roommates', value: 'Roommates' }
+                ]} 
+            />
           </Body>
         </Header>
 
         <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
             <Body style={{ flex: 1, alignItems: 'center' }}>
-                <Title>SJSU</Title>
+                <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>San Jose State</Text>
             </Body>
         </Header>
 

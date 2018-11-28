@@ -436,18 +436,16 @@ class UserProfileCreateForm1Comp extends Component {
         return (
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75 }}>
-                    <Left style={{ flex: 1 }} />
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Your Profile</Title>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26 }}>Your Profile</Text>
                     </Body>
-                    <Right style={{ flex: 1 }} />
                 </Header>
                 
                 <Content>
                     <Form>
                         <Grid style={{ width: '100%' }}>
                             <Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-                              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+                              <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
                                   Profile Images
                               </Text>
                             </Row>
@@ -456,7 +454,7 @@ class UserProfileCreateForm1Comp extends Component {
                             </Row>
 
 							<Row style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
-							  <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600' }}>
+							  <Text style={{ textAlign: 'center', fontFamily: 'titleFont', fontSize: 22 }}>
 							      General Information
 							  </Text>
 							</Row>
@@ -648,7 +646,7 @@ class UserProfileCreateForm1Comp extends Component {
                                             style={{ flexDirection: 'row' }}
                                             onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                         >
-                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                            <Text style={{ fontFamily: 'titleFont', color: 'white', fontSize: 22, paddingRight: 5 }}>
                                                 Continue
                                             </Text>
                                             <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />
@@ -659,7 +657,7 @@ class UserProfileCreateForm1Comp extends Component {
                                             style={{ flexDirection: 'row' }}
                                             onPress={() => this.goToUserProfileCreate2()}
                                         >
-                                            <Text style={{ color: 'white', fontSize: 22, paddingRight: 5 }}>
+                                            <Text style={{ fontFamily: 'titleFont', color: 'white', fontSize: 22, paddingRight: 5 }}>
                                                 Continue
                                             </Text>
                                             <MaterialCommunityIcons name="arrow-right-bold-circle-outline" size={30} color="white" />

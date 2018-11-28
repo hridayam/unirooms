@@ -22,8 +22,8 @@ const renderPagination = (index, total, context) => {
           right: 10
         }}
     >
-        <Text style={{ color: 'black', fontSize: 18, fontWeight: '500' }}>
-            <Text style={{ color: 'white', fontSize: 24, fontWeight: '500' }}>
+        <Text style={{ color: 'black', fontFamily: 'titleFont', fontSize: 18, }}>
+            <Text style={{ color: 'white', fontFamily: 'titleFont', fontSize: 24 }}>
                 {index + 1}
             </Text>
             /{total}
@@ -89,18 +89,18 @@ class ListingDetailsComp extends Component {
 
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 75 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
                     <Left style={{ flex: 1 }}>
                         <Button 
                             transparent
                             style={{ marginLeft: 3 }}
                             onPress={() => goBack()}
                         >
-                            <Ionicons name="md-arrow-round-back" size={30} />
+                            <Ionicons name="md-arrow-round-back" size={30} color='white' />
                         </Button>
                     </Left>
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Title>Details</Title>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Details</Text>
                     </Body>
                     <Right style={{ flex: 1 }}>
                         {
@@ -116,7 +116,8 @@ class ListingDetailsComp extends Component {
                                 transparent
                                 onPress={() => this.addToFavorites()}
                             >
-                                <FontAwesome name="heart" size={30} style={{ color: '#cc0000' }} />
+                                <FontAwesome name="heart" size={30} style={{ color: '#cc0000', marginLeft: 15, zIndex: -1, position: 'absolute' }} />
+                                <FontAwesome name="heart-o" size={30} style={{ zIndex: 1 }} />
                             </Button>
                         }
                     </Right>
@@ -129,10 +130,10 @@ class ListingDetailsComp extends Component {
                                 <Left>
                                     <Thumbnail source={{ uri: 'https://i.kym-cdn.com/entries/icons/medium/000/009/754/PhotogenicGuy.jpg' }} />
                                     <Body>
-                                        <Text style={{ fontSize: 20, paddingBottom: 3, fontWeight: '600' }}>
+                                        <Text style={{ fontFamily: 'titleFont', fontSize: 20, paddingBottom: 3 }}>
                                             {userName}
                                         </Text>
-                                        <Text note>Posted {displayDate}</Text>
+                                        <Text style={{ fontFamily: 'bodyFont', fontSize: 14 }}>Posted {displayDate}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
@@ -152,24 +153,17 @@ class ListingDetailsComp extends Component {
                             <CardItem>
                                 <Grid style={{ width: '100%' }}>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <Text 
-                                            style={{ 
-                                                fontSize: 25, 
-                                                fontWeight: '600', 
-                                                textAlign: 'center', 
-                                                width: '100%' 
-                                            }}
-                                        >
+                                        <Text style={{ fontFamily: 'titleFont', fontSize: 25, textAlign: 'center' }}>
                                             {listingTitle}
                                         </Text>
                                     </Row>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>               
-                                        <Text note style={{ textAlign: 'center' }}>
+                                        <Text style={{ textAlign: 'center', fontFamily: 'bodyFont', fontSize: 16 }}>
                                             {streetAddress}
                                         </Text>
                                     </Row>
                                     <Row style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5 }}>
-                                        <Text note style={{ fontWeight: '900', textAlign: 'center' }}>
+                                        <Text style={{ fontFamily: 'titleFont', fontSize: 16, textAlign: 'center' }}>
                                             ${rentingPrice} Per Month
                                         </Text>
                                     </Row>
@@ -178,7 +172,7 @@ class ListingDetailsComp extends Component {
 
                             <CardItem>
                                 <Body style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text note style={{ textAlign: 'justify' }}>
+                                    <Text style={{ textAlign: 'justify', fontFamily: 'bodyFont', fontSize: 20 }}>
                                         {listingDescription}
                                     </Text>
                                 </Body>
@@ -205,8 +199,8 @@ class ListingDetailsComp extends Component {
                                                         <MaterialCommunityIcons name="home-modern" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>Type</Text>
-                                                        <Text style={{ fontSize: 12 }}>{housingType}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>Type</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{housingType}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
@@ -215,8 +209,8 @@ class ListingDetailsComp extends Component {
                                                         <FontAwesome name="bed" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>Beds</Text>
-                                                        <Text style={{ fontSize: 12 }}>{beds}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>Beds</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{beds}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
@@ -225,8 +219,8 @@ class ListingDetailsComp extends Component {
                                                         <MaterialIcons name="local-laundry-service" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>Laundry</Text>
-                                                        <Text style={{ fontSize: 12 }}>{laundry}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>Laundry</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{laundry}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row>
@@ -235,8 +229,8 @@ class ListingDetailsComp extends Component {
                                                         <MaterialCommunityIcons name="air-conditioner" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>A/C</Text>
-                                                        <Text style={{ fontSize: 12 }}>{airConditioning}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>A/C</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{airConditioning}</Text>
                                                     </Col>
                                                 </Row>
                                             </Col>
@@ -247,8 +241,8 @@ class ListingDetailsComp extends Component {
                                                         <Entypo name="ruler" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>SqFt</Text>
-                                                        <Text style={{ fontSize: 12 }}>{squarefeet}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>SqFt</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{squarefeet}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
@@ -257,8 +251,8 @@ class ListingDetailsComp extends Component {
                                                         <FontAwesome name="bathtub" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>Baths</Text>
-                                                        <Text style={{ fontSize: 12 }}>{baths}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>Baths</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{baths}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row style={{ paddingBottom: 10 }}>
@@ -267,8 +261,8 @@ class ListingDetailsComp extends Component {
                                                         <MaterialCommunityIcons name="parking" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>Parking</Text>
-                                                        <Text style={{ fontSize: 12 }}>{parking}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>Parking</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{parking}</Text>
                                                     </Col>
                                                 </Row>
                                                 <Row>
@@ -277,8 +271,8 @@ class ListingDetailsComp extends Component {
                                                         <MaterialIcons name="pets" size={30} />
                                                     </Col>
                                                     <Col size={60} style={styles.colDetail}>
-                                                        <Text style={{ fontSize: 15, fontWeight: '600' }}>Pets</Text>
-                                                        <Text style={{ fontSize: 12 }}>{pets}</Text>
+                                                        <Text style={{ fontSize: 16, fontFamily: 'titleFont' }}>Pets</Text>
+                                                        <Text style={{ fontSize: 14, fontFamily: 'bodyFont' }}>{pets}</Text>
                                                     </Col>
                                                 </Row>
 
@@ -360,9 +354,9 @@ const styles = StyleSheet.create({
         colDetail: {
         alignItems: 'flex-start', 
     },
-        seperatorTitle: {
+    seperatorTitle: {
+        fontFamily: 'titleFont',
         fontSize: 22, 
-        fontWeight: '600', 
         justifyContent: 'center', 
         textAlign: 'center', 
         paddingTop: 10
