@@ -20,7 +20,15 @@ module.exports = function(req, res) {
     const favorites = [];
     const liked = [];
     const disLiked = [];
-    const newUser = {username, firstName, lastName, email, code, favorites, liked, disLiked};
+    const personality = [];
+    const lifestyle = [];
+    const images = [];
+    const firstTimeUser = true;
+    const newUser = {
+        username, firstName, lastName, 
+        email, code, favorites, liked, disLiked,
+        personality, lifestyle, images, firstTimeUser
+    };
 
     let hasError = false;
     let errors = [];

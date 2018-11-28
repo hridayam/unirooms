@@ -105,4 +105,16 @@ export const sendMessage = async (data) => {
     }
 };
 
-//add functionality for new chat here
+export const startChatting = async (uid, cb) => {
+    try {
+        const docRef = await messagesRef.doc();
+        await docRef.set({
+            thread: [],
+            users: [uid, getUID()]
+        });
+        cb();
+    } catch (err) {
+        cb();
+        console.log(err);
+    }
+};

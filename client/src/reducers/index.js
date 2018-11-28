@@ -7,6 +7,7 @@ import listings from './listings';
 import matcherUsers from './matcherUsers';
 import favoriteListings from './favoriteListings';
 import userListings from './userListings';
+import matchedUsers from './matchedUsers';
 
 export default combineReducers({
     auth,
@@ -15,5 +16,6 @@ export default combineReducers({
     listings,
     matcherUsers,
     favoriteListings,
-    userListings
+    userListings,
+    matchedUsers
 });
