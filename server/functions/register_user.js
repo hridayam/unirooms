@@ -19,13 +19,13 @@ module.exports = function(req, res) {
 
     const favorites = [];
     const liked = [];
-    const disLiked = [];
+    const disliked = [];
     const personality = [];
     const lifestyle = [];
     const images = [];
     const firstTimeUser = true;
     const newUser = {
-        email, code, favorites, liked, disLiked,
+        email, code, favorites, liked, disliked,
         personality, lifestyle, images, firstTimeUser
     };
 
