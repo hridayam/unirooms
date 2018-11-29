@@ -7,8 +7,6 @@ const usersRef = db.collection('users');
 // if sending data is done, then start matching
 // after matching, remove from the adding
 
-const data = [];
-
 const getUID = () => {
     return app.auth().currentUser.uid;
 };
@@ -74,15 +72,12 @@ export const getUsers = () => async dispatch => {
             const currData = currUser.data();
             const data = [];
             allUsers.forEach(u => {
-                if(currData.liked.includes(u.id) || currData.disliked.includes(u.id))
-                {
+                console.log(currData);
+                if (currData.liked.includes(u.id) || currData.disliked.includes(u.id)) {
                     //do nothing
-                }
-                else if(currData.id === getUID())
-                {
+                } else if (currData.id === getUID()) {
                     // do nothing
-                }
-                else {
+                } else {
                     data.push({
                         ...u.data(),
                         id: u.id
@@ -90,7 +85,7 @@ export const getUsers = () => async dispatch => {
                     dispatch({
                         type: GET_MATCHER_USERS,
                         payload: data
-                    })
+                    });
                 }
             });
 

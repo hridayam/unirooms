@@ -92,12 +92,6 @@ class comp extends Component {
                                     <Text style={styles.signupButton}>Sign Up</Text>
                                 </TouchableOpacity>
                             </View>
-
-                            <View style={{ alignItems: 'center' }}>
-                                <TouchableOpacity>
-                                    <Text style={styles.signupButton}>Forgot Password?</Text>
-                                </TouchableOpacity>
-                            </View>
                         </View>
                     </View>
                 </Content>

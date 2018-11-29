@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Image,
-  Dimensions
+  Dimensions,
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import { Content, Form, Item, Input, Label } from 'native-base';
 
@@ -22,6 +24,7 @@ class comp extends Component {
             email: '',
             password: '',
             confirmPassword: '',
+            loadingData: false
         };
     }
 
@@ -48,7 +51,12 @@ class comp extends Component {
     }
 
     onSubmit() {
-        this.props.registerUser(this.state);
+        const { email, password, confirmPassword } = this.state;
+        this.setState({ loadingData: true });
+        this.props.registerUser({ email, password, confirmPassword }, (err) => {
+            if (err) Alert.alert('Unable to Login', 'please check the email, and password');
+            this.setState({ loadingData: false });
+        });
     }
 
     render() {
@@ -106,7 +114,11 @@ class comp extends Component {
                             style={styles.button}
                             onPress={this.onSubmit.bind(this)}
                         >
-                            <Text style={styles.buttonText}>Sign Up</Text>
+                            {
+                                this.state.loadingData ?
+                                    <ActivityIndicator color='#fff' size='small' /> :
+                                    <Text style={styles.buttonText}>Sign up</Text>
+                            }
                         </TouchableOpacity>
                         <View style={styles.signupTextCont}>
                             <Text style={styles.signupText}>Already have an account?</Text>

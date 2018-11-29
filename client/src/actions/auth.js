@@ -21,10 +21,8 @@ const tryLogin = async (credentials, dispatch, cb) => {
     try {
         let user = await app.auth().signInWithEmailAndPassword(email, password);
         user = user.user;
-        
-        if (user.emailVerified) {
-            getUserData(user.uid, dispatch);
-        }
+       
+        getUserData(user.uid, dispatch);
         
         cb();
     } catch (err) {
@@ -59,6 +57,7 @@ export const registerUser = (data, cb) => async dispatch => {
         tryLogin({ email, password }, dispatch, cb);
         console.log(res);
     } catch (err) {
+        cb(err);
         console.log(err);
     }
 };
