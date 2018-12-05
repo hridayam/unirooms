@@ -187,8 +187,9 @@ class UserProfileDetailsComp extends Component {
                                 alignItems: 'center',
                                 marginTop: 25
                             }}
-                            onPress={() => {
+                            onPress={async () => {
                                 this.setState({ scaleAnimationDialog: false });
+                                await new Promise(resolve => setTimeout(resolve, 100));
                                 this.props.logoutUser();
                             }}
                         >

@@ -11,6 +11,7 @@ import { app } from './firebase-setup';
 
 YellowBox.ignoreWarnings(['Warning: TouchableWithoutFeedback']);
 YellowBox.ignoreWarnings(['Warning: Failed prop type: Invalid props.style key `fontfamily`']);
+console.disableYellowBox = true;
 
 class App extends Component {
     constructor(props) {

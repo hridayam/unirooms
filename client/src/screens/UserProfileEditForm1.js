@@ -390,7 +390,6 @@ class UserProfileEditForm1Comp extends Component {
     }
 
     goToUserProfileEdit2() {
-        console.log(this.state.religion);
         this.props.navigation.navigate('ProfileEdit2', { 
             uri: this.state.uri,
             blobs: this.state.blobs,
