@@ -7,67 +7,110 @@ const usersRef = db.collection('users');
 // if sending data is done, then start matching
 // after matching, remove from the adding
 
-
 const getUID = () => {
     return app.auth().currentUser.uid;
 };
 
-export const addLike = (otherId, cb) => {
-
-    usersRef.doc(getUID()).update({
-        liked: firebase.firestore.FieldValue.arrayUnion(otherId)
-    })
-    .then(() => {
-        cb()
-    })
-    .catch(err => console.log(err));
-
-}
-
-export const addDisLike = (otherId) => {
-
-    usersRef.doc(getUID()).update({
-        disliked: firebase.firestore.FieldValue.arrayUnion(otherId)
-    })
-    .catch(err => console.log(err));
-}
-
-export const getLikes = (otherId) => async dispatch => {
+export const addLike = (otherId, cb) => async dispatch => {
     try {
-        const likes =[];
-        const ref = await usersRef.doc(otherId).get();
-        const data = ref.data()
-        console.log(data);
-        const uId = getUID()
-        console.log(data.liked);
-        if(data.liked.includes(getUID()))
-        {
-            // match it
-                matchesRef.add({
-                users: [otherId, uId]
-            })
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
-
-export const getUsers = () => async dispatch => {
-    try {
-        const refs = await usersRef.get();
-        const data = [];
-        refs.forEach(ref => {
-            data.push({
-                ...ref.data(),
-                id: ref.id
-            });
+        await usersRef.doc(getUID()).update({
+            liked: firebase.firestore.FieldValue.arrayUnion(otherId)
         });
         dispatch({
-            type: GET_MATCHER_USERS,
-            payload: data
-        })
+            type: RIGHT_SWIPE,
+            payload: otherId
+        });
+        cb();
     } catch (err) {
         console.log(err);
     }
 };
+
+export const addDisLike = (otherId, cb) => async dispatch => {
+    console.log(otherId);
+    try {
+        usersRef.doc(getUID()).update({
+            disliked: firebase.firestore.FieldValue.arrayUnion(otherId)
+        });
+        dispatch({
+            type: LEFT_SWIPE,
+            payload: otherId
+        });
+        cb();
+    } catch (err) {
+        console.log(err);
+        cb(err);
+    }
+};
+
+export const getLikes = (otherId, cb) => async dispatch => {
+    try {
+        const likes =[];
+        const ref = await usersRef.doc(otherId).get();
+        const data = ref.data();
+        console.log(data);
+        const uId = getUID();
+        console.log(data.liked);
+        if (data.liked.includes(getUID())) {
+            // match it
+            await matchesRef.add({
+                users: [otherId, uId]
+            });
+            cb(true);
+        }
+    } catch (err) {
+        console.log(false, err);
+        cb(err);
+    }
+};
+
+export const getUsers = () => async dispatch => {
+    console.log('getting users');
+            try {
+            const allUsers = await usersRef.get();
+            const currUser = await usersRef.doc(getUID()).get();
+            const currData = currUser.data();
+            const data = [];
+            allUsers.forEach(u => {
+                console.log(currData);
+                if (currData.liked.includes(u.id) || currData.disliked.includes(u.id)) {
+                    //do nothing
+                } else if (currData.id === getUID()) {
+                    // do nothing
+                } else {
+                    data.push({
+                        ...u.data(),
+                        id: u.id
+                    });
+                    dispatch({
+                        type: GET_MATCHER_USERS,
+                        payload: data
+                    });
+                }
+            });
+
+        }
+        catch (err) {
+            console.log(err);
+        }
+};
+
+// export const getUsers = () => async dispatch => {
+//     console.log('getting users');
+//     try {
+//         const refs = await usersRef.get();
+//         const data = [];
+//         refs.forEach(ref => {
+//             data.push({
+//                 ...ref.data(),
+//                 id: ref.id
+//             });
+//         });
+//         dispatch({
+//             type: GET_MATCHER_USERS,
+//             payload: data
+//         })
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };

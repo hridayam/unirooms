@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Image,
-  Dimensions
+  Dimensions,
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import { Content, Form, Item, Input, Label } from 'native-base';
 
@@ -19,12 +21,10 @@ class comp extends Component {
         super(props);
 
         this.state = {
-            firstName: '',
-            lastName: '',
             email: '',
-            username: '',
             password: '',
             confirmPassword: '',
+            loadingData: false
         };
     }
 
@@ -51,7 +51,12 @@ class comp extends Component {
     }
 
     onSubmit() {
-        this.props.registerUser(this.state);
+        const { email, password, confirmPassword } = this.state;
+        this.setState({ loadingData: true });
+        this.props.registerUser({ email, password, confirmPassword }, (err) => {
+            if (err) Alert.alert('Unable to Login', 'please check the email, and password');
+            this.setState({ loadingData: false });
+        });
     }
 
     render() {
@@ -73,32 +78,14 @@ class comp extends Component {
                     </View>
                     <Form style={{ alignItems: 'center' }}>
                         <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>First Name</Label>
-                            <Input 
-                                onChangeText={(firstName) => { this.setState({ firstName }); }}
-                                value={this.state.firstName}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Last Name</Label>
-                            <Input 
-                                onChangeText={(lastName) => { this.setState({ lastName }); }}
-                                value={this.state.lastName}
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Username</Label>
-                            <Input 
-                                onChangeText={(username) => { this.setState({ username }); }}
-                                value={this.state.username}
-                            />
-                        </Item>
-                        <Item floatingLabel>
                             <Label style={{ color: '#ffffff' }}>Email</Label>
                             <Input 
                                 textContentType='emailAddress'
                                 onChangeText={(email) => { this.setState({ email }); }}
                                 value={this.state.email}
+                                keyboardType='email-address'
+                                autoCapitalize='none'
+                                autoFocus
                             />
                         </Item>
                         <Item floatingLabel>
@@ -107,6 +94,8 @@ class comp extends Component {
                                 textContentType='password'
                                 onChangeText={(password) => { this.setState({ password }); }}
                                 value={this.state.password}
+                                secureTextEntry
+                                autoCapitalize='none'
                             />
                         </Item>
                         <Item floatingLabel>
@@ -115,6 +104,8 @@ class comp extends Component {
                                 textContentType='password'
                                 onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
                                 value={this.state.confirmPassword}
+                                secureTextEntry
+                                autoCapitalize='none'
                             />
                         </Item>
                   </Form>
@@ -123,7 +114,11 @@ class comp extends Component {
                             style={styles.button}
                             onPress={this.onSubmit.bind(this)}
                         >
-                            <Text style={styles.buttonText}>Sign Up</Text>
+                            {
+                                this.state.loadingData ?
+                                    <ActivityIndicator color='#fff' size='small' /> :
+                                    <Text style={styles.buttonText}>Sign up</Text>
+                            }
                         </TouchableOpacity>
                         <View style={styles.signupTextCont}>
                             <Text style={styles.signupText}>Already have an account?</Text>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { 
+import {
 	createStackNavigator, createTabNavigator,
-	createSwitchNavigator, createMaterialTopTabNavigator 
+	createSwitchNavigator, createMaterialTopTabNavigator
 } from 'react-navigation';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import { Icon } from 'native-base';
 import { Platform } from 'react-native';
+import { connect } from 'react-redux';
 
 import TabBarComponent from './components/TabBarComponent';
 import {
@@ -28,6 +29,8 @@ import {
 	Welcome,
 	Matcher
 } from './screens';
+import { reloadUser } from './actions';
+import { app } from '../firebase-setup';
 
 const ListingStack = createStackNavigator({
 	Explore: ListingsCardList,
@@ -42,8 +45,13 @@ const MatcherStack = createStackNavigator({
 
 const exploreSwitch = createSwitchNavigator({
 	Rooms: ListingStack,
-	Roommates: MatcherStack 
+	Roommates: MatcherStack
 });
+
+const createProfileStack = createStackNavigator({
+	CreateForm1: UserProfileCreateForm1,
+	CreateForm2: UserProfileCreateForm2,
+}, { headerMode: 'none' });
 
 const UserFavoritesStack = createStackNavigator({
 	Favorites: UserFavorites,
@@ -153,19 +161,44 @@ class Router extends Component {
 		};
 	}
 
+	componentDidMount() {
+		if (app.auth().currentUser) {
+			this.props.reloadUser(app.auth().currentUser.uid);
+		}
+	}
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({ isLoggedIn: nextProps.loggedIn, isVerified: nextProps.verified });
 	}
+
+	routeToDisplay = () => {
+		if (!this.state.isLoggedIn) {
+			return 'AuthStack';
+		}
+
+		if (!this.state.isVerified) {
+			return 'Verification';
+		}
+
+		if (this.props.firstTimeUser) {
+			return 'createProfileStack';
+		}
+
+		return 'MainNavigator';
+	};
 
 	render() {
 		const Nav = createSwitchNavigator({
 			AuthStack,
 			Verification,
-			MainNavigator
+			MainNavigator,
+			createProfileStack
 		}, {
-			initialRouteName: !this.state.isLoggedIn ? 'AuthStack' :
-				this.state.isVerified ? 'MainNavigator' : 'Verification',
+			initialRouteName: this.routeToDisplay()
 		});
+
+		// initialRouteName: !this.state.isLoggedIn ? 'AuthStack' :
+		// 		this.state.isVerified ? 'MainNavigator' : 'Verification',
 
 		return (
 			<Nav />
@@ -173,4 +206,10 @@ class Router extends Component {
 	}
 }
 
-export default Router;
+const mapStateToProps = (state) => {
+	return {
+		firstTimeUser: state.auth.firstTimeUser
+	};
+};
+
+export default connect(mapStateToProps, { reloadUser })(Router);

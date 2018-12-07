@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 import { 
-    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES 
+    URL, LOGIN_USER, LOGOUT_USER, UPDATE_USER, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, GET_MATCHES
 } from './types';
 import { app, db, firebase } from '../../firebase-setup'; 
 
 //const db = firebase.firestore(app);
 const usersCollection = db.collection('users');
+const matchesRef = db.collection('matches');
 
 export const loginUser = (credentials, cb) => async dispatch => {
     tryLogin(credentials, dispatch, cb);
@@ -20,14 +21,13 @@ const tryLogin = async (credentials, dispatch, cb) => {
     try {
         let user = await app.auth().signInWithEmailAndPassword(email, password);
         user = user.user;
+       
+        getUserData(user.uid, dispatch);
         
-        if (user.emailVerified) {
-            getUserData(user.uid, dispatch);
-        }
-        
-        //cb(user.emailVerified);
+        cb();
     } catch (err) {
         console.log(err);
+        cb(err);
     }
 };
 
@@ -46,6 +46,10 @@ export const getUserData = async (uid, dispatch) => {
     }
 };
 
+export const reloadUser = (uid) => async dispatch => {
+    getUserData(uid, dispatch);
+};
+
 export const registerUser = (data, cb) => async dispatch => {
     const { email, password } = data;
     try {
@@ -53,6 +57,7 @@ export const registerUser = (data, cb) => async dispatch => {
         tryLogin({ email, password }, dispatch, cb);
         console.log(res);
     } catch (err) {
+        cb(err);
         console.log(err);
     }
 };
@@ -82,12 +87,12 @@ export const logoutUser = () => async dispatch => {
 export const updateUserData = (data, cb) => async dispatch => {
     const { id } = data;
     const images = [];
-    if (data.images === []) {
+    if (data.images.length !== 0) {
         try {
             data.images.forEach(async (image, i) => {
                 const uri = await uploadImage(image, i, id, cb);
                 images.push(uri);
-                if (i === data.images.length - 1) {
+                if (images.length === data.images.length) {
                     pushUpdatedUserData(data, id, images, cb, dispatch);
                 }
             });
@@ -101,6 +106,7 @@ export const updateUserData = (data, cb) => async dispatch => {
 };
 
 const pushUpdatedUserData = async (data, id, URIs, cb, dispatch) => {
+    console.log(data);
     let images = URIs;
     try {
         const ref = await usersCollection.doc(id).get();
@@ -109,6 +115,7 @@ const pushUpdatedUserData = async (data, id, URIs, cb, dispatch) => {
         const newData = {
             ...ref.data(),
             ...data.info,
+            firstTimeUser: false,
             images
         };
         await usersCollection.doc(id).set(newData);
@@ -180,4 +187,44 @@ export const removeFromFavorites = (lid, cb) => async dispatch => {
         cb(err);
         console.log(err);
     }
+};
+
+export const getMatchedUsers = (cb) => async dispatch => {
+    const uid = app.auth().currentUser.uid;
+    const query = matchesRef.where('users', 'array-contains', uid);
+
+    query.onSnapshot((docs) => {
+        docs.docChanges().forEach(async change => {
+            const temp = change.doc.data();
+            
+            let ouid;
+            if (temp.users[0] === uid) {
+                ouid = temp.users[1];
+            } else {
+                ouid = temp.users[0];
+            }
+
+            if (change.type === 'added') {
+                try {
+                    let user = await usersCollection.doc(ouid).get();
+                    user = {
+                        ...user.data(),
+                        id: user.id
+                    };
+                    dispatch({
+                        type: GET_MATCHES,
+                        payload: user
+                    });
+                    cb();
+                } catch (err) {
+                    console.log(err);
+                    cb(err);
+                }
+            }
+        });
+        cb();
+    }, (err) => {
+        console.log(err);
+        cb(err);
+    });
 };

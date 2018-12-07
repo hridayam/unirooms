@@ -1,18 +1,16 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { AppRegistery, StyleSheet, Image } from 'react-native';
+import { AppRegistery, StyleSheet, Image, Alert } from 'react-native';
 import { Content, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
-import { Carousel } from '../common';
-import { Badge, Button, Divider, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { MatcherSlick } from '../common';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import SwitchSelector from 'react-native-switch-selector';
 
 import { app } from '../../firebase-setup';
 import { addLike, addDisLike, getUsers, getLikes } from '../actions';
-import { moderateScale } from '../common';
+import { moderateScale, MatcherSlick } from '../common';
+
 
 // Display data
 // update the data on swipe
@@ -36,26 +34,45 @@ const images = [
 
 class MatcherComp extends Component {
 
-    onRightSwipe(otherId) {
-      addLike(otherId, err => {
-          if (err)
-          {
-              return;
-          }
-          else {
-              this.props.getLikes(otherId);
-          }
-      });
-      //getLikes(otherId);
-    }
-
-    onLeftSwipe(otherId) {
-        addDisLike(otherId);
-    }
+//     updateUserData = (otherItem, users) => {
+//         //delete the previous uId from the users
+//         let i = 0;
+//         var BreakException = {};
+//         try {
+//             users.forEach(u => {
+//                 if (u.id === otherItem.id) {
+//                     users.splice(i, 1);
+//                     throw BreakException;
+//                 }
+//                 i++;
+//             });
+//         }
+//         catch (e){
+//             if (e !== BreakException) throw e;
+//         }
+// //        const index = _.findIndex(users, {id: id});
+//         console.log(index);
+//     }
 
     componentDidMount() {
-        console.log('mounted');
         this.props.getUsers();
+    }
+
+    onLeftSwipe(otherItem, users) {
+        this.props.addDisLike(otherItem.id);
+    }
+
+    onRightSwipe(otherItem, users) {
+        this.props.addLike(otherItem.id, err => {
+            if (err) {
+                return;
+            } 
+            this.props.getLikes(otherItem.id, (matched, err) => {
+                if (matched) {
+                    Alert.alert('Matched!', 'Head to messages to get to know each other');
+                }
+            });
+        });
     }
 
     createUsersArray = () => {
@@ -92,7 +109,7 @@ class MatcherComp extends Component {
                   options={[
                       { label: 'Rooms', value: 'Rooms' },
                       { label: 'Roommates', value: 'Roommates' }
-                  ]} 
+                  ]}
                 />
             </Body>
           </Header>
@@ -106,10 +123,11 @@ class MatcherComp extends Component {
           <DeckSwiper
             ref={(c) => this._deckSwiper = c}
             dataSource={users}
-            onSwipeRight={(item) => this.onRightSwipe(item.id)}
-            onSwipeLeft={(item) => this.onLeftSwipe(item.id)}
+            onSwipeRight={(item) => this.onRightSwipe(item, users)}
+            onSwipeLeft={(item) => this.onLeftSwipe(item, users)}
             renderItem={item =>
-            <Card style={{ elevation: 3}}>
+                
+            <Card key={item.id} style={{ elevation: 3}}>
               <CardItem cardBody>
                 <MatcherSlick
                     imageSource={item.images}
@@ -127,7 +145,6 @@ class MatcherComp extends Component {
                                  <Text style={{ fontSize: moderateScale(25, 2), fontWeight: '600', textAlign: 'left' }}>
                                      {item.age}
                                  </Text>
-
                              </Text>
                          </Row>
                          <Row style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 5 }}>
@@ -208,36 +225,36 @@ class MatcherComp extends Component {
 }
 
 const styles = StyleSheet.create({
-text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-},
-colIcon: {
-    justifyContent: 'center',
-    alignItems: 'center'
-},
-badgeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
-    paddingVertical: 5
-},
-personalityBadgeStyle: {
-    backgroundColor: '#4FC1E9',
-},
-hobbiesBadgeStyle: {
-    backgroundColor: '#A0D468',
-},
-badgeTextStyle: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold'
-},
-badgeWrapperStyle: {
-    paddingBottom: 10,
-    paddingHorizontal: 2
-}
+    text: {
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    colIcon: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    badgeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        flexWrap: 'wrap',
+        paddingVertical: 5
+    },
+    personalityBadgeStyle: {
+        backgroundColor: '#4FC1E9',
+    },
+    hobbiesBadgeStyle: {
+        backgroundColor: '#A0D468',
+    },
+    badgeTextStyle: {
+        color: 'white',
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
+    badgeWrapperStyle: {
+        paddingBottom: 10,
+        paddingHorizontal: 2
+    }
 });
 
 const mapstateToProps = (state) => {
@@ -246,6 +263,6 @@ const mapstateToProps = (state) => {
     };
 };
 
-const Matcher = connect(mapstateToProps, { getUsers, getLikes })(MatcherComp);
+const Matcher = connect(mapstateToProps, { getUsers, getLikes, addDisLike, addLike })(MatcherComp);
 
 export { Matcher };

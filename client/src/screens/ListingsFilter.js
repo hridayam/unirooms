@@ -85,7 +85,152 @@ class ListingsFilter extends Component {
 
     render() {
         return (
-            <Text>Filter</Text>
+            <Container style={{ flex: 1 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
+                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Listing Preferences</Text>
+                    </Body>
+                </Header>
+
+                <Header transparent style={{ height: 75, marginTop: -75 }}>
+                    <Left style={{ flex: 1 }}>
+                        <Button 
+                            transparent 
+                            style={{ marginLeft: 3 }}
+                            onPress={() => this.passFiltersOntoListings()}
+                        >
+                            <Ionicons name="md-arrow-round-back" size={30} color='white' />
+                        </Button>
+                    </Left>
+                    <Body style={{ flex: 1, alignItems: 'center' }} />
+                    <Right style={{ flex: 1 }} />
+                </Header>
+                <ScrollView>
+	                <Grid style={{ width: '100%' }}>
+		                <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Distance from school</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+				            <SelectMultiple
+					        	items={distance}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.distanceFilters}
+					        	onSelectionsChange={this.onDistanceChange} 
+					        />
+				        </Row>
+				         <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Price per month</Text>
+		                </Row>
+				        <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={rentingPrice}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.rentingPriceFilters}
+					        	onSelectionsChange={this.onRentingPriceChange} 
+					        />
+				        </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Housing Type</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={housingType}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.housingTypeFilters}
+					        	onSelectionsChange={this.onHousingTypeChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Square Feet</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={squareFeet}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.squareFeetFilters}
+					        	onSelectionsChange={this.onSquareFeetChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Beds</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={beds}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.bedsFilters}
+					        	onSelectionsChange={this.onBedsChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Baths</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={baths}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.bathsFilters}
+					        	onSelectionsChange={this.onBathsChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Laundry</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={laundry}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.laundryFilters}
+					        	onSelectionsChange={this.onLaundryChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Parking</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={parking}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.parkingFilters}
+					        	onSelectionsChange={this.onParkingChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Air Conditioning</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={airConditioning}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.airConditioningFilters}
+					        	onSelectionsChange={this.onAirConditioningChange} 
+					        />
+					    </Row>
+				        <Row style={{ backgroundColor: '#F1F1F1', alignItems: 'center', height: 40 }}>
+		                	<Text style={{ fontFamily: 'titleFont', fontSize: 18, color: 'black', textAlign: 'left', marginLeft: 10 }}>Pets</Text>
+		                </Row>
+		                <Row style={{ flex: 0 }}>
+					        <SelectMultiple
+					        	items={pets}
+					        	labelStyle={{ fontFamily: 'bodyFont', fontSize: 16 }}
+					        	selectedLabelStyle={{ fontFamily: 'titleFont', fontSize: 16, color: 'black' }}
+					        	selectedItems={this.state.petsFilters}
+					        	onSelectionsChange={this.onPetsChange} 
+					        />
+					    </Row>
+			        </Grid>
+		        </ScrollView>
+            </Container>
+
         );
     }
 }
