@@ -43,8 +43,20 @@ class UserListingDetailsComp extends Component {
       };
     }
 
+    warning() {
+        Alert.alert(
+          'Are you sure you want to delete this listing?',
+          '',
+          [
+            { text: 'Yes', onPress: () => this.deleteListing() },
+            { text: 'Cancel', style: 'cancel' },
+          ],
+          { cancelable: false }
+        );
+    }
+
     deleteListing() {
-        alert('delete');
+        Alert.alert('delete function goes here');
     }
 
     renderImages = () => {
@@ -89,7 +101,7 @@ class UserListingDetailsComp extends Component {
                     <Right style={{ flex: 1 }}>
                         <Button 
                             transparent
-                            onPress={() => this.deleteListing()}
+                            onPress={() => this.warning()}
                         >
                             <MaterialCommunityIcons name="trash-can-outline" size={30} color='white' />
                         </Button>

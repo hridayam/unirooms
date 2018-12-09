@@ -45,10 +45,6 @@ class ListingsCardListComp extends Component {
         });
     }
 
-    switchToRoommates = async () => {
-        this.props.navigation.navigate('Roommates');
-    }
-
     render() {
         const listings = this.mapListings();
         return (

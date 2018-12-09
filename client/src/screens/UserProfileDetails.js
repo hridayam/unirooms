@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, Alert } from 'react-native';
 import { Container, Content, Header, Left, Body, Right, Button } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Dialog, { DialogContent, ScaleAnimation } from 'react-native-popup-dialog';
@@ -74,6 +74,11 @@ class UserProfileDetailsComp extends Component {
             watchingShows = false,
         } = data;
 
+        logout = async () => {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            this.props.logoutUser();
+        };
+
         return (
             <Container style={{ flex: 1 }}>
                 <Header transparent style={{ height: 75, zIndex: 1 }}>
@@ -87,7 +92,7 @@ class UserProfileDetailsComp extends Component {
                             height: 50, 
                             backgroundColor: '#0055A2', 
                             borderColor: 'white', 
-                            borderWidth: 1, 
+                            //borderWidth: 1, 
                             //borderRadius: 25, for circle
                             borderRadius: 10,
                             alignItems: 'center',
@@ -189,12 +194,19 @@ class UserProfileDetailsComp extends Component {
                             }}
                             onPress={async () => {
                                 this.setState({ scaleAnimationDialog: false });
-                                await new Promise(resolve => setTimeout(resolve, 100));
-                                this.props.logoutUser();
+                                Alert.alert(
+                                  'Are you sure you want to sign out?',
+                                  '',
+                                  [
+                                    { text: 'Yes', onPress: () => this.logout() },
+                                    { text: 'Cancel', style: 'cancel' },
+                                  ],
+                                  { cancelable: false }
+                                );
                             }}
                         >
                             <Text style={{ fontFamily: 'titleFont', fontSize: 18, color: '#cc0000' }}>
-                                Log Out
+                                Sign Out
                             </Text>
                         </Button>
                     </DialogContent>
