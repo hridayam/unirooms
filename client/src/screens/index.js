@@ -9,6 +9,7 @@ export * from './Messages';
 export * from './Register';
 export * from './UserFavorites';
 export * from './UserListings';
+export * from './UserListingsDetails';
 export * from './UserProfileCreateForm1';
 export * from './UserProfileCreateForm2';
 export * from './UserProfileDetails';

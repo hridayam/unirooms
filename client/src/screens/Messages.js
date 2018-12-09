@@ -15,7 +15,7 @@ import { app } from '../../firebase-setup';
 import { sendMessage } from '../actions/chat';
 
 
-class MessagesComp extends Component {
+class comp extends Component {
     static navigationOptions = ({ navigation }) => ({
             title: `${navigation.state.params.title}`,
             headerTitleStyle: { textAlign: 'left', alignSelf: 'center' },
@@ -53,7 +53,7 @@ class MessagesComp extends Component {
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75, backgroundColor: '#0055A2', zIndex: 1 }}>
                     <Body style={{ alignItems: 'center' }}>
-                        <Text style={{ fontFamily: 'titleFont', fontSize: 22, color: '#E5A823' }} >{this.props.user.firstName} {this.props.user.lastName}</Text>
+                        <Text style={{ fontFamily: 'titleFont', fontSize: 22, color: '#E5A823' }} >{this.props.otherUser.firstName} {this.props.otherUser.lastName}</Text>
                     </Body>
                 </Header>
 
@@ -79,7 +79,7 @@ class MessagesComp extends Component {
                         user={{
                             _id: app.auth().currentUser.uid,
                             name: `${this.props.user.firstName} ${this.props.user.lastName}`,
-                            avatar: this.props.user.images[0]
+                            avatar: 'https://placeimg.com/140/140/any'
                         }}
                         
                     />
@@ -101,13 +101,13 @@ const mapStateToProps = (state, props) => {
             userData = {
                 name: `${state.auth.firstName} ${state.auth.lastName}`,
                 _id: app.auth().currentUser.uid,
-                avatar: state.auth.images[0]
+                avatar: 'https://placeimg.com/140/140/any'
             };
         } else {
             userData = {
                 name: `${user.firstName} ${user.lastName}`,
                 _id: user.id,
-                avatar: user.images[0]
+                avatar: 'https://placeimg.com/140/140/any'
             };
         }
 
@@ -128,5 +128,5 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const Messages = connect(mapStateToProps, {})(MessagesComp);
+const Messages = connect(mapStateToProps, {})(comp);
 export { Messages };

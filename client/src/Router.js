@@ -20,6 +20,7 @@ import {
 	Register,
 	UserFavorites,
 	UserListings,
+	UserListingDetails,
 	UserProfileCreateForm1,
 	UserProfileCreateForm2,
 	UserProfileDetails,
@@ -61,7 +62,7 @@ const UserFavoritesStack = createStackNavigator({
 const userListingsStack = createStackNavigator({
 	Listings: UserListings,
 	Form: ListingForm,
-	Details: ListingDetails,
+	Details: UserListingDetails,
 }, { headerMode: 'none' });
 
 

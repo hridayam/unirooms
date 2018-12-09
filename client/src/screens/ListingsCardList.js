@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { TouchableOpacity, ActivityIndicator, View, Alert, FlatList, Platform, Text } from 'react-native';
+import { TouchableOpacity, ActivityIndicator, View, Alert, FlatList, Platform, Text, StyleSheet, Dimensions } from 'react-native';
 import { Container, Header, Left, Right, Body, Title, Button } from 'native-base';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons, Ionicons, Foundation } from '@expo/vector-icons';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import SwitchSelector from 'react-native-switch-selector';
+import Modal from 'react-native-modal';
 
 //import { ListingsViewCardComponent } from '../common';
 import { getReservations } from '../actions';
@@ -16,16 +17,7 @@ class ListingsCardListComp extends Component {
         super(props);
         this.state = {
             loadingData: true,
-            distanceFilters: [],
-            rentingPriceFilters: [],
-            housingTypeFilters: [],
-            squareFeetFilters: [],
-            bedsFilters: [],
-            bathsFilters: [],
-            laundryFilters: [],
-            parkingFilters: [],
-            airConditioningFilters: [],
-            petsFilters: []
+            visibleModal: false
         };
     }
 
@@ -54,7 +46,6 @@ class ListingsCardListComp extends Component {
     }
 
     switchToRoommates = async () => {
-        //await new Promise(resolve => setTimeout(resolve, 100));
         this.props.navigation.navigate('Roommates');
     }
 
@@ -62,35 +53,91 @@ class ListingsCardListComp extends Component {
         const listings = this.mapListings();
         return (
             <Container style={{ flex: 1 }}>
-                <Header style={{ height: 120, backgroundColor: '#0055A2', zIndex: -1 }}>
-                    <Body style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
-                        <SwitchSelector
-                            initial={0}
-                            onPress={() => this.switchToRoommates()}
-                            textColor={'#1F355D'}
-                            textStyle={{ fontFamily: 'titleFont' }}
-                            selectedTextStyle={{ fontFamily: 'titleFont' }}
-                            selectedColor={'#E5A823'}
-                            buttonColor={'#1F355D'}
-                            borderColor={'#1F355D'}
-                            hasPadding
-                            animationDuration={100}
-                            fontSize={18}
-                            options={[
-                                { label: 'Rooms', value: 'Rooms' },
-                                { label: 'Roommates', value: 'Roommates' }
-                            ]}
-                        />
-                    </Body>
-                </Header>
+                <Modal
+                    animationIn='slideInDown'
+                    animationOut='slideOutUp'
+                    animationInTiming={500}   
+                    animationOutTiming={500}
+                    isVisible={this.state.visibleModal === true}
+                    style={{ justifyContent: 'flex-start', margin: 0 }}
+                    onBackdropPress={() => { this.setState({ visibleModal: false }); }}
+                >
+                    <View style={styles.modalContent}>
+                        <Grid>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Button
+                                    transparent
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        flexDirection: 'column'
+                                    }}
+                                    onPress={() => {
+                                        this.setState({ visibleModal: false });
+                                    }}
+                                >
+                                    <Ionicons name="ios-home" size={60} color='#E5A823' />
+                                    <Text style={{ fontFamily: 'headerFont', fontSize: 40, color: '#E5A823' }}>
+                                        Rooms
+                                    </Text>
+                                </Button>
+                            </Row>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Button
+                                    transparent
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        flexDirection: 'column'
+                                    }}
+                                    onPress={() => {
+                                        this.setState({ visibleModal: false });
+                                        this.props.navigation.navigate('Roommates');
+                                    }}
+                                >
+                                    <Foundation name="torsos-all" size={60} color='#E5A823' />
+                                    <Text style={{ fontFamily: 'headerFont', fontSize: 40, color: '#E5A823' }}>
+                                        Roommmates
+                                    </Text>
+                                </Button>
+                            </Row>
+                            <Row>
+                                <Button
+                                    transparent
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        flexDirection: 'column'
+                                    }}
+                                    onPress={() => {
+                                        this.setState({ visibleModal: false });
+                                    }}
+                                >
+                                    <Ionicons name="ios-close" size={40} color='#E5A823' style={{ marginTop: 80 }} />
+                                    <Text style={{ fontFamily: 'headerFont', fontSize: 22, color: '#E5A823' }}>
+                                        Cancel
+                                    </Text>
+                                </Button>
+                            </Row>
+                        </Grid>
+                    </View>
+                </Modal>
 
-                <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
-                    <Body style={{ flex: 1, alignItems: 'center' }}>
+                <Header style={{ height: 95, backgroundColor: '#0055A2', zIndex: -1 }} />
+
+                <Header transparent style={{ height: 75, marginTop: -95, zIndex: 1 }}>
+                    <Body style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>San Jose State</Text>
                     </Body>
                 </Header>
 
-                <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
+                <Header transparent style={{ height: 75, marginTop: -95 }}>
                     <Left style={{ flex: 1 }}>
                         <Button
                             transparent
@@ -100,7 +147,15 @@ class ListingsCardListComp extends Component {
                             <MaterialIcons name="library-add" size={30} color='white' />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 1 }} />
+                    <Body style={{ flex: 1, alignItems: 'center', marginTop: 50, zIndex: 2 }}>
+                        <Button 
+                            transparent 
+                            style={{ width: 100, height: 80, alignItems: 'center', justifyContent: 'center' }}
+                            onPress={() => this.setState({ visibleModal: true })}
+                        >
+                            <Ionicons name="ios-arrow-down" size={25} color='#E5A823' style={{ marginTop: 15 }} />
+                        </Button>
+                    </Body>
                     <Right style={{ flex: 1 }}>
                         <Button
                             transparent
@@ -124,6 +179,17 @@ class ListingsCardListComp extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    modalContent: {
+        backgroundColor: '#0055A2',
+        height: Dimensions.get('window').height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        borderColor: 'rgba(0, 0, 0, 0.1)'
+    }
+});
 
 const matchStateToProps = (state) => {
     return {

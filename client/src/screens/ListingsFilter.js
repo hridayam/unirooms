@@ -4,9 +4,7 @@ import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, For
 import { ImagePicker, Permissions } from 'expo';
 import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import 'firebase/firestore';
-import Dialog, { DialogTitle, DialogContent, SlideAnimation } from 'react-native-popup-dialog';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import RNPickerSelect from 'react-native-picker-select';
 import SelectMultiple from 'react-native-select-multiple';
 
 const distance = ['Less than 1 mile', '1 - 5 miles', '5 - 10 miles', '10 - 15 miles', '15+ miles'];
@@ -88,7 +86,7 @@ class ListingsFilter extends Component {
             <Container style={{ flex: 1 }}>
                 <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
                     <Body style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Listing Preferences</Text>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823', marginLeft: 10 }}>Listing Preferences</Text>
                     </Body>
                 </Header>
 
