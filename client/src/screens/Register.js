@@ -9,9 +9,12 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
+  ImageBackground,
   Alert
 } from 'react-native';
-import { Content, Form, Item, Input, Label } from 'native-base';
+import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
+import { Entypo, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import { registerUser } from '../actions/index';
 import { icon } from '../common/images';
@@ -54,7 +57,7 @@ class comp extends Component {
         const { email, password, confirmPassword } = this.state;
         this.setState({ loadingData: true });
         this.props.registerUser({ email, password, confirmPassword }, (err) => {
-            if (err) Alert.alert('Unable to Login', 'please check the email, and password');
+            if (err) Alert.alert('Registration Unsuccessful', 'Either your email was not an SJSU email, the passwords were less than 8 characters, or the passwords were unidentical.');
             this.setState({ loadingData: false });
         });
     }
@@ -62,138 +65,108 @@ class comp extends Component {
     render() {
         return (
             <KeyboardAvoidingView
-                style={{ backgroundColor: '#01579B', flex: 1, justifyContent: 'center' }}
+                style={{ flex: 1, justifyContent: 'center' }}
                 behavior="padding" enabled
             >
-                <Content>
-                    <View style={styles.logoContainer}>
-                        <Image
-                            style={{ 
-                                width: 200, 
-                                height: 150,
-                                resizeMode: 'contain' 
-                            }}
-                            source={icon} 
-                        />
-                    </View>
-                    <Form style={{ alignItems: 'center' }}>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Email</Label>
-                            <Input 
-                                textContentType='emailAddress'
-                                onChangeText={(email) => { this.setState({ email }); }}
-                                value={this.state.email}
-                                keyboardType='email-address'
-                                autoCapitalize='none'
-                                autoFocus
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Password</Label>
-                            <Input 
-                                textContentType='password'
-                                onChangeText={(password) => { this.setState({ password }); }}
-                                value={this.state.password}
-                                secureTextEntry
-                                autoCapitalize='none'
-                            />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label style={{ color: '#ffffff' }}>Confirm Password</Label>
-                            <Input 
-                                textContentType='password'
-                                onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
-                                value={this.state.confirmPassword}
-                                secureTextEntry
-                                autoCapitalize='none'
-                            />
-                        </Item>
-                  </Form>
-                  <View>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={this.onSubmit.bind(this)}
-                        >
-                            {
-                                this.state.loadingData ?
-                                    <ActivityIndicator color='#fff' size='small' /> :
-                                    <Text style={styles.buttonText}>Sign up</Text>
-                            }
-                        </TouchableOpacity>
-                        <View style={styles.signupTextCont}>
-                            <Text style={styles.signupText}>Already have an account?</Text>
-                            <TouchableOpacity
-                                onPress={() => this.props.navigation.navigate('Login')}
-                            >
-                                <Text style={styles.signupButton}>Log In</Text>
-                            </TouchableOpacity>
-                        </View>
-                  </View>
-              </Content>
-          </KeyboardAvoidingView>
+                <Container style={{ flex: 1 }}> 
+                    <ImageBackground
+                      source={require('../../assets/Backgrounds/Room3.jpg')}
+                      style={{ width: '100%', height: '100%' }}
+                    > 
+                        <Content scrollEnabled={false}>
+                            <Grid>
+                                <Row style={{ justifyContent: 'flex-start', alignItems: 'flex-start', height: Dimensions.get('window').height * 0.5 }}>
+                                    <Button
+                                        transparent
+                                        style={{ marginTop: 15, height: 60, width: 60, justifyContent: 'center', alignItems: 'center' }}
+                                        onPress={() => this.props.navigation.navigate('Welcome')}
+                                    >
+                                        <Ionicons name="ios-arrow-back" size={50} color='white' />
+                                    </Button>
+                                </Row>
+                                <Row style={{ justifyContent: 'flex-start', alignItems: 'center', height: Dimensions.get('window').height * 0.5, flexDirection: 'column' }}>
+                                    <Item rounded style={{ width: 250, marginBottom: 15 }}>
+                                        <Text>     </Text>
+                                        <MaterialCommunityIcons name="email-outline" size={30} color='white' />
+                                        <Input 
+                                            placeholder='Email Address'
+                                            placeholderTextColor='white'
+                                            value={this.state.email}
+                                            textContentType='emailAddress'
+                                            onChangeText={(email) => { this.setState({ email }); }}
+                                            keyboardType='email-address'
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            style={{ color: 'white', fontSize: 20, fontFamily: 'bodyFont' }}
+                                            autoCorrect={false}
+                                        />
+                                    </Item>
+                                    <Item rounded style={{ width: 250, marginBottom: 15 }}>
+                                        <Text>     </Text>
+                                        <MaterialCommunityIcons name="lock-outline" size={30} color='white' />
+                                        <Input 
+                                            placeholder='Password'
+                                            placeholderTextColor='white'
+                                            value={this.state.password}
+                                            onChangeText={(password) => { this.setState({ password }); }}
+                                            secureTextEntry
+                                            autoCapitalize='none'
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            style={{ color: 'white', fontSize: 20, fontFamily: 'bodyFont' }}
+                                            autoCorrect={false}
+                                        />
+                                    </Item>
+                                     <Item rounded style={{ width: 250, marginBottom: 60 }}>
+                                        <Text>     </Text>
+                                        <MaterialCommunityIcons name="lock-outline" size={30} color='white' />
+                                        <Input 
+                                            placeholder='Confirm Password'
+                                            placeholderTextColor='white'
+                                            value={this.state.confirmPassword}
+                                            onChangeText={(confirmPassword) => { this.setState({ confirmPassword }); }}
+                                            secureTextEntry
+                                            autoCapitalize='none'
+                                            blurOnSubmit
+                                            returnKeyType='done'
+                                            style={{ color: 'white', fontSize: 20, fontFamily: 'bodyFont' }}
+                                            autoCorrect={false}
+                                        />
+                                    </Item>
+                                    <TouchableOpacity 
+                                        style={styles.button}
+                                        onPress={this.onSubmit.bind(this)}
+                                        activeOpacity={0.9}
+                                    >
+                                        { this.state.loadingData ?
+                                            <ActivityIndicator color='#fff' size='small' /> :
+                                            <Text style={styles.buttonText}>Sign Up</Text>
+                                        }
+                                    </TouchableOpacity>
+                                </Row>
+                            </Grid>
+                        </Content>
+                    </ImageBackground>
+                </Container>
+            </KeyboardAvoidingView>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    logoContainer: {
-        flexGrow: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop: 50
-    },
-    logoText: {
-        marginVertical: 15,
-        fontSize: 18,
-        color: 'rgba(255, 255, 255, 0.7)'
-    },
-    container: {
-        backgroundColor: '#01579B',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    signupTextCont: {
-        flexGrow: 1,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        paddingVertical: 16,
-        flexDirection: 'row'
-    },
-    signupText: {
-        color: 'rgba(255,255,255,0.6)',
-        fontSize: 16
-    },
-    signupButton: {
-        color: '#ffffff',
-        fontSize: 16,
-        fontWeight: '500'
-    },
-    formContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    inputBox: {
-        width: 300,
-        backgroundColor: 'rgba(255, 255,255,0.2)',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10
-    },
     button: {
-        width: 300,
-        backgroundColor: '#F9a825',
+        width: 250,
+        height: 40,
+        backgroundColor: '#447B66',
         borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 30
     },
     buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
+        fontSize: 20,
+        fontFamily: 'bodyFont',
+        color: 'white',
         textAlign: 'center'
     }
 });

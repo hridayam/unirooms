@@ -72,8 +72,7 @@ const AuthStack = createStackNavigator({
 		Login, Register
 	})
 }, {
-	headerMode: 'none',
-	mode: 'modal'
+	headerMode: 'none'
 });
 
 const ProfileStack = createStackNavigator({

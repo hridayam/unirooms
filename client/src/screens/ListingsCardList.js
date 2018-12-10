@@ -125,15 +125,15 @@ class ListingsCardListComp extends Component {
                     </View>
                 </Modal>
 
-                <Header style={{ height: 95, backgroundColor: '#0055A2', zIndex: -1 }} />
+                <Header style={{ height: 95, backgroundColor: '#0055A2', top: 0, right: 0, bottom: 0, left: 0, zIndex: -1 }} />
 
-                <Header transparent style={{ height: 75, marginTop: -95, zIndex: 1 }}>
+                <Header transparent style={{ height: 75, marginTop: -95, top: 0, right: 0, bottom: 0, left: 0, zIndex: 1 }}>
                     <Body style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>San Jose State</Text>
                     </Body>
                 </Header>
 
-                <Header transparent style={{ height: 75, marginTop: -95 }}>
+                <Header transparent style={{ height: 75, marginTop: -95, top: 0, right: 0, bottom: 0, left: 0, zIndex: 2 }}>
                     <Left style={{ flex: 1 }}>
                         <Button
                             transparent

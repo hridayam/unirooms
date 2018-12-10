@@ -1,68 +1,75 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { Container, Content, Header, Left, Body, Right, Icon, Title, Button, Form, Item, Input, Label } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import { icon } from '../common/images';
 
 class Welcome extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.logoContainer}>
-                        <Image
-                            style={{ 
-                                width: 300, 
-                                height: 250,
-                                resizeMode: 'contain' 
-                            }}
-                            source={icon} 
-                        />
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={() => this.props.navigation.navigate('Login')}
-                    >
-                        <Text style={styles.buttonText}>Log In</Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={() => this.props.navigation.navigate('Register')}
-                    >
-                        <Text style={styles.buttonText}>Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <Container style={{ flex: 1 }}>
+                <ImageBackground
+                    source={require('../../assets/Backgrounds/Room1.jpg')}
+                    style={{ width: '100%', height: '100%' }}
+                > 
+                    <Content scrollEnabled={false} >
+                        <Grid>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center', height: Dimensions.get('window').height * 0.5 }}>
+                                <Image
+                                    style={{ 
+                                        width: 300, 
+                                        height: 250,
+                                        resizeMode: 'contain' 
+                                    }}
+                                    source={require('../../assets/icon_blank.png')} 
+                                />
+                            </Row>
+
+                            <Row style={{ height: Dimensions.get('window').height * 0.25 }} />
+
+                            <Row style={{ justifyContent: 'center', alignItems: 'center', height: Dimensions.get('window').height * 0.1 }}>
+                                <TouchableOpacity 
+                                    style={styles.button}
+                                    onPress={() => this.props.navigation.navigate('Login')}
+                                    activeOpacity={0.9}
+                                >
+                                    <Text style={styles.buttonText}>Sign In</Text>
+                                </TouchableOpacity>
+                            </Row>
+
+                            <Row style={{ justifyContent: 'center', alignItems: 'center', height: Dimensions.get('window').height * 0.1 }}>        
+                                <TouchableOpacity 
+                                    style={styles.button}
+                                    onPress={() => this.props.navigation.navigate('Register')}
+                                    activeOpacity={0.9}
+                                >
+                                    <Text style={styles.buttonText}>Sign Up</Text>
+                                </TouchableOpacity>
+                            </Row>
+
+                            <Row style={{ height: Dimensions.get('window').height * 0.05 }} />
+                        </Grid>
+                    </Content>
+                </ImageBackground>
+            </Container>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    logoContainer: {
-        flexGrow: 1,
+    button: {
+        width: 150,
+        height: 40,
+        backgroundColor: '#447B66',
+        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    logoText: {
-        marginVertical: 15,
-        fontSize: 18,
-        color: 'rgba(255, 255, 255, 0.7)'
-    },
-    container: {
-        backgroundColor: '#01579B',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start'
-    },
-    button: {
-        width: 300,
-        backgroundColor: '#F9A825',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
-    },
     buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
+        fontSize: 20,
+        fontFamily: 'bodyFont',
+        color: 'white',
         textAlign: 'center'
     }
 });
