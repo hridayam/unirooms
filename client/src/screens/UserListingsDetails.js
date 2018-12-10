@@ -32,7 +32,8 @@ const renderPagination = (index, total, context) => {
   );
 };
 
-class ListingDetailsComp extends Component {
+
+class UserListingDetailsComp extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -42,25 +43,20 @@ class ListingDetailsComp extends Component {
       };
     }
 
-    addToFavorites = () => {
-        const { id } = this.props;
-        if (this.state.isFavorited) {
-            this.props.removeFromFavorites(id, err => {
-                if (err) {
-                    Alert.alert('unable to remove favorites');
-                    return;
-                }
-                this.setState({ isFavorited: false });
-            });
-        } else {
-            this.props.addToFavorites(id, err => {
-                if (err) {
-                    Alert.alert('unable to add to favorites');
-                    return;
-                }
-                this.setState({ scaleAnimationDialog: true, isFavorited: true });
-            });
-        }
+    warning() {
+        Alert.alert(
+          'Are you sure you want to delete this listing?',
+          '',
+          [
+            { text: 'Yes', onPress: () => this.deleteListing() },
+            { text: 'Cancel', style: 'cancel' },
+          ],
+          { cancelable: false }
+        );
+    }
+
+    deleteListing() {
+        Alert.alert('delete function goes here');
     }
 
     renderImages = () => {
@@ -103,23 +99,12 @@ class ListingDetailsComp extends Component {
                         <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Details</Text>
                     </Body>
                     <Right style={{ flex: 1 }}>
-                        {
-                            this.state.isFavorited === false ?
-                                <Button 
-                                    transparent
-                                    onPress={() => this.addToFavorites()}
-                                >
-                                    <FontAwesome name="heart-o" size={30} color='white' />
-                                </Button>
-                            :
-                            <Button 
-                                transparent
-                                onPress={() => this.addToFavorites()}
-                            >
-                                <FontAwesome name="heart" size={30} style={{ color: '#cc0000', marginLeft: 15, zIndex: -1, position: 'absolute' }} />
-                                <FontAwesome name="heart-o" size={30} style={{ zIndex: 1 }} color='white' />
-                            </Button>
-                        }
+                        <Button 
+                            transparent
+                            onPress={() => this.warning()}
+                        >
+                            <MaterialCommunityIcons name="trash-can-outline" size={30} color='white' />
+                        </Button>
                     </Right>
                 </Header>
 
@@ -373,6 +358,6 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const ListingDetails = connect(mapStateToProps, { addToFavorites, removeFromFavorites })(ListingDetailsComp);
+const UserListingDetails = connect(mapStateToProps, { addToFavorites, removeFromFavorites })(UserListingDetailsComp);
 
-export { ListingDetails };
+export { UserListingDetails };
