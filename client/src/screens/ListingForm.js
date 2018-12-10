@@ -628,7 +628,7 @@ class comp extends Component {
                                         block
                                         onPress={() => this.setState({ slideAnimationDialogFailure: true })}
                                     >
-                                        <Text style={{ color: 'white',  fontFamily: 'titleFont', fontSize: 22 }} >
+                                        <Text style={{ color: 'white', fontFamily: 'titleFont', fontSize: 22 }} >
                                           Post
                                         </Text>
                                     </Button>

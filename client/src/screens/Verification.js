@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { KeyboardAvoidingView, TextInput, Animated, Keyboard,
     TouchableWithoutFeedback, View, Text, StyleSheet 
 } from 'react-native';
+import { Button, Container, Header, Left, Body, Content, Right, Title, Card, CardItem, Thumbnail } from 'native-base';
 import { connect } from 'react-redux';
 
 import { verifyUser } from '../actions';
@@ -217,27 +218,35 @@ class Verification extends Component {
         let root_style = [this.props.style || {}, styles.root];
 
         return (
-            <KeyboardAvoidingView style={root_style} behavior="padding" enabled>
-                <TextInput
-                           style={styles.actual_input}
-                           ref={(input) => { this.input = input; }}
-                           maxLength={2}
-                           selection={input_selection}
-                           keyboardType='numeric'
-                           onChangeText={this.onChangeText}
-                           autoComplete={false}
-                           autoCorrect={false}
-                           defaultValue={empty_character}
-                           value={empty_character}
-                           onFocus={this.onFocus}
-                           onBlur={this.onBlur}
-                           onSubmitEditing={this.onPinEntered}
-                           {...this.props.inputProps}
-                />
-                <View style={styles.cells_wrapper}>
-                    {inputs}
-                </View>
-            </KeyboardAvoidingView>
+            <Container style={{ flex: 1 }}>
+                <Header style={{ height: 75, backgroundColor: '#0055A2' }}>
+                    <Body style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>Enter Verification Code</Text>
+                    </Body>
+                </Header>
+                <KeyboardAvoidingView style={root_style} behavior="padding" enabled>
+                    <TextInput
+                        autofocus
+                        style={styles.actual_input}
+                        ref={(input) => { this.input = input; }}
+                        maxLength={2}
+                        selection={input_selection}
+                        keyboardType='numeric'
+                        onChangeText={this.onChangeText}
+                        autoComplete={false}
+                        autoCorrect={false}
+                        defaultValue={empty_character}
+                        value={empty_character}
+                        onFocus={this.onFocus}
+                        onBlur={this.onBlur}
+                        onSubmitEditing={this.onPinEntered}
+                        {...this.props.inputProps}
+                    />
+                    <View style={styles.cells_wrapper}>
+                        {inputs}
+                    </View>
+                </KeyboardAvoidingView>
+            </Container>
         );
     }
 }
