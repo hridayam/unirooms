@@ -13,14 +13,12 @@ import {
 	ListingDetails,
 	ListingForm,
 	ListingsCardList,
-	ListingsFilter,
 	Login,
 	Messages,
 	FriendsList,
 	Register,
 	UserFavorites,
 	UserListings,
-	UserListingDetails,
 	UserProfileCreateForm1,
 	UserProfileCreateForm2,
 	UserProfileDetails,
@@ -37,7 +35,6 @@ const ListingStack = createStackNavigator({
 	Explore: ListingsCardList,
 	Form: ListingForm,
 	Details: ListingDetails,
-	Filter: ListingsFilter,
 }, { headerMode: 'none' });
 
 const MatcherStack = createStackNavigator({
@@ -62,7 +59,7 @@ const UserFavoritesStack = createStackNavigator({
 const userListingsStack = createStackNavigator({
 	Listings: UserListings,
 	Form: ListingForm,
-	Details: UserListingDetails,
+	Details: ListingDetails,
 }, { headerMode: 'none' });
 
 
