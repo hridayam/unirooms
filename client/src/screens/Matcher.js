@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { AppRegistery, StyleSheet, Image, Alert, Dimensions } from 'react-native';
-import { Content, Button, Icon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
+import { AppRegistery, StyleSheet, Image, Alert } from 'react-native';
+import { Content, Button as NbButton, Icon as NbIcon, Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
 import { connect } from 'react-redux';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons, Foundation } from '@expo/vector-icons';
-import Modal from 'react-native-modal';
+import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import SwitchSelector from 'react-native-switch-selector';
 
 import { app } from '../../firebase-setup';
 import { addLike, addDisLike, getUsers, getLikes } from '../actions';
@@ -33,12 +33,6 @@ const images = [
 ];
 
 class MatcherComp extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            visibleModal: false
-        };
-    }
 
 //     updateUserData = (otherItem, users) => {
 //         //delete the previous uId from the users
@@ -88,104 +82,41 @@ class MatcherComp extends Component {
         });
     }
 
+    switchToRooms = async () => {
+      await new Promise(resolve => setTimeout(resolve, 360));
+      this.props.navigation.navigate('Rooms');
+    }
+
     render() {
       const users = this.createUsersArray();
       console.log(users);
       return (
         <Container style={{ flex: 1 }}>
-          <Modal
-              animationIn='slideInDown'
-              animationOut='slideOutUp'
-              animationInTiming={500}   
-              animationOutTiming={500}
-              isVisible={this.state.visibleModal === true}
-              style={{ justifyContent: 'flex-start', margin: 0 }}
-              onBackdropPress={() => { this.setState({ visibleModal: false }); }}
-          >
-              <View style={styles.modalContent}>
-                  <Grid>
-                      <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                          <Button
-                              transparent
-                              style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  flexDirection: 'column'
-                              }}
-                              onPress={() => {
-                                  this.setState({ visibleModal: false });
-                                  this.props.navigation.navigate('Rooms');
-                              }}
-                          >
-                              <Ionicons name="ios-home" size={60} color='#E5A823' />
-                              <Text style={{ fontFamily: 'headerFont', fontSize: 40, color: '#E5A823' }}>
-                                  Rooms
-                              </Text>
-                          </Button>
-                      </Row>
-                      <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
-                          <Button
-                              transparent
-                              style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  flexDirection: 'column'
-                              }}
-                              onPress={() => {
-                                  this.setState({ visibleModal: false });
-                              }}
-                          >
-                              <Foundation name="torsos-all" size={60} color='#E5A823' />
-                              <Text style={{ fontFamily: 'headerFont', fontSize: 40, color: '#E5A823' }}>
-                                  Roommmates
-                              </Text>
-                          </Button>
-                      </Row>
-                      <Row>
-                          <Button
-                              transparent
-                              style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  flexDirection: 'column'
-                              }}
-                              onPress={() => {
-                                  this.setState({ visibleModal: false });
-                              }}
-                          >
-                              <Ionicons name="ios-close" size={40} color='#E5A823' style={{ marginTop: 80 }} />
-                              <Text style={{ fontFamily: 'headerFont', fontSize: 22, color: '#E5A823' }}>
-                                  Cancel
-                              </Text>
-                          </Button>
-                      </Row>
-                  </Grid>
-              </View>
-          </Modal>
-
-          <Header style={{ height: 95, backgroundColor: '#0055A2', zIndex: -1 }} />
-
-          <Header transparent style={{ height: 75, marginTop: -95, zIndex: 1 }}>
-              <Body style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>San Jose State</Text>
-              </Body>
+          <Header style={{ height: 120, backgroundColor: '#0055A2', zIndex: -1 }}>
+            <Body style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
+                <SwitchSelector
+                  initial={1}
+                  onPress={() => this.switchToRooms()}
+                  textColor={'#1F355D'}
+                  textStyle={{ fontFamily: 'titleFont' }}
+                  selectedTextStyle={{ fontFamily: 'titleFont' }}
+                  selectedColor={'#E5A823'}
+                  buttonColor={'#1F355D'}
+                  borderColor={'#1F355D'}
+                  hasPadding
+                  animationDuration={325}
+                  fontSize={18}
+                  options={[
+                      { label: 'Rooms', value: 'Rooms' },
+                      { label: 'Roommates', value: 'Roommates' }
+                  ]}
+                />
+            </Body>
           </Header>
 
-          <Header transparent style={{ height: 75, marginTop: -95 }}>
-              <Body style={{ flex: 1, alignItems: 'center', marginTop: 50, zIndex: 2 }}>
-                  <Button 
-                      transparent 
-                      style={{ width: 100, height: 80, alignItems: 'center', justifyContent: 'center' }}
-                      onPress={() => this.setState({ visibleModal: true })}
-                  >
-                      <Ionicons name="ios-arrow-down" size={25} color='#E5A823' style={{ marginTop: 15 }} />
-                  </Button>
+          <Header transparent style={{ height: 75, marginTop: -120, zIndex: 1 }}>
+              <Body style={{ flex: 1, alignItems: 'center' }}>
+                  <Text style={{ fontFamily: 'headerFont', fontSize: 26, color: '#E5A823' }}>San Jose State</Text>
               </Body>
           </Header>
 
@@ -196,7 +127,7 @@ class MatcherComp extends Component {
             onSwipeLeft={(item) => this.onLeftSwipe(item, users)}
             renderItem={item =>
                 
-            <Card key={item.id} style={{ elevation: 3 }}>
+            <Card key={item.id} style={{ elevation: 3}}>
               <CardItem cardBody>
                 <MatcherSlick
                     imageSource={item.images}
@@ -323,14 +254,6 @@ const styles = StyleSheet.create({
     badgeWrapperStyle: {
         paddingBottom: 10,
         paddingHorizontal: 2
-    },
-    modalContent: {
-        backgroundColor: '#0055A2',
-        height: Dimensions.get('window').height,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 4,
-        borderColor: 'rgba(0, 0, 0, 0.1)'
     }
 });
 

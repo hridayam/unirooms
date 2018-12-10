@@ -105,11 +105,11 @@ class ListingDetailsComp extends Component {
                     <Right style={{ flex: 1 }}>
                         {
                             this.state.isFavorited === false ?
-                                <Button 
+                                 <Button 
                                     transparent
                                     onPress={() => this.addToFavorites()}
                                 >
-                                    <FontAwesome name="heart-o" size={30} color='white' />
+                                    <FontAwesome name="heart-o" size={30} />
                                 </Button>
                             :
                             <Button 
@@ -117,7 +117,7 @@ class ListingDetailsComp extends Component {
                                 onPress={() => this.addToFavorites()}
                             >
                                 <FontAwesome name="heart" size={30} style={{ color: '#cc0000', marginLeft: 15, zIndex: -1, position: 'absolute' }} />
-                                <FontAwesome name="heart-o" size={30} style={{ zIndex: 1 }} color='white' />
+                                <FontAwesome name="heart-o" size={30} style={{ zIndex: 1 }} />
                             </Button>
                         }
                     </Right>
@@ -307,8 +307,8 @@ class ListingDetailsComp extends Component {
                                             latitude,
                                             longitude
                                         }}
-                                        title={listingTitle}
-                                        description={streetAddress}
+                                        title={'Title'}
+                                        description={'Street/Description'}
                                     /> 
                                 </MapView>
                             </CardItem>

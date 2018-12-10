@@ -183,28 +183,11 @@ class comp extends Component {
         });
     }
 
-    getDistance(x1, x2, y1, y2) {
-        const R = 6378137;
-        const dLat = this.rad(y1 - x1);
-        const dLong = this.rad(y2 - x2);
-        const a = (Math.sin(dLat / 2) * Math.sin(dLat / 2)) + (Math.cos(this.rad(x1)) * Math.cos(this.rad(y1)) * Math.sin(dLong / 2) * Math.sin(dLong / 2));
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const d = R * c;
-        const miles = d * 0.00062137;
-        return miles.toFixed(2);
-    }
-
-    rad(x) {
-        return (x * Math.PI) / 180;
-    }
-
     addToDatabase() {
         const today = new Date();
         const { streetAddressLatitude, streetAddressLongitude } = this.state;
         //const dateText = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
         //console.log(streetAddressLatitude, streetAddressLongitude);
-        const milesFromSjsu = this.getDistance(streetAddressLatitude, streetAddressLongitude, 37.33466532, -121.875329832);
-
         const listingData = { 
             info: {
                 userId: app.auth().currentUser.uid,
@@ -232,8 +215,6 @@ class comp extends Component {
             console.log(`added data = ${data}`);
             this.setState({ slideAnimationDialogSuccess: true });
         });
-
-        //alert(milesFromSjsu);
     }
 
     renderImageSelectors = () => {
