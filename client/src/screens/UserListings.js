@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
-import { Container, Header, Body, Title, Text } from 'native-base';
+import { Container, Header, Body, Text } from 'native-base';
 import { connect } from 'react-redux';
 
 import ListingCardFlatListScroller from '../components/ListingCardFlatListScroller';
@@ -54,6 +54,7 @@ class UserListingsComp extends Component {
                     navigation={this.props.navigation}
                     refreshing={this.state.loadingData}
                     onRefresh={this.getData}
+                    onPressButton={this.getData}
                 />
             </Container>
         );

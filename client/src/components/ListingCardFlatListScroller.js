@@ -3,6 +3,7 @@ import { TouchableOpacity, ActivityIndicator, View, FlatList, Platform } from 'r
 import { Container } from 'native-base';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { Button } from 'react-native-elements';
 
 import { ListingsViewCardComponent } from '../common';
 
@@ -22,7 +23,17 @@ class ListingCardFlatListScroller extends Component {
         this.setState({ loadingData, listings, user, refreshing });
     }
 
-    listEmptyComponent = () => <View />
+    listEmptyComponent = () => {
+        if (!this.state.refreshing) {
+            return (
+                <Button 
+                    title='Reload'
+                    onPress={() => this.props.onPressButton()} 
+                />
+            );
+        } 
+        return (<View />);        
+    }
 
     keyExtractor = (item) => item.id;
 
@@ -45,7 +56,7 @@ class ListingCardFlatListScroller extends Component {
                 <ListingsViewCardComponent 
                     posterName={`${user.firstName} ${user.lastName}`}
                     postDate={moment(date).format('MMM D, YYYY')}
-                    posterImageSource='https://i.kym-cdn.com/entries/icons/medium/000/009/754/PhotogenicGuy.jpg'
+                    posterImageSource={user.images[0]}
                     imageSource={images[0]} 
                     title={listingTitle}
                     streetAddress={streetAddress}
@@ -89,7 +100,8 @@ ListingCardFlatListScroller.propTypes = {
     loadingData: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     refreshing: PropTypes.bool.isRequired,
-    onRefresh: PropTypes.func.isRequired
+    onRefresh: PropTypes.func.isRequired,
+    onPressButton: PropTypes.func.isRequired
 };
 
 export default ListingCardFlatListScroller;

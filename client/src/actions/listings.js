@@ -48,36 +48,40 @@ const uploadImage = async (image, i, ref) => {
 
 export const getFavorites = (favorites, cb) => async dispatch => {
     const listings = [];
-    favorites.forEach(async (id, index) => {
-        try {
-            const listing = await listingsRef.doc(id).get();
-            let data = listing.data();
-            data.date = data.date.toDate();
-            const user = await usersRef.doc(data.userId).get();
-
-            data = {
-                ...data,
-                user: {
-                    ...user.data(),
-                    id: data.userId
-                },
-                id: listing.id
-            };
-            delete data.userId;
-            listings.push(data);
-
-            if (index === favorites.length - 1) {
-                dispatch({
-                    type: GET_FAVORITE_LISTINGS,
-                    payload: listings
-                });
-                cb();
+    if (favorites.length !== 0) {
+        favorites.forEach(async (id, index) => {
+            try {
+                const listing = await listingsRef.doc(id).get();
+                let data = listing.data();
+                data.date = data.date.toDate();
+                const user = await usersRef.doc(data.userId).get();
+    
+                data = {
+                    ...data,
+                    user: {
+                        ...user.data(),
+                        id: data.userId
+                    },
+                    id: listing.id
+                };
+                delete data.userId;
+                listings.push(data);
+    
+                if (index === favorites.length - 1) {
+                    dispatch({
+                        type: GET_FAVORITE_LISTINGS,
+                        payload: listings
+                    });
+                    cb();
+                }
+            } catch (err) {
+                console.log(err);
+                cb(err);
             }
-        } catch (err) {
-            console.log(err);
-            cb(err);
-        }
-    });
+        });
+    } else {
+        cb();
+    }
 };
 
 export const getUserListings = (user, cb) => async dispatch => {
@@ -87,25 +91,29 @@ export const getUserListings = (user, cb) => async dispatch => {
     try {
         const docsSnapshot = await query.get();
 
-        docsSnapshot.docs.forEach((doc, index) => {
-            let data = doc.data();
-            data.date = data.date.toDate();
-            data = {
-                ...data,
-                user,
-                id: doc.id
-            };
-            delete data.userId;
-            listings.push(data);
-
-            if (index === docsSnapshot.docs.length - 1) {
-                dispatch({
-                    type: GET_CURRENT_USER_LISTINGS,
-                    payload: listings
-                });
-                cb();
-            }
-        });
+        if (docsSnapshot.length !== 0) {
+            docsSnapshot.docs.forEach((doc, index) => {
+                let data = doc.data();
+                data.date = data.date.toDate();
+                data = {
+                    ...data,
+                    user,
+                    id: doc.id
+                };
+                delete data.userId;
+                listings.push(data);
+    
+                if (index === docsSnapshot.docs.length - 1) {
+                    dispatch({
+                        type: GET_CURRENT_USER_LISTINGS,
+                        payload: listings
+                    });
+                    cb();
+                }
+            });
+        } else {
+            cb();
+        }
     } catch (err) {
         console.log(err);
         cb(err);
