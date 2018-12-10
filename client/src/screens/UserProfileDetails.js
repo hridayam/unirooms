@@ -74,11 +74,6 @@ class UserProfileDetailsComp extends Component {
             watchingShows = false,
         } = data;
 
-        logout = async () => {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            this.props.logoutUser();
-        };
-
         return (
             <Container style={{ flex: 1 }}>
                 <Header transparent style={{ height: 75, zIndex: 1 }}>
@@ -198,7 +193,7 @@ class UserProfileDetailsComp extends Component {
                                   'Are you sure you want to sign out?',
                                   '',
                                   [
-                                    { text: 'Yes', onPress: () => this.logout() },
+                                    { text: 'Yes', onPress: () => this.props.logoutUser() },
                                     { text: 'Cancel', style: 'cancel' },
                                   ],
                                   { cancelable: false }
