@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
         color: 'rgba(255, 255, 255, 0.7)'
     },
     container: {
-        backgroundColor: '#455a64',
+        backgroundColor: '#01579B',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
     button: {
         width: 300,
-        backgroundColor: '#1c313a',
+        backgroundColor: '#F9A825',
         borderRadius: 25,
         marginVertical: 10,
         paddingVertical: 13

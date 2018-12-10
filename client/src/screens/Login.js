@@ -102,7 +102,7 @@ class comp extends Component {
 
 const styles = StyleSheet.create({
     mainContainer: { 
-        backgroundColor: '#455a64', 
+        backgroundColor: '#01579B', 
         flex: 1, 
         alignItems: 'center', 
         justifyContent: 'center' 
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         color: 'rgba(255, 255, 255, 0.7)'
     },
     container: {
-        backgroundColor: '#455a64',
+        backgroundColor: '#01579B',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 300,
-        backgroundColor: '#1c313a',
+        backgroundColor: '#F9a825',
         borderRadius: 25,
         marginVertical: 10,
         paddingVertical: 13

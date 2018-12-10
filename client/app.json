@@ -10,9 +10,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon_blank.png",
       "resizeMode": "contain",
-      "backgroundColor": "#009C52"
+      "backgroundColor": "#01579B"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
