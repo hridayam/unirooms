@@ -175,7 +175,7 @@ class Verification extends Component {
         if (this.state.pin.length === this.props.maxChars) {
             verifyUser(parseInt(this.state.pin), (verified) => {
                 if (verified) {
-                    this.props.navigation.navigate('MainNavigator');
+                    this.props.navigation.navigate('createProfileStack');
                 }
             });
         }
@@ -244,7 +244,9 @@ class Verification extends Component {
 
 const styles = StyleSheet.create({
     root: {
-        paddingTop: 200,
+        backgroundColor: '#01579B',
+        flex: 1,
+        justifyContent: 'center'
     },
     actual_input: {
         position: 'absolute',

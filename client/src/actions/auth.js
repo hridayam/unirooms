@@ -34,6 +34,7 @@ const tryLogin = async (credentials, dispatch, cb) => {
 export const getUserData = async (uid, dispatch) => {
     try {
         const user = await usersCollection.doc(uid).get();
+        console.log(uid, user.data());
         dispatch({
             type: LOGIN_USER,
             payload: {
